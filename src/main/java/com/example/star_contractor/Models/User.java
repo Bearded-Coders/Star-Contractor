@@ -20,7 +20,7 @@ public class User{
     @Column()
     private String profilePic;
     @Column()
-    private int avgRating;
+    private Short avgRating;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<Jobs> myJobs;
 
@@ -31,6 +31,9 @@ public class User{
                 inverseJoinColumns = {@JoinColumn(name = "job_id")})
     private List<Jobs> applicantList;
 
+    @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Rating> ratings;
 
+    //delete later
 
 }
