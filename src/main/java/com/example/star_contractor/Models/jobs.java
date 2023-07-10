@@ -52,6 +52,7 @@ public class jobs implements Serializable {
     @JoinColumn(name = "applicantsId")
     private User applicantId;
 
+
     @Column(nullable = false)
     private Boolean outcome;
 
