@@ -24,11 +24,13 @@ public class User{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator_id")
     private List<jobs> myJobs;
 
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "applicants_users",
                 joinColumns = {@JoinColumn(name = "applicants_id")},
                 inverseJoinColumns = {@JoinColumn(name = "job_id")})
     private List<jobs> applicantList;
+
 
 
 }
