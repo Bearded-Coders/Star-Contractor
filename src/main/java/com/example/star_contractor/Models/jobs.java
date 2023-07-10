@@ -52,5 +52,4 @@ public class jobs implements Serializable {
     @JoinColumn(name = "applicantsId")
     private User applicantId;
 
-
 }
