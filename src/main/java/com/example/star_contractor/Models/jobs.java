@@ -51,4 +51,6 @@ public class jobs implements Serializable {
     @OneToMany
     @JoinColumn(name = "applicants_id")
     private User applicant_Id;
+
+    123
 }
