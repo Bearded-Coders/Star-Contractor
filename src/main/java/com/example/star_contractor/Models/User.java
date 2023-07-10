@@ -28,8 +28,4 @@ public class User {
     private List<jobs> myJobs;
 
 
-
-
-
-
 }
