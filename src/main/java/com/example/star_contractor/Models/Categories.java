@@ -203,4 +203,6 @@ public class Categories implements Serializable {
     public int hashCode() {
         return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, jobId);
     }
+
+    //delete later
 }

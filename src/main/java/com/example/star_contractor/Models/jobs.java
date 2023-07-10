@@ -48,11 +48,6 @@ public class jobs implements Serializable {
     @JoinColumn(name = "creatorId")
     private User creatorId;
 
-    @ManyToMany
-    @JoinColumn(name = "applicantsId")
-    private User applicantId;
-
-
     @Column(nullable = false)
     private Boolean outcome;
 
