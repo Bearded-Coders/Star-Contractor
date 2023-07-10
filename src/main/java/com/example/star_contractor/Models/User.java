@@ -22,14 +22,14 @@ public class User{
     @Column()
     private int avgRating;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
-    private List<jobs> myJobs;
+    private List<Jobs> myJobs;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "applicants_users",
                 joinColumns = {@JoinColumn(name = "applicants_id")},
                 inverseJoinColumns = {@JoinColumn(name = "job_id")})
-    private List<jobs> applicantList;
+    private List<Jobs> applicantList;
 
 
 
