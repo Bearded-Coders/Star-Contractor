@@ -54,5 +54,4 @@ public class jobs implements Serializable {
 
     @Column(nullable = false)
     private Boolean outcome;
-
 }
