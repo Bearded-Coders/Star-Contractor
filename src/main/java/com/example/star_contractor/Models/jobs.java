@@ -45,12 +45,12 @@ public class jobs implements Serializable {
     private Long distance;
 
     @OneToMany
-    @JoinColumn(name = "creator_id")
-    private User creator_Id;
+    @JoinColumn(name = "creatorId")
+    private User creatorId;
 
     @OneToMany
-    @JoinColumn(name = "applicants_id")
-    private User applicant_Id;
+    @JoinColumn(name = "applicantsId")
+    private User applicantId;
 
-    123
+
 }
