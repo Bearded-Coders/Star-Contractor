@@ -44,12 +44,14 @@ public class jobs implements Serializable {
     @Column(nullable = false)
     private Long distance;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "creatorId")
     private User creatorId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "applicantsId")
     private User applicantId;
 
+    @Column(nullable = false)
+    private Boolean outcome;
 }
