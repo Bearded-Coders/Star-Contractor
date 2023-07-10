@@ -34,6 +34,6 @@ public class User{
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
-
+    //delete later
 
 }

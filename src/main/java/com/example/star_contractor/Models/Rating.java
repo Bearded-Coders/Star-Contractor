@@ -17,4 +17,6 @@ public class Rating implements Serializable {
 
     @ManyToOne
     private User ratedUserId;
+
+   //delete this later
 }
