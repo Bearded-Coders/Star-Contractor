@@ -49,14 +49,14 @@ public class jobs implements Serializable {
     private User creatorId;
 
 //    @ManyToMany
-    @JoinColumn(name = "applicantsId")
-    private User applicantId;
+//    @JoinColumn(name = "applicantsId")
+//    private User applicantId;
 
 
     @Column(nullable = false)
     private Boolean outcome;
 
-    public jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, User applicantId, Boolean outcome) {
+    public jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -68,8 +68,11 @@ public class jobs implements Serializable {
         this.startLocation = startLocation;
         this.distance = distance;
         this.creatorId = creatorId;
-        this.applicantId = applicantId;
         this.outcome = outcome;
+    }
+
+    public jobs() {
+
     }
 
     public Integer getId() {
@@ -160,14 +163,6 @@ public class jobs implements Serializable {
         this.creatorId = creatorId;
     }
 
-    public User getApplicantId() {
-        return applicantId;
-    }
-
-    public void setApplicantId(User applicantId) {
-        this.applicantId = applicantId;
-    }
-
     public Boolean getOutcome() {
         return outcome;
     }
@@ -192,7 +187,6 @@ public class jobs implements Serializable {
                 ", startLocation='" + startLocation + '\'' +
                 ", distance=" + distance +
                 ", creatorId=" + creatorId +
-                ", applicantId=" + applicantId +
                 ", outcome=" + outcome +
                 '}';
     }
@@ -202,11 +196,11 @@ public class jobs implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         jobs jobs = (jobs) o;
-        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(applicantId, jobs.applicantId) && Objects.equals(outcome, jobs.outcome);
+        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId, applicantId, outcome);
+        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId,  outcome);
     }
 }

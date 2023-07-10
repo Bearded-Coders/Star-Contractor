@@ -21,7 +21,7 @@ public class User{
     private String profilePic;
     @Column()
     private int avgRating;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<jobs> myJobs;
 
 
