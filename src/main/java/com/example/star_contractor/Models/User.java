@@ -24,5 +24,4 @@ public class User{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator_id")
     private List<jobs> myJobs;
 
-
 }
