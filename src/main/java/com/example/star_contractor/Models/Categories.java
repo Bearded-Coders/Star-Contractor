@@ -49,7 +49,11 @@ public class Categories implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "jobId")
-    private jobs jobId;
+    private Jobs jobId;
+
+    public Categories() {
+
+    }
 
 
     public Integer getId() {
@@ -148,15 +152,15 @@ public class Categories implements Serializable {
         this.rolePlay = rolePlay;
     }
 
-    public jobs getJobId() {
+    public Jobs getJobId() {
         return jobId;
     }
 
-    public void setJobId(jobs jobId) {
+    public void setJobId(Jobs jobId) {
         this.jobId = jobId;
     }
 
-    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, jobs jobId) {
+    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {
         this.id = id;
         this.illegal = illegal;
         this.mining = mining;

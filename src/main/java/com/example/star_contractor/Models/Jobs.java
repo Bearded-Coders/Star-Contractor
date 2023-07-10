@@ -1,16 +1,12 @@
 package com.example.star_contractor.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 @Entity
-@JsonIgnoreProperties
-@Table(name = "jobs")
-public class jobs implements Serializable {
+public class Jobs implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -47,11 +43,10 @@ public class jobs implements Serializable {
     @ManyToOne
     @JoinColumn(name = "creatorId")
     private User creatorId;
-
     @Column(nullable = false)
     private Boolean outcome;
 
-    public jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome) {
+    public Jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -66,7 +61,7 @@ public class jobs implements Serializable {
         this.outcome = outcome;
     }
 
-    public jobs() {
+    public Jobs() {
 
     }
 
@@ -190,7 +185,7 @@ public class jobs implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        jobs jobs = (jobs) o;
+        Jobs jobs = (Jobs) o;
         return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome);
     }
 
