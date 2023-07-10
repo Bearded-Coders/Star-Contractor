@@ -1,13 +1,11 @@
 package com.example.star_contractor.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,8 +21,7 @@ public class User {
     private String profilePic;
     @Column()
     private int avgRating;
-
-    @ManyToOne(mappedBy = "creator_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator_id")
     private List<jobs> myJobs;
 
 
