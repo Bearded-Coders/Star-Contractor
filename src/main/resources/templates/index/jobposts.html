@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Board</title>
+</head>
+<body>
+
+
+<div th:each="AllJobs:${job}">
+    <div>
+        <h1 th:text="'Title: ' + *{AllJobs.getTitle()}"></h1>
+    </div>
+    <a class="Card" href="">
+        <h1>Payment Percent</h1>
+        <h1 th:text="*{AllJobs.getPaymentPercent()}">Payment Percent</h1>
+    </a>
+
+
+</div>
+</body>
+</html>
