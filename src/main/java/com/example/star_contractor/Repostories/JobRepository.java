@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface JobRepository extends JpaRepository<Jobs, Integer> {
     Jobs getJobById(Integer id) throws Exception;
+    List<Jobs> findJobsByCreatorId(User user);
 
 }
