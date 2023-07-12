@@ -9,14 +9,10 @@
 
 
 <div th:each="AllJobs:${job}">
-    <div>
+    <a class="Card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
         <h1 th:text="'Title: ' + *{AllJobs.getTitle()}"></h1>
-    </div>
-    <a class="Card" href="">
-        <h1>Payment Percent</h1>
-        <h1 th:text="*{AllJobs.getPaymentPercent()}">Payment Percent</h1>
+        <h1 th:text="'Payment Percent: ' + *{AllJobs.getPaymentPercent()}"></h1>
     </a>
-
 
 </div>
 </body>
