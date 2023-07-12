@@ -3,6 +3,7 @@ package com.example.star_contractor.Models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public class Jobs implements Serializable {
 
     }
 
-    public Jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList) {
+    public Jobs(Integer id, String title, String description, Date startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList) {
         this.id = id;
         this.title = title;
         this.description = description;
