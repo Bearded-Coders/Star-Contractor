@@ -3,6 +3,7 @@ package com.example.star_contractor.Controllers;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -27,13 +32,15 @@ public class JobController {
     // View all Jobs
     @GetMapping("/jobs")
     public String getAllJobs(Model model) {
-        List<Jobs> jobs = jobsRepository.findAll();
+        try {
+            List<Jobs> jobs = jobsRepository.findAll();
 
-        model.addAttribute("job", jobs);
+            model.addAttribute("job", jobs);
 
-
-
-        return "index/jobposts";
+            return "index/jobposts";
+        } catch (Exception e) {
+            return "index/errors/exception"; // Exception occurred error page
+        }
 
     }
 
@@ -48,8 +55,12 @@ public class JobController {
 
     // Goto Job Creation Form
     @GetMapping("/jobs/createjob")
-    public String jobCreation() {
+    public String jobCreation(Model model) {
         try {
+            Jobs job = new Jobs();
+            job.setCreatedDate(LocalDateTime.now());
+            job.setJobStatus("Active");
+            model.addAttribute("job", job);
             return "index/createjob";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
@@ -58,7 +69,7 @@ public class JobController {
 
     // Create a Job
     @PostMapping("/jobs/createjob")
-    public String addJob(@RequestParam Jobs job) {
+    public String addJob(@ModelAttribute Jobs job) {
         try {
             jobsRepository.save(job);
             return "redirect:/jobs";

@@ -3,9 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--     this may change in the future-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="/css/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet">
+
     <title>Create Job</title>
 </head>
 <body>
+    <form th:action="@{/jobs/createjob}" method="post" th:object="${job}">
+<!--        title-->
+        <label for="title">Title</label>
+            <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
+<!--        Description-->
+        <label for="description">Description</label>
+            <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
+            <input type="text" id="datepicker" th:field="*{startDate}" placeholder="Select a date">
+            <input type="hidden" th:field="*{createdDate}">
+<!--        Threat Level-->
+        <label for="threat">Threat Level</label>
+            <select id="threat" name="dropdown" th:field="*{threat}" placeholder="">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Very High">Very High</option>
+                <option value="Extreme">Extreme</option>
+            </select>
+<!--        Payment Percent-->
+        <label for="paymentPercent">Payment Percent</label>
+            <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
+<!--        Job Status-->
+        <input type="hidden" th:field="*{jobStatus}">
+<!--        Starting location-->
+        <label for="location">Starting Location</label>
+            <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
+<!--        Distance to mission-->
+        <label for="distance">Distance to travel</label>
+            <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
+<!--        Submit button-->
+        <input type="submit" value="Submit">
 
+<!--        this will change to authorization later-->
+        <input type="hidden" value="1" th:field="*{creatorId}">
+    </form>
+
+<!--    The jquery is TBD-->
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+        });
+    </script>
 </body>
 </html>

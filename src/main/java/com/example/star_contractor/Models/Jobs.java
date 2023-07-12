@@ -3,6 +3,7 @@ package com.example.star_contractor.Models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -22,9 +23,9 @@ public class Jobs implements Serializable {
     @Column(nullable = false)
     private Date startDate = new Date();
 
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private String threat;
@@ -44,7 +45,7 @@ public class Jobs implements Serializable {
     @ManyToOne
     @JoinColumn(name = "creatorId")
     private User creatorId;
-    @Column(nullable = false)
+    @Column
     private Boolean outcome;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -52,9 +53,6 @@ public class Jobs implements Serializable {
             joinColumns = {@JoinColumn(name = "job_id")},
             inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
     private List<User> applicantList;
-
-
-
 
     public Jobs() {
 
@@ -109,11 +107,11 @@ public class Jobs implements Serializable {
         this.startDate = startDate;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
