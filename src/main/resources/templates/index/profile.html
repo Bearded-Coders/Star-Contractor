@@ -44,9 +44,13 @@
 
 
 
-<h1 th:text="${userProfileLink.username}"></h1>
-<h1 th:text="${userProfileLink.startingArea}"></h1>
-<h1 th:text="${userProfileLink}"></h1>
+<h1 th:text="'Username ' + ${userProfileLink.username}"></h1>
+<h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
+
+<h3>My Jobs</h3>
+<div th:each="myJob : ${myJobs}">
+    <h1 th:text="*{myJob.getTitle()}"></h1>
+</div>
 
 
 
