@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 @Entity
 public class Jobs implements Serializable {
@@ -47,7 +48,17 @@ public class Jobs implements Serializable {
     @Column
     private Boolean outcome;
 
-    public Jobs(Integer id, String title, String description, Date startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome) {
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "applicants_users",
+            joinColumns = {@JoinColumn(name = "job_id")},
+            inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
+    private List<User> applicantList;
+
+    public Jobs() {
+
+    }
+
+    public Jobs(Integer id, String title, String description, Date startDate, Date createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -60,11 +71,9 @@ public class Jobs implements Serializable {
         this.distance = distance;
         this.creatorId = creatorId;
         this.outcome = outcome;
+        this.applicantList = applicantList;
     }
 
-    public Jobs() {
-
-    }
 
     public Integer getId() {
         return id;
@@ -162,7 +171,13 @@ public class Jobs implements Serializable {
         this.outcome = outcome;
     }
 
+    public List<User> getApplicantList() {
+        return applicantList;
+    }
 
+    public void setApplicantList(List<User> applicantList) {
+        this.applicantList = applicantList;
+    }
 
     @Override
     public String toString() {

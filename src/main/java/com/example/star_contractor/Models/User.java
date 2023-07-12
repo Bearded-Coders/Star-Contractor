@@ -25,11 +25,7 @@ public class User{
     private List<Jobs> myJobs;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "applicants_users",
-                joinColumns = {@JoinColumn(name = "applicants_id")},
-                inverseJoinColumns = {@JoinColumn(name = "job_id")})
-    private List<Jobs> applicantList;
+
 
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
@@ -40,7 +36,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Jobs> applicantList, List<Rating> ratings) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -49,11 +45,10 @@ public class User{
         this.profilePic = profilePic;
         this.avgRating = avgRating;
         this.myJobs = myJobs;
-        this.applicantList = applicantList;
         this.ratings = ratings;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Jobs> applicantList, List<Rating> ratings) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -61,7 +56,6 @@ public class User{
         this.profilePic = profilePic;
         this.avgRating = avgRating;
         this.myJobs = myJobs;
-        this.applicantList = applicantList;
         this.ratings = ratings;
     }
 
@@ -130,14 +124,6 @@ public class User{
 
     public void setMyJobs(List<Jobs> myJobs) {
         this.myJobs = myJobs;
-    }
-
-    public List<Jobs> getApplicantList() {
-        return applicantList;
-    }
-
-    public void setApplicantList(List<Jobs> applicantList) {
-        this.applicantList = applicantList;
     }
 
     public List<Rating> getRatings() {
