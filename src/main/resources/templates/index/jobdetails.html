@@ -8,21 +8,23 @@
 <body>
 <div>
     <h1 th:text="${singleJob.getTitle()}"></h1>
+    <h2>Applicants List</h2>
     <div th:each="applicant : ${singleJob.getApplicantList()}">
-    <h1 th:text="*{applicant.username}"></h1>
+    <p th:text="*{applicant.username}"></p>
     </div>
+    <h2>Categories</h2>
     <div th:each="cat : ${category}">
-        <h2 th:if="${cat.bounty_hunting}">Bounty Hunting</h2>
-        <h2 th:if="${cat.combat}">Combat</h2>
-        <h2 th:if="${cat.delivery}">Delivery</h2>
-        <h2 th:if="${cat.exploring}">Exploring</h2>
-        <h2 th:if="${cat.illegal}">Illegal</h2>
-        <h2 th:if="${cat.mining}">Mining</h2>
-        <h2 th:if="${cat.pve}">PvE</h2>
-        <h2 th:if="${cat.pvp}">PvP</h2>
-        <h2 th:if="${cat.rolePlay}">RolePlay</h2>
-        <h2 th:if="${cat.salvage}">Salvage</h2>
-        <h2 th:if="${cat.trading}">Trading</h2>
+        <p th:if="${cat.bounty_hunting}">Bounty Hunting</p>
+        <p th:if="${cat.combat}">Combat</p>
+        <p th:if="${cat.delivery}">Delivery</p>
+        <p th:if="${cat.exploring}">Exploring</p>
+        <p th:if="${cat.illegal}">Illegal</p>
+        <p th:if="${cat.mining}">Mining</p>
+        <p th:if="${cat.pve}">PvE</p>
+        <p th:if="${cat.pvp}">PvP</p>
+        <p th:if="${cat.rolePlay}">RolePlay</p>
+        <p th:if="${cat.salvage}">Salvage</p>
+        <p th:if="${cat.trading}">Trading</p>
     </div>
 </div>
 </body>
