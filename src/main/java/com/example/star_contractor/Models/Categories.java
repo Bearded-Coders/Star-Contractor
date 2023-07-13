@@ -46,8 +46,9 @@ public class Categories implements Serializable {
     private Boolean rolePlay;
 
     @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Jobs job;
+    @JoinColumn(name = "jobId", referencedColumnName = "id")
+    private Jobs jobId;
+
 
     public Categories() {
 
