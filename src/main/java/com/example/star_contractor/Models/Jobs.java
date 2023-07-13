@@ -55,7 +55,7 @@ public class Jobs implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
     private List<User> applicantList;
 
-    @OneToMany(mappedBy = "job")
+    @OneToMany(mappedBy = "jobId")
     private List<Categories> categories;
 
 
