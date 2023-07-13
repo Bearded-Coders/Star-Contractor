@@ -7,13 +7,12 @@
 </head>
 <body>
 
+    <div th:each="AllJobs:${job}">
+        <a class="Card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
+            <h1 th:text="'Title: ' + *{AllJobs.getTitle()}"></h1>
+            <h1 th:text="'Payment Percent: ' + *{AllJobs.getPaymentPercent()}"></h1>
+        </a>
+    </div>
 
-<div th:each="AllJobs:${job}">
-    <a class="Card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
-        <h1 th:text="'Title: ' + *{AllJobs.getTitle()}"></h1>
-        <h1 th:text="'Payment Percent: ' + *{AllJobs.getPaymentPercent()}"></h1>
-    </a>
-
-</div>
 </body>
 </html>

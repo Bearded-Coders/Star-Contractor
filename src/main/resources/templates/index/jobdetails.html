@@ -8,6 +8,14 @@
 <body>
 <div>
     <h1 th:text="${singleJob.getTitle()}"></h1>
+    <h1 th:text="${singleJob.getCreatorId().getUsername()}"></h1>
+    <div>
+        <ul th:each="categories: ${singleJob.categories}">
+            <li th:if="${categories.getBounty_hunting()}">
+                Bounty Hunting Category
+            </li>
+        </ul>
+    </div>
     <div th:each="applicant : ${singleJob.getApplicantList()}">
     <h1 th:text="*{applicant.username}"></h1>
     </div>

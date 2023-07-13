@@ -2,11 +2,9 @@ package com.example.star_contractor.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
+
 @Entity
 @JsonIgnoreProperties
 public class Categories implements Serializable {
@@ -48,13 +46,28 @@ public class Categories implements Serializable {
     private Boolean rolePlay;
 
     @ManyToOne
-    @JoinColumn(name = "jobId")
-    private Jobs jobId;
+    @JoinColumn(name = "job_id")
+    private Jobs job;
 
     public Categories() {
 
     }
 
+    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs job) {
+        this.id = id;
+        this.illegal = illegal;
+        this.mining = mining;
+        this.combat = combat;
+        this.salvage = salvage;
+        this.trading = trading;
+        this.exploring = exploring;
+        this.bounty_hunting = bounty_hunting;
+        this.delivery = delivery;
+        this.pvp = pvp;
+        this.pve = pve;
+        this.rolePlay = rolePlay;
+        this.job = job;
+    }
 
     public Integer getId() {
         return id;
@@ -152,28 +165,12 @@ public class Categories implements Serializable {
         this.rolePlay = rolePlay;
     }
 
-    public Jobs getJobId() {
-        return jobId;
+    public Jobs getJob() {
+        return job;
     }
 
-    public void setJobId(Jobs jobId) {
-        this.jobId = jobId;
-    }
-
-    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {
-        this.id = id;
-        this.illegal = illegal;
-        this.mining = mining;
-        this.combat = combat;
-        this.salvage = salvage;
-        this.trading = trading;
-        this.exploring = exploring;
-        this.bounty_hunting = bounty_hunting;
-        this.delivery = delivery;
-        this.pvp = pvp;
-        this.pve = pve;
-        this.rolePlay = rolePlay;
-        this.jobId = jobId;
+    public void setJob(Jobs job) {
+        this.job = job;
     }
 
     @Override
@@ -191,7 +188,7 @@ public class Categories implements Serializable {
                 ", pvp=" + pvp +
                 ", pve=" + pve +
                 ", rolePlay=" + rolePlay +
-                ", jobId=" + jobId +
+                ", job=" + job +
                 '}';
     }
 
@@ -200,13 +197,11 @@ public class Categories implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Categories that = (Categories) o;
-        return Objects.equals(id, that.id) && Objects.equals(illegal, that.illegal) && Objects.equals(mining, that.mining) && Objects.equals(combat, that.combat) && Objects.equals(salvage, that.salvage) && Objects.equals(trading, that.trading) && Objects.equals(exploring, that.exploring) && Objects.equals(bounty_hunting, that.bounty_hunting) && Objects.equals(delivery, that.delivery) && Objects.equals(pvp, that.pvp) && Objects.equals(pve, that.pve) && Objects.equals(rolePlay, that.rolePlay) && Objects.equals(jobId, that.jobId);
+        return Objects.equals(id, that.id) && Objects.equals(illegal, that.illegal) && Objects.equals(mining, that.mining) && Objects.equals(combat, that.combat) && Objects.equals(salvage, that.salvage) && Objects.equals(trading, that.trading) && Objects.equals(exploring, that.exploring) && Objects.equals(bounty_hunting, that.bounty_hunting) && Objects.equals(delivery, that.delivery) && Objects.equals(pvp, that.pvp) && Objects.equals(pve, that.pve) && Objects.equals(rolePlay, that.rolePlay) && Objects.equals(job, that.job);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, jobId);
+        return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, job);
     }
-
-    //delete later
 }
