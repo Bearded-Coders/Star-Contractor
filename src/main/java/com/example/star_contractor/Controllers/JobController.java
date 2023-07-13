@@ -1,31 +1,28 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Jobs;
-import com.example.star_contractor.Models.User;
+import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.JobRepository;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
+import com.example.star_contractor.Repostories.UserRepository;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 public class JobController {
 
     private final JobRepository jobsRepository;
-    private final JobRepository userDao;
+    private final CategoriesRepository catDao;
 
-    public JobController(JobRepository jobsRepository, JobRepository userDao) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao) {
         this.jobsRepository = jobsRepository;
-        this.userDao = userDao;
+        this.catDao = catDao;
     }
 
 
@@ -49,7 +46,10 @@ public class JobController {
     public String getJob(@PathVariable Integer id, Model model) throws Exception {
         Jobs singleJob = jobsRepository.getJobById(id);
 
+        List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
+
         model.addAttribute("singleJob", singleJob);
+        model.addAttribute("category", categories);
         return "index/jobdetails";
     }
 
