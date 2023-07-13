@@ -54,7 +54,7 @@ public class Categories implements Serializable {
 
     }
 
-    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs job) {
+    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {
         this.id = id;
         this.illegal = illegal;
         this.mining = mining;
@@ -67,7 +67,7 @@ public class Categories implements Serializable {
         this.pvp = pvp;
         this.pve = pve;
         this.rolePlay = rolePlay;
-        this.job = job;
+        this.jobId = jobId;
     }
 
     public Integer getId() {
@@ -166,12 +166,12 @@ public class Categories implements Serializable {
         this.rolePlay = rolePlay;
     }
 
-    public Jobs getJob() {
-        return job;
+    public Jobs getJobId() {
+        return jobId;
     }
 
-    public void setJob(Jobs job) {
-        this.job = job;
+    public void setJobId(Jobs jobId) {
+        this.jobId = jobId;
     }
 
     @Override
@@ -189,7 +189,7 @@ public class Categories implements Serializable {
                 ", pvp=" + pvp +
                 ", pve=" + pve +
                 ", rolePlay=" + rolePlay +
-                ", job=" + job +
+                ", jobId=" + jobId +
                 '}';
     }
 
@@ -198,11 +198,11 @@ public class Categories implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Categories that = (Categories) o;
-        return Objects.equals(id, that.id) && Objects.equals(illegal, that.illegal) && Objects.equals(mining, that.mining) && Objects.equals(combat, that.combat) && Objects.equals(salvage, that.salvage) && Objects.equals(trading, that.trading) && Objects.equals(exploring, that.exploring) && Objects.equals(bounty_hunting, that.bounty_hunting) && Objects.equals(delivery, that.delivery) && Objects.equals(pvp, that.pvp) && Objects.equals(pve, that.pve) && Objects.equals(rolePlay, that.rolePlay) && Objects.equals(job, that.job);
+        return Objects.equals(id, that.id) && Objects.equals(illegal, that.illegal) && Objects.equals(mining, that.mining) && Objects.equals(combat, that.combat) && Objects.equals(salvage, that.salvage) && Objects.equals(trading, that.trading) && Objects.equals(exploring, that.exploring) && Objects.equals(bounty_hunting, that.bounty_hunting) && Objects.equals(delivery, that.delivery) && Objects.equals(pvp, that.pvp) && Objects.equals(pve, that.pve) && Objects.equals(rolePlay, that.rolePlay) && Objects.equals(jobId, that.jobId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, job);
+        return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, jobId);
     }
 }
