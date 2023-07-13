@@ -2,11 +2,9 @@ package com.example.star_contractor.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
+
 @Entity
 @JsonIgnoreProperties
 public class Categories implements Serializable {
@@ -51,10 +49,26 @@ public class Categories implements Serializable {
     @JoinColumn(name = "jobId", referencedColumnName = "id")
     private Jobs jobId;
 
+
     public Categories() {
 
     }
 
+    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {
+        this.id = id;
+        this.illegal = illegal;
+        this.mining = mining;
+        this.combat = combat;
+        this.salvage = salvage;
+        this.trading = trading;
+        this.exploring = exploring;
+        this.bounty_hunting = bounty_hunting;
+        this.delivery = delivery;
+        this.pvp = pvp;
+        this.pve = pve;
+        this.rolePlay = rolePlay;
+        this.jobId = jobId;
+    }
 
     public Integer getId() {
         return id;
@@ -160,22 +174,6 @@ public class Categories implements Serializable {
         this.jobId = jobId;
     }
 
-    public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {
-        this.id = id;
-        this.illegal = illegal;
-        this.mining = mining;
-        this.combat = combat;
-        this.salvage = salvage;
-        this.trading = trading;
-        this.exploring = exploring;
-        this.bounty_hunting = bounty_hunting;
-        this.delivery = delivery;
-        this.pvp = pvp;
-        this.pve = pve;
-        this.rolePlay = rolePlay;
-        this.jobId = jobId;
-    }
-
     @Override
     public String toString() {
         return "Categories{" +
@@ -207,6 +205,4 @@ public class Categories implements Serializable {
     public int hashCode() {
         return Objects.hash(id, illegal, mining, combat, salvage, trading, exploring, bounty_hunting, delivery, pvp, pve, rolePlay, jobId);
     }
-
-    //delete later
 }

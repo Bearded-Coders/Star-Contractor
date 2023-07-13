@@ -55,11 +55,17 @@ public class Jobs implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
     private List<User> applicantList;
 
+    @OneToMany(mappedBy = "job")
+    private List<Categories> categories;
+
+
+
     public Jobs() {
 
     }
 
-    public Jobs(Integer id, String title, String description, Date startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList) {
+
+    public Jobs(Integer id, String title, String description, Date startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -73,8 +79,8 @@ public class Jobs implements Serializable {
         this.creatorId = creatorId;
         this.outcome = outcome;
         this.applicantList = applicantList;
+        this.categories = categories;
     }
-
 
     public Integer getId() {
         return id;
@@ -180,9 +186,17 @@ public class Jobs implements Serializable {
         this.applicantList = applicantList;
     }
 
+    public List<Categories> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Categories> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
-        return "jobs{" +
+        return "Jobs{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -195,6 +209,8 @@ public class Jobs implements Serializable {
                 ", distance=" + distance +
                 ", creatorId=" + creatorId +
                 ", outcome=" + outcome +
+                ", applicantList=" + applicantList +
+                ", categories=" + categories +
                 '}';
     }
 
@@ -203,11 +219,11 @@ public class Jobs implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jobs jobs = (Jobs) o;
-        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome);
+        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome) && Objects.equals(applicantList, jobs.applicantList) && Objects.equals(categories, jobs.categories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId,  outcome);
+        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId, outcome, applicantList, categories);
     }
 }
