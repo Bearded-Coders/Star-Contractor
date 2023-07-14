@@ -27,7 +27,6 @@ public class ProfileController {
     public String getProfile(@PathVariable Long id, Model model) {
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
-//        Jobs myJobs = jobDao.get
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
 
