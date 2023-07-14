@@ -4,6 +4,7 @@ import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +26,16 @@ public class ProfileController {
 
     @GetMapping("/profile/{id}")
     public String getProfile(@PathVariable Long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = user.getId();
+
+
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
+        model.addAttribute("grabId", userId);
+        model.addAttribute("user", user);
 
 
 

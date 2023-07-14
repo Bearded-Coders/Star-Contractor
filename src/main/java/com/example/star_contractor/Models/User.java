@@ -59,6 +59,22 @@ public class User{
         this.ratings = ratings;
     }
 
+
+
+//For security  add email username with unique constraints
+    //The constructor User(User copy) defined in this class is a common pattern in Java called a copy constructor. It is used as an alternative to cloning an object. Instead of using the method clone, we create a new object using the current values of another. This will be used in order to fulfill the contract defined by the interfaces in the security package.
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+        startingArea = copy.startingArea;
+        profilePic = copy.profilePic;
+        avgRating = copy.avgRating;
+        myJobs = copy.myJobs;
+        ratings = copy.ratings;
+    }
+
 //    getters and setters
 
 
