@@ -1,6 +1,5 @@
 package com.example.star_contractor.Controllers;
 
-
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @Controller
 public class UserController {
     private UserRepository userDao;
@@ -20,6 +20,7 @@ public class UserController {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @GetMapping("/sign-up")
     public String showSignupForm(Model model){
@@ -33,5 +34,6 @@ public class UserController {
         user.setPassword(hash);
         userDao.save(user);
         return "redirect:/login";
+
     }
 }
