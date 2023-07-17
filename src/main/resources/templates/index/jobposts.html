@@ -88,12 +88,14 @@
                 </div>
                 <div class="card-details">
                     <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
-                    <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId()?.getAvgRating()}"></h6>
+                    <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
+                </div>
+                <div th:if="*{AllJobs.getCreatorId()?.getId() == user?.getId()}">
+                    <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{AllJobs.getId()})}">Edit Job</a>
                 </div>
             </a>
         </div>
     </div>
-
 
 </body>
 </html>
