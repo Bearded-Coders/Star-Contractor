@@ -11,7 +11,7 @@
 <body>
 
                     <!--  NavBar  -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light custom-nav">
     <a class="navbar-brand" href="#">SC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,17 +29,17 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/jobs}">Job Board<span class="sr-only"></span></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
+<!--            <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    Dropdown-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                    <a class="dropdown-item" href="#">Action</a>-->
+<!--                    <a class="dropdown-item" href="#">Another action</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item" href="#">Something else here</a>-->
+<!--                </div>-->
+<!--            </li>-->
         </ul>
     </div>
 </nav>
@@ -49,13 +49,51 @@
 <!---->
 <!---->
 
-
-    <div th:each="AllJobs:${job}" class="job-card">
-        <a class="Card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
-            <h1 th:text="'Title: ' + *{AllJobs.getTitle()}"></h1>
-            <h1 th:text="'Payment Percent: ' + *{AllJobs.getPaymentPercent()}"></h1>
-        </a>
+                    <video class="job-video" src="/assets/vid/videoBg.mp4" autoplay loop muted></video>
+    <div class="searchbar">
+        <form>
+            <input class="searchinput text-dark" type="text" placeholder="Search for job">
+            <input class="searchBtn text-dark" type="submit" >
+        </form>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Contract Filter
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+        <div>
+            <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
+        </div>
     </div>
+
+    <div class="jobs-container">
+        <div th:each="AllJobs:${job}" class="job-card">
+            <a class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
+                <div class="card-head">
+                    <h5 th:text="*{AllJobs.getTitle()}"></h5>
+                    <h6 th:text="'Payment Amount: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
+                </div>
+                <div class="card-head">
+                    <h6 th:text="*{#temporals.format(AllJobs.createdDate, 'yyyy-MM-dd')}"></h6>
+                    <h6 class="active" th:if="*{AllJobs.getJobStatus() == 'Active'}">Active</h6>
+                    <h6 class="complete" th:if="*{AllJobs.getJobStatus() == 'Complete'}">Complete</h6>
+                </div>
+                <div class="card-desc">
+                    <p th:text="*{AllJobs.getDescription()}"></p>
+                </div>
+                <div class="card-details">
+                    <h6 th:text="*{AllJobs.getCreatorId().getUsername()}"></h6>
+                    <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
+                </div>
+            </a>
+        </div>
+    </div>
+
 
 </body>
 </html>
