@@ -3,7 +3,6 @@ package com.example.star_contractor.Models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +56,6 @@ public class Jobs implements Serializable {
 
     @OneToMany(mappedBy = "jobId")
     private List<Categories> categories;
-
 
 
     public Jobs() {

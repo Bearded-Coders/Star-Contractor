@@ -2,12 +2,16 @@ package com.example.star_contractor.Controllers;
 
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Jobs;
+import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,8 @@ public class JobController {
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
 
+    User user = null;
+
     public JobController(JobRepository jobsRepository, CategoriesRepository catDao) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
@@ -28,9 +34,20 @@ public class JobController {
 
     // View all Jobs
     @GetMapping("/jobs")
-    public String getAllJobs(Model model) {
+    public String getAllJobs(Model model, Principal principal) {
+
         try {
             List<Jobs> jobs = jobsRepository.findAll();
+
+            if (principal != null) {
+                user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                model.addAttribute("user", user);
+            }
+
+            if (user != null) {
+                String userUrl = "/profile/" + user.getId();
+                model.addAttribute("userUrl", userUrl);
+            }
 
             model.addAttribute("job", jobs);
 
@@ -55,11 +72,17 @@ public class JobController {
 
     // Goto Job Creation Form
     @GetMapping("/jobs/createjob")
-    public String jobCreation(Model model) {
+    public String jobCreation(Model model, Principal principal) {
         try {
             Jobs job = new Jobs();
             job.setCreatedDate(LocalDateTime.now());
             job.setJobStatus("Active");
+
+            if (principal != null) {
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                job.setCreatorId(user);
+            }
+
             model.addAttribute("job", job);
             return "index/createjob";
         } catch (Exception e) {
@@ -69,7 +92,7 @@ public class JobController {
 
     // Create a Job
     @PostMapping("/jobs/createjob")
-    public String addJob(@ModelAttribute Jobs job) {
+    public String addJob(@ModelAttribute Jobs job, Categories categories) {
         try {
             jobsRepository.save(job);
             return "redirect:/jobs";

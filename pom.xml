@@ -17,7 +17,7 @@
 
 
 				<!--	ADD WHEN WE ADD SECURITY	-->
-<!--		<spring-security.version>6.0.3</spring-security.version>-->
+		<spring-security.version>6.0.3</spring-security.version>
 
 
 		<java.version>20</java.version>

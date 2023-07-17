@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="/css/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/createjob.css">
 
     <title>Create Job</title>
 </head>
@@ -50,7 +51,7 @@
 
 
 
-    <form th:action="@{/jobs/createjob}" method="post" th:object="${job}">
+    <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${job}">
 <!--        title-->
         <label for="title">Title</label>
             <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
@@ -61,7 +62,7 @@
             <input type="hidden" th:field="*{createdDate}">
 <!--        Threat Level-->
         <label for="threat">Threat Level</label>
-            <select id="threat" name="dropdown" th:field="*{threat}" placeholder="">
+            <select id="threat" name="dropdown" th:field="*{threat}">
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
@@ -79,11 +80,12 @@
 <!--        Distance to mission-->
         <label for="distance">Distance to travel</label>
             <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
+        <!--        this will change to authorization later-->
+        <input type="hidden" th:field="*{creatorId.id}">
 <!--        Submit button-->
         <input type="submit" value="Submit">
 
-<!--        this will change to authorization later-->
-        <input type="hidden" value="1" th:field="*{creatorId}">
+
     </form>
 
 <!--    The jquery is TBD-->
