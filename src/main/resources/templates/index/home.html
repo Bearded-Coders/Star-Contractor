@@ -23,7 +23,7 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
             </li>
-            <li class="nav-item">
+            <li sec:authorize="isAuthenticated()"  class="nav-item">
                 <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
                 <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
             </li>
@@ -41,6 +41,14 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
+
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+
             <li>
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" th:method="post">
