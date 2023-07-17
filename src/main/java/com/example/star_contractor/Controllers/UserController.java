@@ -22,48 +22,48 @@ public class UserController {
 
 
 //    LOGIN
-    @GetMapping("/login")
-    public String login(Model model) {
-        try {
-            Login login = new Login();
-            model.addAttribute("login", login);
-            return "index/login";
-        } catch (Exception e) {
-            return "index/errors/exception"; // Exception occurred error page
-        }
-    }
-    @PostMapping("/login")
-    public String userLogin(@ModelAttribute String email, String password) {
-        try {
-                User existingUser = userDao.findByEmail(email);
-
-                // Verify the password using bcrypt
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                if (passwordEncoder.matches(password, existingUser.getPassword())) {
-                    // TODO: Implement security logic here, If needed
-                    return "redirect:/"; // TODO: This is not redirecting to proper page
-                } else {
-                    // Passwords don't match, handle the error accordingly
-                    return "index/errors/invalid-password"; // TODO: Create this alert or page
-                }
-        } catch (Exception e) {
-            return "index/errors/exception"; // Exception occurred error page
-        }
-    }
+//    @GetMapping("/login")
+//    public String login(Model model) {
+//        try {
+//            Login login = new Login();
+//            model.addAttribute("login", login);
+//            return "index/login";
+//        } catch (Exception e) {
+//            return "index/errors/exception"; // Exception occurred error page
+//        }
+//    }
+//    @PostMapping("/login")
+//    public String userLogin(@ModelAttribute String email, String password) {
+//        try {
+//                User existingUser = userDao.findByEmail(email);
+//
+//                // Verify the password using bcrypt
+//                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//                if (passwordEncoder.matches(password, existingUser.getPassword())) {
+//                    // TODO: Implement security logic here, If needed
+//                    return "redirect:/"; // TODO: This is not redirecting to proper page
+//                } else {
+//                    // Passwords don't match, handle the error accordingly
+//                    return "index/errors/invalid-password"; // TODO: Create this alert or page
+//                }
+//        } catch (Exception e) {
+//            return "index/errors/exception"; // Exception occurred error page
+//        }
+//    }
 
 //    REGISTER
-    @GetMapping("/register")
+    @GetMapping("/signup")
     public String register(Model model) {
         try {
             User user = new User();
             model.addAttribute("user", user);
-            return "index/register";
+            return "users/signup";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public String newRegistration(@ModelAttribute User user, Model model) {
         try {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

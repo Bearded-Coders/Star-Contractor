@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile/{id}", "/jobs/{id}", "/jobs/createjob", "/jobs/editjob").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/jobs", "/sign-up", "/login").permitAll()
+                        .requestMatchers("/", "/jobs", "/signup", "/login","/register").permitAll()
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "assets/**").permitAll()
                 )
