@@ -29,7 +29,6 @@ public class ProfileController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = user.getId();
 
-
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         model.addAttribute("userProfileLink", userProfile);
