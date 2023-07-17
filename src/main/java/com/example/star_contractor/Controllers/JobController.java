@@ -61,12 +61,14 @@ public class JobController {
     // Goto specific Job
     @GetMapping("/jobs/{id}")
     public String getJob(@PathVariable Integer id, Model model) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Jobs singleJob = jobsRepository.getJobById(id);
 
         List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
 
         model.addAttribute("singleJob", singleJob);
         model.addAttribute("category", categories);
+        model.addAttribute("user", user);
         return "index/jobdetails";
     }
 
@@ -81,6 +83,7 @@ public class JobController {
             if (principal != null) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 job.setCreatorId(user);
+                model.addAttribute("user", user);
             }
 
             model.addAttribute("job", job);

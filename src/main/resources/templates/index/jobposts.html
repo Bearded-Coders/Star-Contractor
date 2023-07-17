@@ -88,7 +88,9 @@
                 </div>
                 <div class="card-details">
                     <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
+
                     <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId()?.getAvgRating()}"></h6>
+
                 </div>
             </a>
         </div>
