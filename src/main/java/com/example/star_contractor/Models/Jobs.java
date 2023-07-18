@@ -1,13 +1,16 @@
 package com.example.star_contractor.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 @Entity
+@JsonIgnoreProperties
 public class Jobs implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +26,6 @@ public class Jobs implements Serializable {
     @Column(nullable = false)
     private Date startDate = new Date();
 
-//    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
@@ -55,7 +57,7 @@ public class Jobs implements Serializable {
     private List<User> applicantList;
 
     @OneToMany(mappedBy = "jobId")
-    private List<Categories> categories;
+    private List<Categories> categories = new ArrayList<>();
 
 
     public Jobs() {
@@ -192,36 +194,36 @@ public class Jobs implements Serializable {
         this.categories = categories;
     }
 
-    @Override
-    public String toString() {
-        return "Jobs{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", createdDate=" + createdDate +
-                ", threat='" + threat + '\'' +
-                ", paymentPercent=" + paymentPercent +
-                ", jobStatus='" + jobStatus + '\'' +
-                ", startLocation='" + startLocation + '\'' +
-                ", distance=" + distance +
-                ", creatorId=" + creatorId +
-                ", outcome=" + outcome +
-                ", applicantList=" + applicantList +
-                ", categories=" + categories +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Jobs{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", startDate=" + startDate +
+//                ", createdDate=" + createdDate +
+//                ", threat='" + threat + '\'' +
+//                ", paymentPercent=" + paymentPercent +
+//                ", jobStatus='" + jobStatus + '\'' +
+//                ", startLocation='" + startLocation + '\'' +
+//                ", distance=" + distance +
+//                ", creatorId=" + creatorId +
+//                ", outcome=" + outcome +
+//                ", applicantList=" + applicantList +
+//                ", categories=" + categories +
+//                '}';
+//    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Jobs jobs = (Jobs) o;
-        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome) && Objects.equals(applicantList, jobs.applicantList) && Objects.equals(categories, jobs.categories);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId, outcome, applicantList, categories);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Jobs jobs = (Jobs) o;
+//        return Objects.equals(id, jobs.id) && Objects.equals(title, jobs.title) && Objects.equals(description, jobs.description) && Objects.equals(startDate, jobs.startDate) && Objects.equals(createdDate, jobs.createdDate) && Objects.equals(threat, jobs.threat) && Objects.equals(paymentPercent, jobs.paymentPercent) && Objects.equals(jobStatus, jobs.jobStatus) && Objects.equals(startLocation, jobs.startLocation) && Objects.equals(distance, jobs.distance) && Objects.equals(creatorId, jobs.creatorId) && Objects.equals(outcome, jobs.outcome) && Objects.equals(applicantList, jobs.applicantList) && Objects.equals(categories, jobs.categories);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, title, description, startDate, createdDate, threat, paymentPercent, jobStatus, startLocation, distance, creatorId, outcome, applicantList, categories);
+//    }
 }
