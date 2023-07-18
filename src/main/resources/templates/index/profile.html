@@ -62,10 +62,14 @@
         <h1 th:text="*{myJob.getTitle()}"></h1>
         <h1 th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></h1>
     </a>
-
 </div>
-
-
+<h3>Applied Jobs</h3>
+<div th:each="appliedJob : ${appliedJobs}">
+    <a class="Card" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+        <h1 th:text="*{appliedJob.getTitle()}"></h1>
+        <h1 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h1>
+    </a>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
