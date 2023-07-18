@@ -22,7 +22,7 @@
             </li>
             <li class="nav-item">
                 <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                <a class="nav-link" th:href="@{/profile/1}">Profile</a>
+                <a class="nav-link" th:href="@{/profile/{id}(id=*{user.id})}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/jobs}">Job Board</a>
@@ -68,6 +68,18 @@
         <p th:if="${cat.salvage}">Salvage</p>
         <p th:if="${cat.trading}">Trading</p>
     </div>
+
+
+
+    <div th:unless="${#lists.contains(singleJob.applicantList.![id], user.id)}">
+        <form class="apply" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
+            <!-- Replace 'jobId' with the actual ID of the job you want to apply to -->
+            <input id="userId" name="userId" type="hidden" th:value="${user.id}">
+            <button class="apply">Apply</button>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>
