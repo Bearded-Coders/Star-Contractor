@@ -112,8 +112,23 @@ public class JobController {
         }
     }
 
+
+    // Display the job editor
+    @GetMapping("/jobs/editjob/{id}")
+    public String updateJob(@PathVariable Integer id, Model model, Principal principal) throws Exception {
+        Jobs singleJob = jobsRepository.getJobById(id);
+
+        if (principal != null) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
+        }
+
+        model.addAttribute("singleJob", singleJob);
+        return "index/editjob";
+    }
+
     // Update a Job
-    @PutMapping("/jobs/{id}")
+    @PutMapping("/jobs/editjob/{id}")
     public String updateJob(@PathVariable Integer id, @RequestParam Jobs updatedJob) throws Exception {
         try {
             Jobs existingJob = jobsRepository.getJobById(id);
