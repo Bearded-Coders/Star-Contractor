@@ -71,7 +71,7 @@
 
 
 
-    <div>
+    <div th:unless="${#lists.contains(singleJob.applicantList.![id], user.id)}">
         <form class="apply" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
             <!-- Replace 'jobId' with the actual ID of the job you want to apply to -->
             <input id="userId" name="userId" type="hidden" th:value="${user.id}">
