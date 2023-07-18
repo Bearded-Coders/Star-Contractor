@@ -69,7 +69,7 @@
         <p th:if="${cat.trading}">Trading</p>
     </div>
 
-
+<div th:unless="${singleJob.creatorId}">
     <div th:if="${#lists.contains(singleJob.applicantList.![id], user.id)}">
         <form class="Remove" th:action="@{/jobs/remove/{id}(id=${singleJob.id})}" method="POST">
             <!-- Replace 'jobId' with the actual ID of the job you want to apply to -->
@@ -84,7 +84,7 @@
             <button class="apply">Apply</button>
         </form>
     </div>
-
+</div>
 
 </div>
 </body>
