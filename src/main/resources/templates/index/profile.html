@@ -60,7 +60,8 @@
 
 
 
-<h1 th:text="'Username ' + ${userProfileLink.username}"></h1>
+<h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
+<h1 th:unless="${userProfileLink.id} == ${user.id}" th:text="${userProfileLink.username}"></h1>
 <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
 
 <h3>My Jobs</h3>
