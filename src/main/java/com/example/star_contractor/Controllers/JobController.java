@@ -182,7 +182,22 @@ public class JobController {
         return "redirect:/jobs/" + id;
     }
 
+    @PostMapping("/jobs/remove/{id}")
+    public String removeJob(@PathVariable Integer id, @RequestParam(name = "userIdRemove") Long usersId) throws Exception {
 
+        Jobs existingJob = jobsRepository.getJobById(id);
+
+        // Fetch the User object corresponding to the usersId
+        User applicant = userDao.getUserById(usersId);
+
+        // Add the single applicant to the list
+        existingJob.getApplicantList().remove(applicant);
+
+        // Save the updated job in the repository (not shown in your code, but you need to do this)
+        jobsRepository.save(existingJob);
+
+        return "redirect:/jobs/" + id;
+    }
 
 
 

@@ -13,5 +13,6 @@ import java.util.List;
 public interface JobRepository extends JpaRepository<Jobs, Integer> {
     Jobs getJobById(Integer id) throws Exception;
     List<Jobs> findJobsByCreatorId(User user);
+    List<Jobs> findJobsByApplicantListContains(User user);
 
 }

@@ -31,11 +31,13 @@ public class ProfileController {
 
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
+        List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
+
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
         model.addAttribute("grabId", userId);
         model.addAttribute("user", user);
-
+        model.addAttribute("appliedJobs", appliedJobs);
 
 
         return "index/profile";
