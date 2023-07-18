@@ -23,12 +23,20 @@ public class JobController {
 
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
+    private final UserRepository userDao;
 
     User user = null;
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao) {
+//    private List<String> applicantsList = new ArrayList<>();
+//
+//    public List<String> getApplicantsList() {
+//        return applicantsList;
+//    }
+
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
+        this.userDao = userDao;
     }
 
 
@@ -128,6 +136,28 @@ public class JobController {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
+
+    // Apply for job
+    @PostMapping("/jobs/apply/{id}")
+    public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
+
+        Jobs existingJob = jobsRepository.getJobById(id);
+
+        // Fetch the User object corresponding to the usersId
+        User applicant = userDao.getUserById(usersId);
+
+        // Add the single applicant to the list
+        existingJob.getApplicantList().add(applicant);
+
+        // Save the updated job in the repository (not shown in your code, but you need to do this)
+        jobsRepository.save(existingJob);
+
+        return "redirect:/jobs/" + id;
+    }
+
+
+
+
 
     // Delete a job
     @DeleteMapping("/jobs/{id}")

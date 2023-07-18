@@ -68,6 +68,18 @@
         <p th:if="${cat.salvage}">Salvage</p>
         <p th:if="${cat.trading}">Trading</p>
     </div>
+
+
+
+    <div>
+        <form class="apply" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
+            <!-- Replace 'jobId' with the actual ID of the job you want to apply to -->
+            <input id="userId" name="userId" type="hidden" th:value="${user.id}">
+            <button class="apply">Apply</button>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>
