@@ -56,13 +56,13 @@ body {
 }
 
 .job-card {
-    background-color: #26b3f7;
     width: 45%;
-    min-height: 30px;
     margin: 2px;
     border-radius: 3em;
     text-decoration: none;
-    border: 2px solid goldenrod;
+    border-left: 2px solid goldenrod;
+    border-right: 2px solid goldenrod;
+    border-top: 2px solid goldenrod;
 }
 
 .card {

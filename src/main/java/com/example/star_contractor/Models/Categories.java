@@ -45,7 +45,7 @@ public class Categories implements Serializable {
     @Column(nullable = false)
     private Boolean rolePlay;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "jobId", referencedColumnName = "id")
     private Jobs jobId;
 

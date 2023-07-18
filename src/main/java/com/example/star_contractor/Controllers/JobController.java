@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -75,14 +77,14 @@ public class JobController {
     public String jobCreation(Model model, Principal principal) {
         try {
             Jobs job = new Jobs();
-            job.setCreatedDate(LocalDateTime.now());
-            job.setJobStatus("Active");
+            Categories category = new Categories();
 
             if (principal != null) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 job.setCreatorId(user);
             }
 
+            model.addAttribute("category", category);
             model.addAttribute("job", job);
             return "index/createjob";
         } catch (Exception e) {
@@ -92,11 +94,21 @@ public class JobController {
 
     // Create a Job
     @PostMapping("/jobs/createjob")
-    public String addJob(@ModelAttribute Jobs job, Categories categories) {
+    public String addJob(@ModelAttribute Jobs job, @ModelAttribute Categories categories) {
         try {
+            job.setCreatedDate(LocalDateTime.now());
+            categories.setJobId(job);
+            catDao.save(categories);
+            System.out.println(categories);
+
+//             Save the job (which will have the associated category)
+            job.setJobStatus("Active");
             jobsRepository.save(job);
+            System.out.println(categories.getJobId());
+
             return "redirect:/jobs";
         } catch (Exception e) {
+            System.out.println(e);
             return "index/errors/exception"; // Exception occurred error page
         }
     }

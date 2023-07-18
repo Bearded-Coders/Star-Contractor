@@ -75,7 +75,7 @@
         <div th:each="AllJobs:${job}" class="job-card">
             <a class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
                 <div class="card-head">
-                    <h5 th:text="*{AllJobs.getTitle()}"></h5>
+                    <h4 th:text="*{AllJobs.getTitle()}"></h4>
                     <h6 th:text="'Payment Amount: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
                 </div>
                 <div class="card-head">
@@ -90,11 +90,12 @@
                     <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
                     <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
                 </div>
-                <div th:if="*{AllJobs.getCreatorId()?.getId() == user?.getId()}">
-                    <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{AllJobs.getId()})}">Edit Job</a>
-                </div>
             </a>
+            <div th:if="*{AllJobs.getCreatorId()?.getId() == user?.getId()}">
+                <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{AllJobs.getId()})}">Edit Job</a>
+            </div>
         </div>
+
     </div>
 
 </body>
