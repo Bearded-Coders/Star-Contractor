@@ -3,6 +3,7 @@ package com.example.star_contractor.Models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User{
@@ -23,20 +24,34 @@ public class User{
     private Short avgRating;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<Jobs> myJobs;
-
-
-
-
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "friendship",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+    )
+    private List<User> friendsList;
 //    Constructors
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -46,9 +61,10 @@ public class User{
         this.avgRating = avgRating;
         this.myJobs = myJobs;
         this.ratings = ratings;
+        this.friendsList = friendsList;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -57,11 +73,10 @@ public class User{
         this.avgRating = avgRating;
         this.myJobs = myJobs;
         this.ratings = ratings;
+        this.friendsList = friendsList;
     }
 
-
-
-//For security  add email username with unique constraints
+    //For security  add email username with unique constraints
     //The constructor User(User copy) defined in this class is a common pattern in Java called a copy constructor. It is used as an alternative to cloning an object. Instead of using the method clone, we create a new object using the current values of another. This will be used in order to fulfill the contract defined by the interfaces in the security package.
     public User(User copy) {
         id = copy.id; // This line is SUPER important! Many things won't work if it's absent
@@ -148,5 +163,13 @@ public class User{
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public List<User> getFriendsList() {
+        return friendsList;
+    }
+
+    public void setFriendsList(List<User> friendsList) {
+        this.friendsList = friendsList;
     }
 }
