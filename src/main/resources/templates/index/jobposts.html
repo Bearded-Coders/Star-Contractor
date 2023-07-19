@@ -90,11 +90,11 @@
 
     <div class="jobs-container">
         <div th:each="AllJobs:${job}" class="job-card">
-            <a class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
-                <div class="card-head">
+            <div class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
+                <a th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}" class="card-head">
                     <h4 th:text="*{AllJobs.getTitle()}"></h4>
-                    <h6 th:text="'Payment Amount: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
-                </div>
+                    <h6 th:text="'Pay Split: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
+                </a>
                 <div class="card-head">
                     <h6 th:text="*{#temporals.format(AllJobs.createdDate, 'yyyy-MM-dd')}"></h6>
                     <h6 class="active" th:if="*{AllJobs.getJobStatus() == 'Active'}">Active</h6>
@@ -104,10 +104,28 @@
                     <p th:text="*{AllJobs.getDescription()}"></p>
                 </div>
                 <div class="card-details">
-                    <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
-                    <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
+                    <div class="details-1">
+                        <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
+                        <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
+                    </div>
+                    <div>
+                        <ul class="details-2" th:each="category : ${AllJobs.getCategories()}">
+                            <a th:href="@{/}" th:if="${category.illegal}">#Illegal</a>
+                            <a th:href="@{/}" th:if="${category.mining}">#Mining</a>
+                            <a th:href="@{/}" th:if="${category.combat}">#Combat</a>
+                            <li th:if="${category.salvage}">#Salvage</li>
+                            <li th:if="${category.trading}">#Trading</li>
+                            <li th:if="${category.exploring}">#Exploring</li>
+                            <a th:href="@{/}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
+                            <li th:if="${category.delivery}">#Delivery</li>
+                            <li th:if="${category.pvp}">#PvP</li>
+                            <li th:if="${category.pve}">#PvE</li>
+                            <li th:if="${category.rolePlay}">#Role Play</li>
+                        </ul>
+                    </div>
+
                 </div>
-            </a>
+            </div>
         </div>
 
     </div>

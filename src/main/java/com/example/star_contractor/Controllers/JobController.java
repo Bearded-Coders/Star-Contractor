@@ -6,6 +6,7 @@ import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,15 @@ public class JobController {
         try {
             List<Jobs> jobs = jobsRepository.findAll();
 
+            // Create a list to store categories for each job
+            List<List<Categories>> categoriesList = new ArrayList<>();
+
+            // Loop through the jobs to fetch categories for each job
+            for (Jobs job : jobs) {
+                List<Categories> categories = catDao.findCategoriesByJobId(job);
+                categoriesList.add(categories);
+            }
+
             if (principal != null) {
                 user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 model.addAttribute("user", user);
@@ -60,6 +71,7 @@ public class JobController {
             }
 
             model.addAttribute("job", jobs);
+            model.addAttribute("categoriesList", categoriesList);
 
             return "index/jobposts";
         } catch (Exception e) {
