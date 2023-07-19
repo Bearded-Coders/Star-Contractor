@@ -113,14 +113,14 @@
                             <a th:href="@{/}" th:if="${category.illegal}">#Illegal</a>
                             <a th:href="@{/}" th:if="${category.mining}">#Mining</a>
                             <a th:href="@{/}" th:if="${category.combat}">#Combat</a>
-                            <li th:if="${category.salvage}">#Salvage</li>
-                            <li th:if="${category.trading}">#Trading</li>
-                            <li th:if="${category.exploring}">#Exploring</li>
+                            <a th:href="@{/}" th:if="${category.salvage}">#Salvage</a>
+                            <a th:href="@{/}" th:if="${category.trading}">#Trading</a>
+                            <a th:href="@{/}" th:if="${category.exploring}">#Exploring</a>
                             <a th:href="@{/}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
-                            <li th:if="${category.delivery}">#Delivery</li>
-                            <li th:if="${category.pvp}">#PvP</li>
-                            <li th:if="${category.pve}">#PvE</li>
-                            <li th:if="${category.rolePlay}">#Role Play</li>
+                            <a th:href="@{/}" th:if="${category.delivery}">#Delivery</a>
+                            <a th:href="@{/}" th:if="${category.pvp}">#PvP</a>
+                            <a th:href="@{/}" th:if="${category.pve}">#PvE</a>
+                            <a th:href="@{/}" th:if="${category.rolePlay}">#Role Play</a>
                         </ul>
                     </div>
 
