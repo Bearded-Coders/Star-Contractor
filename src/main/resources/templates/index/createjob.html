@@ -73,8 +73,10 @@
 <!--        Description-->
         <label for="description">Description</label>
             <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
-            <input type="text" id="datepicker" th:field="*{startDate}" placeholder="Select a date">
-<!--            <input type="hidden" th:field="*{createdDate}">-->
+        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(job.startDate, 'yyyy-MM-dd')}" placeholder="Select a date">
+
+
+        <!--            <input type="hidden" th:field="*{createdDate}">-->
         <input type="hidden" th:field="*{createdDate}" th:value="${#temporals.format(job.createdDate, 'yyyy-MM-ddTHH:mm:ss.SSS')}">
 
         <!--        Threat Level-->

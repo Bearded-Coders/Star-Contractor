@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+
+
 @Entity
 @JsonIgnoreProperties
 public class Jobs implements Serializable {
@@ -22,9 +22,8 @@ public class Jobs implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date startDate = new Date();
+    private String startDate;
 
     @Column(nullable = false)
     private LocalDateTime createdDate;
@@ -65,7 +64,7 @@ public class Jobs implements Serializable {
     }
 
 
-    public Jobs(Integer id, String title, String description, Date startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories) {
+    public Jobs(Integer id, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -106,11 +105,11 @@ public class Jobs implements Serializable {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
