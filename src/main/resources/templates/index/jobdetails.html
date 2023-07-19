@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,6 +38,19 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+
+            <li>
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>
@@ -55,7 +69,8 @@
 
     <h2>Applicants List</h2>
     <div th:each="applicant : ${singleJob.getApplicantList()}">
-    <p th:text="*{applicant.username}"></p>
+    <a th:href="@{/profile/{id}(id=*{applicant.id})}" th:text="*{applicant.username}"></a>
+
     </div>
     <h2>Categories</h2>
     <div th:each="cat : ${category}">
@@ -72,7 +87,7 @@
         <p th:if="${cat.trading}">Trading</p>
     </div>
 
-<div th:unless="${singleJob.creatorId}">
+<div th:unless="${singleJob.creatorId.getId() == user.id}">
     <div th:if="${#lists.contains(singleJob.applicantList.![id], user.id)}">
         <form class="Remove" th:action="@{/jobs/remove/{id}(id=${singleJob.id})}" method="POST">
             <!-- Replace 'jobId' with the actual ID of the job you want to apply to -->

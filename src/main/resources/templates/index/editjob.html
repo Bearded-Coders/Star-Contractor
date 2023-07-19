@@ -27,7 +27,7 @@
             </li>
             <li sec:authorize="isAuthenticated()"  class="nav-item">
                 <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
+                <a class="nav-link" th:href="@{/profile/{id}(id=*{user.id})}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/jobs}">Job Board</a>
@@ -44,6 +44,34 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
 
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+
+            <li>
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                    </form>
+                </div>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+
+            <li>
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                    </form>
+                </div>
+            </li>
             <li sec:authorize="isAnonymous()" class="nav-item">
                 <a class="nav-link" th:href="@{/login}">Login</a>
             </li>

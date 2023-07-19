@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,11 +39,19 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-            <li>
-                <form th:action="@{/logout}" th:method="post">
-                    <button class="btn-link btn" style="margin-top: 8px">Logout</button>
-                </form>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
             </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+
+            <li>
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>
@@ -51,7 +60,8 @@
 
 
 
-<h1 th:text="'Username ' + ${userProfileLink.username}"></h1>
+<h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
+<h1 th:unless="${userProfileLink.id} == ${user.id}" th:text="${userProfileLink.username}"></h1>
 <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
 
 <h3>My Jobs</h3>

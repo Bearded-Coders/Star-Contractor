@@ -167,7 +167,7 @@ public class JobController {
 //                }
 
                 jobsRepository.save(existingJob); // Save the updated job
-                return "redirect:/jobs"; // Redirect to the jobs page
+                return "redirect:/jobs/" + id; // Redirect to the jobs page
             } else {
                 return "index/errors/jobnotfound"; // Job not found error page
             }
