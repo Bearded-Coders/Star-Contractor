@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,38 +12,54 @@
 <body>
 
                     <!--  NavBar  -->
-<nav class="navbar navbar-expand-lg navbar-light custom-nav">
-    <a class="navbar-brand" href="#">SC</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" href="#">SC</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/}">Home</a>
-            </li>
-            <li class="nav-item">
-<!--                                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/jobs}">Job Board<span class="sr-only"></span></a>
-            </li>
-<!--            <li class="nav-item dropdown">-->
-<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    Dropdown-->
-<!--                </a>-->
-<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                    <a class="dropdown-item" href="#">Action</a>-->
-<!--                    <a class="dropdown-item" href="#">Another action</a>-->
-<!--                    <div class="dropdown-divider"></div>-->
-<!--                    <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                </div>-->
-<!--            </li>-->
-        </ul>
-    </div>
-</nav>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
+                                </li>
+                                <li sec:authorize="isAuthenticated()"  class="nav-item">
+                                    <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
+                                    <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/jobs}">Job Board</a>
+                                </li>
+                                <li  class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Dropdown
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+
+                                <li sec:authorize="isAnonymous()" class="nav-item">
+                                    <a class="nav-link" th:href="@{/login}">Login</a>
+                                </li>
+                                <li sec:authorize="isAnonymous()" class="nav-item">
+                                    <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+                                </li>
+
+                                <li>
+                                    <div sec:authorize="isAuthenticated()">
+                                        <form th:action="@{/logout}" th:method="post">
+                                            <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
 
 <!---->
 <!---->
@@ -91,9 +108,6 @@
                     <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
                 </div>
             </a>
-            <div th:if="*{AllJobs.getCreatorId()?.getId() == user?.getId()}">
-                <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{AllJobs.getId()})}">Edit Job</a>
-            </div>
         </div>
 
     </div>

@@ -49,6 +49,9 @@
 <div>
     <h1 th:text="${singleJob.getTitle()}"></h1>
     <h1 th:text="${singleJob.getCreatorId().getUsername()}"></h1>
+    <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}">
+        <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{singleJob.getId()})}">Edit Job</a>
+    </div>
 
     <h2>Applicants List</h2>
     <div th:each="applicant : ${singleJob.getApplicantList()}">

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -108,6 +108,13 @@ public class JobController {
     public String addJob(@ModelAttribute Jobs job, @ModelAttribute Categories categories) {
         try {
             job.setCreatedDate(LocalDateTime.now());
+
+//            The current start date is a value of "String", we may need to chage this later or verify that it is in the correct format in the future
+            // Convert the date string to LocalDateTime using DateTimeFormatter
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            LocalDateTime startDate = LocalDateTime.parse(job.getStartDate(), formatter);
+//            job.setStartDate(String.valueOf(startDate));
+
             categories.setJobId(job);
             catDao.save(categories);
             System.out.println(categories);
@@ -140,8 +147,8 @@ public class JobController {
     }
 
     // Update a Job
-    @PutMapping("/jobs/editjob/{id}")
-    public String updateJob(@PathVariable Integer id, @RequestParam Jobs updatedJob) throws Exception {
+    @PostMapping ("/jobs/editjob/{id}")
+    public String updateJob(@PathVariable Integer id, @ModelAttribute Jobs updatedJob) throws Exception {
         try {
             Jobs existingJob = jobsRepository.getJobById(id);
             if (existingJob != null) {
@@ -152,7 +159,12 @@ public class JobController {
                 existingJob.setJobStatus(updatedJob.getJobStatus());
                 existingJob.setStartLocation(updatedJob.getStartLocation());
                 existingJob.setDistance(updatedJob.getDistance());
-                existingJob.setOutcome(updatedJob.getOutcome());
+                existingJob.setCreatedDate(existingJob.getCreatedDate());
+                existingJob.setStartDate(updatedJob.getStartDate());
+
+//                if(existingJob.getOutcome() != null) {
+//                    existingJob.setOutcome(updatedJob.getOutcome());
+//                }
 
                 jobsRepository.save(existingJob); // Save the updated job
                 return "redirect:/jobs"; // Redirect to the jobs page
