@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories, Integer> {
     List<Categories> findCategoriesByJobId(Jobs id);
+
 }
