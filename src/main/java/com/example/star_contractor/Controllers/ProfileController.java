@@ -4,6 +4,7 @@ import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ public class ProfileController {
 
     private final UserRepository userDao;
     private final JobRepository jobDao;
+
+    @Value("${filestack.api.key}")
+    private String filestackapi;
 
     public ProfileController(UserRepository userDao, JobRepository jobDao) {
         this.userDao = userDao;
@@ -39,7 +43,7 @@ public class ProfileController {
 //        model.addAttribute("grabId", userId);
         model.addAttribute("user", user);
         model.addAttribute("appliedJobs", appliedJobs);
-
+        model.addAttribute("filestackapi", filestackapi);
         System.out.println(userProfile.getFriendsList().contains(user));
 
 
@@ -153,5 +157,25 @@ public class ProfileController {
         return "redirect:/profile/" + userId;
     }
 
+    @PostMapping("profile/upload")
+    public String uploadProfile(@RequestParam(name = "stashFilestackURL") String uploadedProfilePic, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        user = userDao.getReferenceById((long) user.getId());
 
+
+        user = userDao.getReferenceById((long) user.getId());
+        user.setProfilePic(uploadedProfilePic);
+        userDao.save(user);
+
+
+        return "redirect:/profile/" + user.getId();
+    }
 }
+
+
+
+//To DO
+//Add delete mapping for User delete
+//Add FileStackAPI for profile images upload
+//Add rating functionality and way(s) for users to input it
+
