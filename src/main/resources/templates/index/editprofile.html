@@ -9,7 +9,7 @@
 </head>
 <body>
 <h2 class="">Edit Profile</h2>
-<form th:method="POST" th:action="@{/profile/edits}" th:object="${user}">
+<form th:method="POST" th:action="@{/profile/edits/{userId}(userId=${user.id})}" th:object="${user}">
     <div class="container">
         <label for="newUsername">Username: </label><br>
         <input class="w-50" id="newUsername" type="text" th:field="*{username}">
