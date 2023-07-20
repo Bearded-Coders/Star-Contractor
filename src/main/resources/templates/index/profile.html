@@ -78,7 +78,9 @@
 </div>
 <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
 
-<h3>My Jobs</h3>
+<h3 th:if="${userProfileLink.id == user.id}">My Jobs</h3>
+<h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
+
 <div th:each="myJob : ${myJobs}">
     <a class="Card" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
         <h1 th:text="*{myJob.getTitle()}"></h1>
