@@ -49,18 +49,13 @@ public class ProfileController {
         return "index/profile";
     }
 
-    @GetMapping("/profile/edit")
-    public String showEditProfile(Model model) {
+    @GetMapping("/profile/edit/{userId}")
+    public String showEditProfile(@PathVariable("userId") long userId, Model model) {
+        // Fetch the user from the database based on the provided user ID
+        User user = userDao.getReferenceById(userId);
 
-        // Fetch the updated user object from the model attributes, if available
-        if (!model.containsAttribute("user")) {
-            // If not available, fetch the user from the SecurityContextHolder
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("user", user);
-            System.out.println("get mapping: " + user.getUsername());
-            System.out.println("get mapping: " + user.getUsername());
-        }
-
+        // Add the user to the model
+        model.addAttribute("user", user);
 
         return "index/editprofile";
     }
@@ -142,26 +137,20 @@ public class ProfileController {
 //    }
 
 
-    @PostMapping("/profile/edits")
-    public String editProfile(@ModelAttribute("user") User updatedUser, Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user = userDao.getReferenceById((long) user.getId());
+    @PostMapping("/profile/edits/{userId}")
+    public String editProfile(@PathVariable("userId") long userId, @ModelAttribute("user") User updatedUser, Model model) {
+        User user = userDao.getReferenceById(userId);
 
         // Update the user object with the new values
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
         user.setStartingArea(updatedUser.getStartingArea());
-        model.addAttribute("user", updatedUser);
-        System.out.println("Before save: " + user.getUsername());
-        System.out.println("Before save: " + user.getUsername());
-        System.out.println("Before save: " + user.getUsername());
+
         // Save the updated user to the database or perform any desired actions
         userDao.save(user);
-        System.out.println("After save: " + user.getUsername());
-        System.out.println("After save: " + user.getUsername());
-        System.out.println("After save: " + user.getUsername());
+
         // Redirect to the profile page
-        return "redirect:/profile/" + user.getId();
+        return "redirect:/profile/" + userId;
     }
 
 
