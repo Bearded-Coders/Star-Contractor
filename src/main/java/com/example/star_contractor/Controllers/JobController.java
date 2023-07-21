@@ -234,19 +234,32 @@ public class JobController {
     }
 
     // Apply for job
+//    @PostMapping("/jobs/apply/{id}")
+//    public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
+//        Jobs existingJob = jobsRepository.getJobById(id);
+//        User applicant = userDao.getUserById(usersId);
+//
+//        existingJob.getApplicantList().add(applicant); // Add the applicant to the job
+//        applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
+//
+//        // Save the updated entities in the repository
+//        jobsRepository.save(existingJob);
+//        userDao.save(applicant);
+//
+//        return "redirect:/jobs/" + id;
+//    }
+
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
-
         Jobs existingJob = jobsRepository.getJobById(id);
-
-        // Fetch the User object corresponding to the usersId
         User applicant = userDao.getUserById(usersId);
 
-        // Add the single applicant to the list
-        existingJob.getApplicantList().add(applicant);
+        existingJob.getApplicantList().add(applicant); // Add the applicant to the job
+        applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
 
-        // Save the updated job in the repository (not shown in your code, but you need to do this)
+        // Save the updated entities in the repository
         jobsRepository.save(existingJob);
+        userDao.save(applicant);
 
         return "redirect:/jobs/" + id;
     }

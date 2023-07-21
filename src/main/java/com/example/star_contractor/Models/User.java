@@ -2,6 +2,7 @@ package com.example.star_contractor.Models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,13 +28,27 @@ public class User{
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "friendship",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+//    )
+//    private List<User> friendsList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "friendship",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "friend_id")}
     )
-    private List<User> friendsList;
+    private List<User> friendsList = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "applicants_users",
+            joinColumns = {@JoinColumn(name = "applicants_id")},
+            inverseJoinColumns = {@JoinColumn(name = "job_id")})
+    private List<Jobs> appliedJobs = new ArrayList<>();
+
 //    Constructors
 
     @Override
@@ -51,7 +66,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -62,9 +77,10 @@ public class User{
         this.myJobs = myJobs;
         this.ratings = ratings;
         this.friendsList = friendsList;
+        this.appliedJobs = appliedJobs;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -74,6 +90,7 @@ public class User{
         this.myJobs = myJobs;
         this.ratings = ratings;
         this.friendsList = friendsList;
+        this.appliedJobs = appliedJobs;
     }
 
     //For security  add email username with unique constraints
@@ -88,6 +105,7 @@ public class User{
         avgRating = copy.avgRating;
         myJobs = copy.myJobs;
         ratings = copy.ratings;
+        appliedJobs = copy.appliedJobs;
     }
 
 //    getters and setters
@@ -171,5 +189,13 @@ public class User{
 
     public void setFriendsList(List<User> friendsList) {
         this.friendsList = friendsList;
+    }
+
+    public List<Jobs> getAppliedJobs() {
+        return appliedJobs;
+    }
+
+    public void setAppliedJobs(List<Jobs> appliedJobs) {
+        this.appliedJobs = appliedJobs;
     }
 }
