@@ -28,13 +28,21 @@ public class User{
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "friendship",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+//    )
+//    private List<User> friendsList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "friendship",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "friend_id")}
     )
-    private List<User> friendsList;
+    private List<User> friendsList = new ArrayList<>();
     @ManyToMany
     @JoinTable(name = "applicants_users",
             joinColumns = {@JoinColumn(name = "applicants_id")},

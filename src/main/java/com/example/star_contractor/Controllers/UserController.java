@@ -112,6 +112,9 @@ public class UserController {
             for (Jobs job : userToDelete.getAppliedJobs()) {
                 job.getApplicantList().remove(userToDelete);
             }
+            for (User friend : userToDelete.getFriendsList()) {
+                friend.getFriendsList().remove(userToDelete);
+            }
 
             userDao.delete(userToDelete);
         }
