@@ -49,13 +49,15 @@ public class Jobs implements Serializable {
     @Column
     private Boolean outcome;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "applicants_users",
-            joinColumns = {@JoinColumn(name = "job_id")},
-            inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
-    private List<User> applicantList;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "applicants_users",
+//            joinColumns = {@JoinColumn(name = "job_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
+//    private List<User> applicantList;
+    @ManyToMany(mappedBy = "appliedJobs", cascade = CascadeType.ALL)
+    private List<User> applicantList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "jobId")
+    @OneToMany(mappedBy = "jobId", cascade = CascadeType.ALL)
     private List<Categories> categories = new ArrayList<>();
 
 

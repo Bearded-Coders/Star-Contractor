@@ -176,6 +176,5 @@ public class ProfileController {
 
 //To DO
 //Add delete mapping for User delete
-//Add FileStackAPI for profile images upload
 //Add rating functionality and way(s) for users to input it
 

@@ -68,10 +68,10 @@
     </div>
 
     <h2>Applicants List</h2>
-    <div th:each="applicant : ${singleJob.getApplicantList()}">
-    <a th:href="@{/profile/{id}(id=*{applicant.id})}" th:text="*{applicant.username}"></a>
-
+    <div th:each="applicant : ${singleJob.applicantList}">
+        <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
     </div>
+
     <h2>Categories</h2>
     <div th:each="cat : ${category}">
         <p th:if="${cat.bounty_hunting}">Bounty Hunting</p>

@@ -1,8 +1,10 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.Login;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,9 +86,36 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/removeaccount/{id}")
-    public String removeAccount(@PathVariable Integer id) {
-        userDao.deleteById(Long.valueOf(id));
-        return "redirect:/deletesuccess"; // TODO: create this page or choose another
+//    @DeleteMapping("/removeaccount/{id}")
+//    public String removeAccount(@PathVariable Integer id) {
+//        userDao.deleteById(Long.valueOf(id));
+//        return "redirect:/deletesuccess"; // TODO: create this page or choose another
+//    }
+
+//    @PostMapping("/profile/delete")
+//    public String deleteProfile() {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        user = userDao.getReferenceById((long) user.getId());
+//
+//        userDao.delete(user);
+//
+//        return "redirect:/";
+//    }
+
+    @PostMapping("/profile/delete")
+    public String deleteUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userToDelete = userDao.findById(user.getId()).orElse(null);
+
+        if (userToDelete != null) {
+            // Remove the user from all the jobs they applied to
+            for (Jobs job : userToDelete.getAppliedJobs()) {
+                job.getApplicantList().remove(userToDelete);
+            }
+
+            userDao.delete(userToDelete);
+        }
+
+        return "redirect:/";
     }
 }
