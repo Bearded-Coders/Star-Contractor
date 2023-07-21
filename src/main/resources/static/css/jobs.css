@@ -15,6 +15,31 @@ body {
     padding: 1em;
 }
 
+
+.custom-dropdown {
+    min-width: 30%;
+}
+
+.dropdown-item {
+    display: block;
+    width: 50%; /* Adjust this value to set the desired width for each column */
+}
+
+.dropdown-menu {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+}
+
+.dropdown-menu.show {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    visibility: visible;
+    min-width: 100%;
+    min-height: 350px;
+}
+
 .searchinput {
     color: white;
     border-radius: 2em;

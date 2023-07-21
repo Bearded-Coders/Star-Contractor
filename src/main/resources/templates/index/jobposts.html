@@ -81,16 +81,27 @@
                             <input class="searchinput text-dark" type="text" placeholder="Search for job">
                             <input class="searchBtn text-dark" type="submit">
                         </form>
-                        <div class="dropdown">
+                        <div class="dropdown custom-dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Contracts Filter
                             </button>
-                            <form  class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:action="@{/jobs}" th:method="GET">
-                                <input class="dropdown-item" type="checkbox" name="illegal" value="true" /> Illegal
-                                <input class="dropdown-item" type="checkbox" name="mining" value="true" /> Mining
-                                <!-- Add other category tags checkboxes as needed -->
-                                <button type="submit" class="dropdown-item">Filter Jobs</button>
-                            </form>
+<!--                            <div class="dropTest">-->
+                                <form id="filterForm" class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:action="@{/jobs}" th:method="GET">
+                                    <input class="dropdown-item" type="checkbox" name="illegal" value="true" /> Illegal
+                                    <input class="dropdown-item" type="checkbox" name="mining" value="true" /> Mining
+                                    <input class="dropdown-item" type="checkbox" name="combat" value="true" /> Combat
+                                    <input class="dropdown-item" type="checkbox" name="salvage" value="true" /> Salvage
+                                    <input class="dropdown-item" type="checkbox" name="trading" value="true" /> Trading
+                                    <input class="dropdown-item" type="checkbox" name="exploring" value="true" /> Exploring
+                                    <input class="dropdown-item" type="checkbox" name="bountyHunting" value="true" /> Bounty Hunting
+                                    <input class="dropdown-item" type="checkbox" name="delivery" value="true" /> Delivery
+                                    <input class="dropdown-item" type="checkbox" name="pvp" value="true" /> PvP
+                                    <input class="dropdown-item" type="checkbox" name="pve" value="true" /> PvE
+                                    <input class="dropdown-item" type="checkbox" name="trading" value="true" /> Trading
+                                    <!-- Add other category tags checkboxes as needed -->
+                                    <button type="submit" class="dropdown-item">Filter Jobs</button>
+                                    <button type="button" class="dropdown-item bg-dark text-light" onclick="clearFilters()">Clear Filters</button>
+                                </form>
                         </div>
                         <div>
                             <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
@@ -119,17 +130,17 @@
                     </div>
                     <div>
                         <ul class="details-2" th:each="category : ${AllJobs.getCategories()}">
-                            <a th:href="@{/}" th:if="${category.illegal}">#Illegal</a>
-                            <a th:href="@{/}" th:if="${category.mining}">#Mining</a>
-                            <a th:href="@{/}" th:if="${category.combat}">#Combat</a>
-                            <a th:href="@{/}" th:if="${category.salvage}">#Salvage</a>
-                            <a th:href="@{/}" th:if="${category.trading}">#Trading</a>
-                            <a th:href="@{/}" th:if="${category.exploring}">#Exploring</a>
-                            <a th:href="@{/}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
-                            <a th:href="@{/}" th:if="${category.delivery}">#Delivery</a>
-                            <a th:href="@{/}" th:if="${category.pvp}">#PvP</a>
-                            <a th:href="@{/}" th:if="${category.pve}">#PvE</a>
-                            <a th:href="@{/}" th:if="${category.rolePlay}">#Role Play</a>
+                            <a th:href="@{/jobs?illegal=true}" th:if="${category.illegal}">#Illegal</a>
+                            <a th:href="@{/jobs?mining=true}" th:if="${category.mining}">#Mining</a>
+                            <a th:href="@{/jobs?combat=true}" th:if="${category.combat}">#Combat</a>
+                            <a th:href="@{/jobs?salvage=true}" th:if="${category.salvage}">#Salvage</a>
+                            <a th:href="@{/jobs?trading=true}" th:if="${category.trading}">#Trading</a>
+                            <a th:href="@{/jobs?exploring=true}" th:if="${category.exploring}">#Exploring</a>
+                            <a th:href="@{/jobs?bountyHunting=true}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
+                            <a th:href="@{/jobs?delivery=true}" th:if="${category.delivery}">#Delivery</a>
+                            <a th:href="@{/jobs?pvp=true}" th:if="${category.pvp}">#PvP</a>
+                            <a th:href="@{/jobs?pve=true}" th:if="${category.pve}">#PvE</a>
+                            <a th:href="@{/jobs?rolePlay=true}" th:if="${category.rolePlay}">#Role Play</a>
                         </ul>
                     </div>
 
@@ -138,5 +149,6 @@
         </div>
 
     </div>
+<script src="/js/jobs.js"></script>
 </body>
 </html>
