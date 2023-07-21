@@ -15,4 +15,29 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
     List<Jobs> findJobsByCreatorId(User user);
     List<Jobs> findJobsByApplicantListContains(User user);
 
+    @Query("SELECT DISTINCT j FROM Jobs j JOIN j.categories c WHERE " +
+            "(:illegal IS NULL OR c.illegal = :illegal) " +
+            "AND (:mining IS NULL OR c.mining = :mining) " +
+            "AND (:combat IS NULL OR c.combat = :combat) " +
+            "AND (:salvage IS NULL OR c.salvage = :salvage) " +
+            "AND (:trading IS NULL OR c.trading = :trading) " +
+            "AND (:exploring IS NULL OR c.exploring = :exploring) " +
+            "AND (:bountyHunting IS NULL OR c.bounty_hunting = :bountyHunting) " +
+            "AND (:delivery IS NULL OR c.delivery = :delivery) " +
+            "AND (:pvp IS NULL OR c.pvp = :pvp) " +
+            "AND (:pve IS NULL OR c.pve = :pve) " +
+            "AND (:rolePlay IS NULL OR c.rolePlay = :rolePlay)")
+    List<Jobs> findJobsByCategoryTags(
+            @Param("illegal") Boolean illegal,
+            @Param("mining") Boolean mining,
+            @Param("combat") Boolean combat,
+            @Param("salvage") Boolean salvage,
+            @Param("trading") Boolean trading,
+            @Param("exploring") Boolean exploring,
+            @Param("bountyHunting") Boolean bountyHunting,
+            @Param("delivery") Boolean delivery,
+            @Param("pvp") Boolean pvp,
+            @Param("pve") Boolean pve,
+            @Param("rolePlay") Boolean rolePlay
+    );
 }

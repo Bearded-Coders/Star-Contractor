@@ -45,38 +45,83 @@ public class JobController {
 
     // View all Jobs
     @GetMapping("/jobs")
-    public String getAllJobs(Model model, Principal principal) {
+    public String getAllJobs(
+            @RequestParam(name = "illegal", required = false) Boolean illegal,
+            @RequestParam(name = "mining", required = false) Boolean mining,
+            @RequestParam(name = "combat", required = false) Boolean combat,
+            @RequestParam(name = "salvage", required = false) Boolean salvage,
+            @RequestParam(name = "trading", required = false) Boolean trading,
+            @RequestParam(name = "exploring", required = false) Boolean exploring,
+            @RequestParam(name = "bountyHunting", required = false) Boolean bountyHunting,
+            @RequestParam(name = "delivery", required = false) Boolean delivery,
+            @RequestParam(name = "pvp", required = false) Boolean pvp,
+            @RequestParam(name = "pve", required = false) Boolean pve,
+            @RequestParam(name = "rolePlay", required = false) Boolean rolePlay,
+            Model model,
+            Principal principal) {
 
         try {
-            List<Jobs> jobs = jobsRepository.findAll();
-
             // Create a list to store categories for each job
             List<List<Categories>> categoriesList = new ArrayList<>();
 
-            // Loop through the jobs to fetch categories for each job
-            for (Jobs job : jobs) {
-                List<Categories> categories = catDao.findCategoriesByJobId(job);
-                categoriesList.add(categories);
-            }
+            // Check if filters are present
+            if(illegal != null || mining != null || combat != null || salvage != null || trading != null
+            || exploring != null || bountyHunting != null || delivery != null || pve != null
+            || pvp != null || rolePlay != null) {
 
-            if (principal != null) {
-                user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                model.addAttribute("user", user);
-            }
+                // Search jobs by provided categories
+                List<Jobs> jobs = jobsRepository.findJobsByCategoryTags(
+                        illegal, mining, combat, salvage, trading, exploring,
+                        bountyHunting, delivery, pvp, pve, rolePlay);
 
-            if (user != null) {
-                String userUrl = "/profile/" + user.getId();
-                model.addAttribute("userUrl", userUrl);
-            }
+                // Loop through the jobs to fetch categories for each job
+                for (Jobs job : jobs) {
+                    List<Categories> categories = catDao.findCategoriesByJobId(job);
+                    categoriesList.add(categories);
+                }
 
-            model.addAttribute("job", jobs);
-            model.addAttribute("categoriesList", categoriesList);
+                if (principal != null) {
+                    user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    model.addAttribute("user", user);
+                }
+
+                if (user != null) {
+                    String userUrl = "/profile/" + user.getId();
+                    model.addAttribute("userUrl", userUrl);
+                }
+
+                model.addAttribute("job", jobs);
+                model.addAttribute("categoriesList", categoriesList);
+
+            } else {
+
+                // Otherwise we use findAll
+                List<Jobs> jobs = jobsRepository.findAll();
+
+                // Loop through the jobs to fetch categories for each job
+                for (Jobs job : jobs) {
+                    List<Categories> categories = catDao.findCategoriesByJobId(job);
+                    categoriesList.add(categories);
+                }
+
+                if (principal != null) {
+                    user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    model.addAttribute("user", user);
+                }
+
+                if (user != null) {
+                    String userUrl = "/profile/" + user.getId();
+                    model.addAttribute("userUrl", userUrl);
+                }
+
+                model.addAttribute("job", jobs);
+                model.addAttribute("categoriesList", categoriesList);
+            }
 
             return "index/jobposts";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
-
     }
 
     // Goto specific Job
