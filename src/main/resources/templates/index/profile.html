@@ -96,14 +96,22 @@
         <h1 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h1>
     </a>
 </div>
-<a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
-<label for="upload"></label>
-<button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
-        class="button-Pro picture-btn" name="upload">Profile Picture
-</button>
-<form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
-    <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
-</form>
+
+<div th:if="${userProfileLink.id == user.id}">
+    <a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
+    <label for="upload"></label>
+    <button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
+            class="button-Pro picture-btn" name="upload">Profile Picture
+    </button>
+    <form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
+        <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
+    </form>
+</div>
+<div th:unless="${userProfileLink.id == user.id}">
+    <form>
+        <button>Rate</button>
+    </form>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script th:inline="javascript">

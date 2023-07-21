@@ -4,8 +4,13 @@ import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.Login;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +108,7 @@ public class UserController {
 //    }
 
     @PostMapping("/profile/delete")
-    public String deleteUser() {
+    public String deleteUser(HttpServletRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userToDelete = userDao.findById(user.getId()).orElse(null);
 
@@ -115,10 +120,24 @@ public class UserController {
             for (User friend : userToDelete.getFriendsList()) {
                 friend.getFriendsList().remove(userToDelete);
             }
-
+            logoutUser(request);
             userDao.delete(userToDelete);
         }
 
         return "redirect:/";
     }
+
+
+
+    private void logoutUser(HttpServletRequest request) {
+        // Invalidate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Clear the authentication context
+        SecurityContextHolder.clearContext();
+    }
+
 }
