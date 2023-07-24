@@ -223,7 +223,7 @@ public class JobController {
 //                }
 
                 jobsRepository.save(existingJob); // Save the updated job
-                return "redirect:/jobs/" + id; // Redirect to the jobs page
+                return "redirect:/jobs" + id; // Redirect to the jobs page
             } else {
                 return "index/errors/jobnotfound"; // Job not found error page
             }
@@ -263,6 +263,7 @@ public class JobController {
         return "redirect:/jobs/" + id;
     }
 
+    // Remove applicant from job
     @PostMapping("/jobs/remove/{id}")
     public String removeJob(@PathVariable Integer id, @RequestParam(name = "userIdRemove") Long usersId) throws Exception {
 
@@ -283,10 +284,16 @@ public class JobController {
 
 
     // Delete a job
-    @DeleteMapping("/jobs/{id}")
+    @PostMapping("/jobs/delete/{id}")
     public String deleteJob(@PathVariable Integer id) {
-        jobsRepository.deleteById(id);
-        return "index/profile";
+        try {
+            jobsRepository.deleteById(id);
+            System.out.println("************** Removed Job! **************");
+            return "redirect:/jobs";
+        } catch (Exception e) {
+            System.out.println(e + "****** error deleting ******");
+            return e.toString();
+        }
     }
 
 }
