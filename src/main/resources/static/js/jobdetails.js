@@ -32,18 +32,20 @@ function customAlert(title, message, buttonText = 'OK', onOk = null) {
 }
 
 function showAlert() {
-    setTimeout(() => {
-        redirectToJobs()
-    }, 4000)
     customAlert(
         'Removed',
         'Job Removed Successfully!',
         'Got it!',
         function () {
             console.log('User clicked OK!');
-            redirectToJobs(); // Redirect immediately after "Got it" is clicked
+            redirectToJobs(); // Redirect after "Got it" is clicked
         }
     );
+
+    // You can remove the setTimeout if you don't want to wait for the automatic redirection
+    setTimeout(() => {
+        redirectToJobs();
+    }, 4000);
 }
 
 function redirectToJobs() {
@@ -72,3 +74,87 @@ function deleteJob(id) {
             alert('Error: ' + error);
         });
 }
+
+
+let isCompleteJobFormVisible = false;
+
+// JavaScript to show the modal
+function showCompleteJobForm() {
+    var modal = document.getElementById("completeJobModal");
+    modal.style.display = "block";
+    isCompleteJobFormVisible = true;
+}
+
+// JavaScript to close the modal
+function closeCompleteJobForm() {
+    var modal = document.getElementById("completeJobModal");
+    modal.style.display = "none";
+    isCompleteJobFormVisible = false;
+}
+
+// Incomplete Alert
+function incompleteAlert() {
+    closeCompleteJobForm();
+    isCompleteJobFormVisible = false;
+
+    customAlert(
+        'Are you sure?',
+        'Please make sure you are finished with your job before marking it as complete!',
+        'Got it!',
+        function () {
+            console.log('User clicked OK!');
+            if (isCompleteJobFormVisible) {
+                showCompleteJobForm(); // Show the completeJobForm again if it was visible
+            }
+        }
+    );
+}
+
+// Successful completion alert
+function showCompleteAlert() {
+    setTimeout(() => {
+        redirectToJobs();
+    }, 4000)
+    customAlert(
+        'Incomplete',
+        'Job has been marked complete!',
+        'Got it',
+        function () {
+            console.log('User clicked OK!');
+            redirectToJobs();
+        }
+    )
+}
+
+// Complete job check and request
+function completeJob(id) {
+    const url = "/jobs/complete/" + id;
+    let form = document.getElementById("completeJobForm");
+    let statusInput = form.querySelector('#status');
+
+    // Check if the status selected is not "Active"
+    if (statusInput.value.trim() === "Active") {
+        console.log("Status is Active. Showing incomplete alert.");
+            incompleteAlert();
+    } else {
+        console.log("Status is not Active. Sending completion request.");
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                showCompleteAlert(); // Show the alert
+            })
+            .catch(error => {
+                // Handle errors and display an error message if needed
+                alert('Error: ' + error);
+            });
+    }
+}
+
