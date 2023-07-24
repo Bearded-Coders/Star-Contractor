@@ -18,8 +18,8 @@ public class ProfileController {
     private final UserRepository userDao;
     private final JobRepository jobDao;
 
-    @Value("${filestack.api.key}")
-    private String filestackapi;
+//    @Value("${filestack.api.key}")
+//    private String filestackapi;
 
     public ProfileController(UserRepository userDao, JobRepository jobDao) {
         this.userDao = userDao;
@@ -43,7 +43,7 @@ public class ProfileController {
 //        model.addAttribute("grabId", userId);
         model.addAttribute("user", user);
         model.addAttribute("appliedJobs", appliedJobs);
-        model.addAttribute("filestackapi", filestackapi);
+//        model.addAttribute("filestackapi", filestackapi);
         System.out.println(userProfile.getFriendsList().contains(user));
 
 
