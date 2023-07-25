@@ -53,6 +53,7 @@ function redirectToJobs() {
     window.location.href = url;
 }
 
+
 function deleteJob(id) {
     const url = "/jobs/delete/" + id;
 
@@ -67,6 +68,7 @@ function deleteJob(id) {
             if (!response.ok) {
                 throw new Error(response.statusText);
             }
+            console.log(response)
             showAlert(); // Show the alert
         })
         .catch(error => {
@@ -93,10 +95,9 @@ function closeCompleteJobForm() {
 }
 
 // Incomplete Alert
-function incompleteAlert() {
+const incompleteAlert = () => {
     closeCompleteJobForm();
     isCompleteJobFormVisible = false;
-
     customAlert(
         'Are you sure?',
         'Please make sure you are finished with your job before marking it as complete!',
@@ -110,51 +111,37 @@ function incompleteAlert() {
     );
 }
 
-// Successful completion alert
-function showCompleteAlert() {
-    setTimeout(() => {
-        redirectToJobs();
-    }, 4000)
+// Validate job has been completed
+const validateForm = () => {
+    let statusInput = document.getElementById("status");
+
+    // Perform validation checks
+    if (statusInput.value.trim() === "Active") {
+        incompleteAlert();
+        return false; // Prevent form submission
+    } else {
+        showCompleteAlertWithDelay();
+        return false; // Prevent form submission for now
+    }
+}
+
+// Successful completion alert with a delay
+const showCompleteAlertWithDelay = () => {
     customAlert(
-        'Incomplete',
+        'Congrats!!',
         'Job has been marked complete!',
         'Got it',
         function () {
             console.log('User clicked OK!');
             redirectToJobs();
         }
-    )
+    );
+
+    // Schedule the form submission after a delay (e.g., 4 seconds)
+    setTimeout(() => {
+        document.getElementById("completeJobForm").submit();
+    }, 4000);
 }
 
-// Complete job check and request
-function completeJob(id) {
-    const url = "/jobs/complete/" + id;
-    let form = document.getElementById("completeJobForm");
-    let statusInput = form.querySelector('#status');
 
-    // Check if the status selected is not "Active"
-    if (statusInput.value.trim() === "Active") {
-        console.log("Status is Active. Showing incomplete alert.");
-            incompleteAlert();
-    } else {
-        console.log("Status is not Active. Sending completion request.");
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                showCompleteAlert(); // Show the alert
-            })
-            .catch(error => {
-                // Handle errors and display an error message if needed
-                alert('Error: ' + error);
-            });
-    }
-}
 

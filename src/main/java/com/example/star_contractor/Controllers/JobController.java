@@ -6,14 +6,12 @@ import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
 public class JobController {
 
     private final JobRepository jobsRepository;
@@ -124,7 +123,7 @@ public class JobController {
         }
     }
 
-    // Goto specific Job
+    // Go to Job Details page
     @GetMapping("/jobs/{id}")
     public String getJob(@PathVariable Integer id, Model model) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -165,7 +164,7 @@ public class JobController {
         try {
             job.setCreatedDate(LocalDateTime.now());
 
-//            The current start date is a value of "String", we may need to chage this later or verify that it is in the correct format in the future
+//            The current start date is a value of "String", we may need to change this later or verify that it is in the correct format in the future
             // Convert the date string to LocalDateTime using DateTimeFormatter
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //            LocalDateTime startDate = LocalDateTime.parse(job.getStartDate(), formatter);
@@ -218,9 +217,9 @@ public class JobController {
                 existingJob.setCreatedDate(existingJob.getCreatedDate());
                 existingJob.setStartDate(updatedJob.getStartDate());
 
-//                if(existingJob.getOutcome() != null) {
-//                    existingJob.setOutcome(updatedJob.getOutcome());
-//                }
+                if(existingJob.getOutcome() != null) {
+                    existingJob.setOutcome(updatedJob.getOutcome());
+                }
 
                 jobsRepository.save(existingJob); // Save the updated job
                 return "redirect:/jobs" + id; // Redirect to the jobs page
@@ -232,22 +231,46 @@ public class JobController {
         }
     }
 
-    // Apply for job
-//    @PostMapping("/jobs/apply/{id}")
-//    public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
-//        Jobs existingJob = jobsRepository.getJobById(id);
-//        User applicant = userDao.getUserById(usersId);
-//
-//        existingJob.getApplicantList().add(applicant); // Add the applicant to the job
-//        applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
-//
-//        // Save the updated entities in the repository
-//        jobsRepository.save(existingJob);
-//        userDao.save(applicant);
-//
-//        return "redirect:/jobs/" + id;
-//    }
+    // Complete a Job
+    @PostMapping("/jobs/complete/{id}")
+    public String completeJob(@PathVariable Integer id, @ModelAttribute Jobs completeJob) {
+        try {
+            Jobs existingJob = jobsRepository.getJobById(id);
+            if (existingJob != null) {
+                existingJob.setJobStatus(completeJob.getJobStatus());
+                existingJob.setOutcome(completeJob.getOutcome());
 
+                jobsRepository.save(existingJob);
+
+                System.out.println("************" + completeJob.getJobStatus() + "************");
+                System.out.println("************" + completeJob.getOutcome() + "************");
+
+                return "redirect:/jobs";
+
+            } else {
+                System.out.println(new Exception().toString());
+                return String.valueOf(new Exception());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return e.toString();
+        }
+    }
+
+    // Delete a job
+    @PostMapping("/jobs/delete/{id}")
+    public String deleteJob(@PathVariable Integer id) {
+        try {
+            jobsRepository.deleteById(id);
+            System.out.println("************** Removed Job! **************");
+            return "redirect:/jobs";
+        } catch (Exception e) {
+            System.out.println(e + "****** error deleting ******");
+            return e.toString();
+        }
+    }
+
+    // Apply for job
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
         Jobs existingJob = jobsRepository.getJobById(id);
@@ -280,20 +303,4 @@ public class JobController {
 
         return "redirect:/jobs/" + id;
     }
-
-
-
-    // Delete a job
-    @PostMapping("/jobs/delete/{id}")
-    public String deleteJob(@PathVariable Integer id) {
-        try {
-            jobsRepository.deleteById(id);
-            System.out.println("************** Removed Job! **************");
-            return "redirect:/jobs";
-        } catch (Exception e) {
-            System.out.println(e + "****** error deleting ******");
-            return e.toString();
-        }
-    }
-
 }
