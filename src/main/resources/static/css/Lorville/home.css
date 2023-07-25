@@ -44,9 +44,16 @@ h1 {
     height: 500px;
 }
 
+/*LORVILLE NAVBAR*/
+.navbar-lorville {
+    background-color: #222222;
+    color: gold;
+    border-bottom:2px solid gold;
+    text-decoration: none;
+}
 
-/*.image-gallery img {*/
-/*    display: inline-block; !* Displays images horizontally *!*/
-/*    width: 500px;*/
-/*    height: 400px;*/
-/*}*/
+.lorville-item,
+.lorville-link {
+    color: gold;
+    text-decoration: none;
+}

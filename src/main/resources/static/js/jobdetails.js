@@ -133,6 +133,7 @@ const showCompleteAlertWithDelay = () => {
         'Got it',
         function () {
             console.log('User clicked OK!');
+            document.getElementById("completeJobForm").submit();
             redirectToJobs();
         }
     );
