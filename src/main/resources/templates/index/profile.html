@@ -167,16 +167,7 @@
             }
     }
     // document.getElementById("submitMePls").submit();
-    $("#uploadBanner").click(function () {
-        client.picker(optionsBanner).open()
-    });
-    const optionsBanner = {
-        onUploadDone:
-            function (res) {
-                $("#stashFilestackURLBanner").val(res.filesUploaded[0].url);
-                document.getElementById("submitBanner").submit();
-            }
-    }
+
 </script>
 </body>
 </html>
