@@ -8,14 +8,15 @@
 <body>
 <img src="/assets/img/ship-space.jpg" class="backround-img" alt="space-background"/>
 
-<div th:if="${param.error}">
-    Invalid Username and Password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
+
 
 <form class="login-form" th:action="@{/login}" method="post">
+    <div th:if="${param.error}">
+        Invalid Username and Password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
     <h1 class="welcomeback">Welcome Back</h1>
     <div class="form-section">
         <label for="username">Username Or Email</label>

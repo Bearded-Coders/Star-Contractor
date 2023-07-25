@@ -20,7 +20,8 @@
             crossorigin="anonymous"></script>
     <title>Profile</title>
 
-    <link rel="stylesheet" th:href="'/css/' + ${userProfileLink.startingArea} + '/profile.css'">
+    <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/profile.css'">
+    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 
@@ -70,76 +71,95 @@
         </ul>
     </div>
 </nav>
-<div>
-    <div class="jumbotron" th:if="${userProfileLink.startingArea} == 'Lorville'">
-        <img src="/assets/img/LorvilleV2.jpeg">
-    </div>
-    <div class="jumbotron" th:if="${userProfileLink.startingArea} == 'New Babbage'">
-        <img src="/assets/img/newBabbage.jpg">
-    </div>
-    <div class="jumbotron" th:if="${userProfileLink.startingArea} == 'Area 18'">
-        <img src="/assets/img/area18.jpg">
-    </div>
-    <div class="jumbotron" th:if="${userProfileLink.startingArea} == 'Orison'">
-        <img src="/assets/img/OrisonV2.webp">
-    </div>
-    <div class="jumbotron" th:if="${userProfileLink.startingArea} == 'Grim Hex'">
-        <img src="/assets/img/GrimV2.jpeg">
-    </div>
+<!--        PROFILE BG IMG'S-->
+        <img class="background" th:if="${userProfileLink.startingArea} == 'Lorville'" src="/assets/img/lorville-cutty.jpg">
+
+        <img class="jumbotron" th:if="${userProfileLink.startingArea} == 'New Babbage'" src="/assets/img/newBabbage.jpg">
+
+        <img class="jumbotron" th:if="${userProfileLink.startingArea} == 'Area 18'" src="/assets/img/area18.jpg">
+
+        <img class="jumbotron" th:if="${userProfileLink.startingArea} == 'Orison'" src="/assets/img/OrisonV2.webp">
+
+        <img class="jumbotron" th:if="${userProfileLink.startingArea} == 'Grim Hex'" src="/assets/img/GrimV2.jpeg">
 
 
-</div>
-<div>
-    <img class="profile-picture" th:src="${userProfileLink.profilePic}">
-    <h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
-    <div th:unless="${userProfileLink.id} == ${user.id}">
-        <h1 th:text="${userProfileLink.username}"></h1>
+<div class="profile-page">
+<!--   Friends List -->
+    <div class="friends-list">
+        <h1>Friends Here</h1>
+    </div>
 
-        <div th:if="${userProfileLink.friendsList.contains(user)}">
-            <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
-                <button>Remove Friend</button>
-            </form>
+    <!--Profile Details Card-->
+    <div class="profile-card">
+<!--        Profile Pic-->
+        <img class="profile-picture" th:src="${userProfileLink.profilePic}">
+<!--        Welcome message-->
+        <h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
+
+<!--        THIS IS FOR SOMEONE ELSE'S PAGE-->
+        <div th:unless="${userProfileLink.id} == ${user.id}">
+            <h1 th:text="${userProfileLink.username}"></h1>
+
+            <div th:if="${userProfileLink.friendsList.contains(user)}">
+                <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
+                    <button>Remove Friend</button>
+                </form>
+            </div>
+
+            <div th:unless="${userProfileLink.friendsList.contains(user)}">
+                <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
+                    <button>Add Friend</button>
+                </form>
+            </div>
         </div>
 
-        <div th:unless="${userProfileLink.friendsList.contains(user)}">
-            <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
-                <button>Add Friend</button>
+<!--        Starting Area-->
+        <div>
+            <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
+        </div>
+
+<!--        Jobs the user created-->
+        <h3 th:if="${userProfileLink.myJobs != null}"><u>My Jobs</u></h3>
+        <h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
+        <div class="jobCard" th:each="myJob : ${myJobs}" >
+            <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
+                <ul class="userJobs">
+                    <li th:text="*{myJob.getTitle()}"></li>
+                    <li th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></li>
+                    <li th:text="'Status: ' + *{myJob.jobStatus}"></li>
+                </ul>
+            </a>
+        </div>
+
+<!--        Jobs user applied for-->
+        <h3 th:if="${userProfileLink.appliedJobs <= 0}"><u>Applied Jobs</u></h3>
+        <div th:each="appliedJob : ${appliedJobs}">
+            <a class="Card" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+                <h1 th:text="*{appliedJob.getTitle()}"></h1>
+                <h1 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h1>
+            </a>
+        </div>
+
+        <div th:if="${userProfileLink.id == user.id}">
+            <a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
+            <label for="upload"></label>
+            <button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
+                    class="button-Pro picture-btn" name="upload">Profile Picture
+            </button>
+            <form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
+                <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
             </form>
         </div>
     </div>
 
 
-</div>
-<div>
-    <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
-</div>
-<h3 th:if="${userProfileLink.id == user.id}">My Jobs</h3>
-<h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
-
-<div th:each="myJob : ${myJobs}">
-    <a class="Card" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
-        <h1 th:text="*{myJob.getTitle()}"></h1>
-        <h1 th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></h1>
-    </a>
-</div>
-<h3>Applied Jobs</h3>
-<div th:each="appliedJob : ${appliedJobs}">
-    <a class="Card" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
-        <h1 th:text="*{appliedJob.getTitle()}"></h1>
-        <h1 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h1>
-    </a>
+    <div class="messages">
+        <h1>Messages Here</h1>
+    </div>
 </div>
 
-<div th:if="${userProfileLink.id == user.id}">
-    <a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
-    <label for="upload"></label>
-    <button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
-            class="button-Pro picture-btn" name="upload">Profile Picture
-    </button>
-    <form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
-        <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
-    </form>
-</div>
+
+
 <div th:unless="${userProfileLink.id == user.id}">
     <form>
         <button>Rate</button>

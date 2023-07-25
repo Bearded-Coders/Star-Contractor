@@ -5,16 +5,72 @@
     height: 100px;
     width: 100px;
 }
-.jumbotron {
-    width: 100%;
-    height: 350px;
+.background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -9999;
 }
-.jumbotron img {
-    width: 100%;
-    height: 100%;
+
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
 }
-body {
-    background-color: yellow;
+
+.friends-list {
+    min-width: 20vw;
+    min-height: 60vh;
+    border: 3px solid limegreen;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 40vw;
+    min-height: 60vh;
+    border: 2px solid gold;
+    border-radius: 2em;
+    box-shadow: 0 0 6px gold;
+    background: rgba(100, 100, 100, 0.8);
+}
+
+.jobCard {
+    width: 90%;
+    border-bottom: 2px solid black;
+}
+
+.jobLink {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.userJobs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+
+.userJobs li {
+    flex: 1;
+    text-align: center;
+    color: gold;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+    min-width: 20vw;
+    border: 2px solid limegreen;
 }
 
 /*LORVILLE NAVBAR*/

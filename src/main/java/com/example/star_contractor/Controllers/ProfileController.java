@@ -22,8 +22,8 @@ public class ProfileController {
     private final UserRepository userDao;
     private final JobRepository jobDao;
 
-//    @Value("${filestack.api.key}")
-//    private String filestackapi;
+    @Value("${filestack.api.key}")
+    private String filestackapi;
 
     public ProfileController(UserRepository userDao, JobRepository jobDao) {
         this.userDao = userDao;
@@ -120,29 +120,6 @@ public class ProfileController {
         return "redirect:/profile/" + id;
     }
 
-//    @PostMapping("/profile/edit")
-//    public String editProfile(@RequestParam("newUsername") String newUsername, @RequestParam("newEmail") String newEmail, @RequestParam("newHome") String newHome) {
-//
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        user = userDao.getReferenceById((long) user.getId());
-//
-//
-//
-//        user.setUsername(newUsername);
-//        user.setEmail(newEmail);
-//        user.setStartingArea(newHome);
-//
-//        // Save the updated user to the database or perform any desired actions
-//        userDao.save(user);
-//
-//        // Add a success message or any other necessary information to the model
-////        model.addAttribute("message", "Profile updated successfully!");
-//
-//        // Redirect to the profile page or return a view
-//        return "redirect:/profile/" + user.getId();
-//
-//    }
-
 
     @PostMapping("/profile/edits/{userId}")
     public String editProfile(@PathVariable("userId") long userId, @ModelAttribute("user") User updatedUser, Model model) {
@@ -182,7 +159,6 @@ public class ProfileController {
     public String uploadProfile(@RequestParam(name = "stashFilestackURL") String uploadedProfilePic, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        user = userDao.getReferenceById((long) user.getId());
-
 
         user = userDao.getReferenceById((long) user.getId());
         user.setProfilePic(uploadedProfilePic);
