@@ -5,11 +5,15 @@ import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -151,6 +155,24 @@ public class ProfileController {
 
         // Save the updated user to the database or perform any desired actions
         userDao.save(user);
+
+        // Retrieve the UserDetails (UserPrincipal) from the existing authentication
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Check if the UserDetails instance is of the expected type (User class)
+        if (userDetails instanceof User) {
+            // Cast the UserDetails to your custom User class
+            User authenticatedUser = (User) userDetails;
+            // Update the authenticated user with the updated user information
+            authenticatedUser.setUsername(user.getUsername());
+            authenticatedUser.setEmail(user.getEmail());
+            authenticatedUser.setStartingArea(user.getStartingArea());
+
+            // Update the authentication context with the modified UserDetails (UserPrincipal)
+            // Use an empty collection for authorities since you are not using them
+            Authentication authentication = new UsernamePasswordAuthenticationToken(authenticatedUser, authenticatedUser.getPassword(), Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
 
         // Redirect to the profile page
         return "redirect:/profile/" + userId;

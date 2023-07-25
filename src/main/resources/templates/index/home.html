@@ -66,6 +66,8 @@
     </div>
 </nav>
 
+<p sec:authorize="isAuthenticated()" th:text="${user.username}"></p>
+<p sec:authorize="isAuthenticated()" th:text="${user.getUsername()}"></p>
 
 <div class="jumbotron">
     <video src="/assets/vid/olisar.mp4" autoplay loop muted></video>
