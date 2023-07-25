@@ -19,7 +19,8 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>Profile</title>
-    <link rel="stylesheet" href="/css/profile.css">
+
+    <link rel="stylesheet" th:href="'/css/' + ${userProfileLink.startingArea} + '/profile.css'">
 </head>
 <body>
 
@@ -90,22 +91,25 @@
 
 
 </div>
-<img class="profile-picture" th:src="${userProfileLink.profilePic}">
-<h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
-<div th:unless="${userProfileLink.id} == ${user.id}">
-    <h1 th:text="${userProfileLink.username}"></h1>
+<div>
+    <img class="profile-picture" th:src="${userProfileLink.profilePic}">
+    <h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
+    <div th:unless="${userProfileLink.id} == ${user.id}">
+        <h1 th:text="${userProfileLink.username}"></h1>
 
-    <div th:if="${userProfileLink.friendsList.contains(user)}">
-        <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
-            <button>Remove Friend</button>
-        </form>
+        <div th:if="${userProfileLink.friendsList.contains(user)}">
+            <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
+                <button>Remove Friend</button>
+            </form>
+        </div>
+
+        <div th:unless="${userProfileLink.friendsList.contains(user)}">
+            <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
+                <button>Add Friend</button>
+            </form>
+        </div>
     </div>
 
-    <div th:unless="${userProfileLink.friendsList.contains(user)}">
-        <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
-            <button>Add Friend</button>
-        </form>
-    </div>
 
 </div>
 <div>
