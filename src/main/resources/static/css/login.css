@@ -1,0 +1,83 @@
+/* Styles for the login form */
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px; /* Adjust the width as per your preference */
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #6F00FF;
+    background-color: #E0E0E0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #001F3F;
+}
+
+.welcomeback {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.form-section {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-right: 15px;
+}
+
+.form-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #6F00FF;
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px #001F3F;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4CAF50; /* Green color - adjust as desired */
+}
+
+/* Style for the Log In button */
+.login-form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #6F00FF; /* Green color - adjust as desired */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.login-form input[type="submit"]:hover {
+    background-color: #001F3F; /* Darker green color - adjust as desired */
+}
+
+/* Center the login form on the page */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.backround-img {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -9999;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
