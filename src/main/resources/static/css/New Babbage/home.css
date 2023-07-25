@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: yellow;
+    background-color: #0b93d5;
 }
 
 .jumbotron {
@@ -43,18 +43,4 @@ h1 {
     display: inline-block; /* Displays images horizontally */
     width: 100%;
     height: 500px;
-}
-
-/*LORVILLE NAVBAR*/
-.navbar-lorville {
-    background-color: #222222;
-    color: gold;
-    border-bottom:2px solid gold;
-    text-decoration: none;
-}
-
-.lorville-item,
-.lorville-link {
-    color: gold;
-    text-decoration: none;
 }
