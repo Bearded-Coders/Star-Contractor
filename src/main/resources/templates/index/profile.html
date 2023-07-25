@@ -132,7 +132,7 @@
         </div>
 
 <!--        Jobs user applied for-->
-        <h3 th:if="${userProfileLink.appliedJobs <= 0}"><u>Applied Jobs</u></h3>
+        <h3 th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
         <div th:each="appliedJob : ${appliedJobs}">
             <a class="Card" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
                 <h1 th:text="*{appliedJob.getTitle()}"></h1>
