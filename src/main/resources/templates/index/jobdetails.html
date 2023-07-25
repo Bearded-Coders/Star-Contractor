@@ -157,7 +157,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeCompleteJobForm()">&times;</span>
             <h2>Complete Job</h2>
-            <form id="completeJobForm" th:object="${singleJob}">
+            <form id="completeJobForm" th:object="${singleJob}" th:action="@{/jobs/complete/{id}(id=${singleJob.id})}" method="post" onsubmit="return validateForm();">
                 <label for="status">Is this Job complete</label>
                 <select id="status" th:field="*{jobStatus}">
                     <option value="Complete">Complete</option>
@@ -165,11 +165,10 @@
                 </select>
                 <label for="outcome">What was the outcome?</label>
                     <select id="outcome" th:field="*{outcome}">
-                        <option value="true">Success</option>
-                        <option value="false">Failed</option>
+                        <option th:value=true>Success</option>
+                        <option th:value=false>Failed</option>
                     </select>
-                <!-- For example: <input type="text" name="outcome" /> -->
-                <button class="btn bg-light" th:attr="onclick=${'completeJob('''+singleJob.getId()+''')'}">Submit</button>
+                <input type="submit" value="submit" class="btn bg-light" />
             </form>
         </div>
     </div>
