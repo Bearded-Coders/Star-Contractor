@@ -44,6 +44,18 @@ h1 {
     height: 500px;
 }
 
+.nav-div {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    align-items: flex-start;
+}
+
+.nav-login {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
 
 /*.image-gallery img {*/
 /*    display: inline-block; !* Displays images horizontally *!*/

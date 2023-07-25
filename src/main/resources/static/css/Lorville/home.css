@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
 body {
     margin: 0;
     padding: 0;
-    background-color: yellow;
+    background-color: black;
+    color: gold;
 }
 
 .jumbotron {
@@ -27,10 +30,17 @@ h1 {
     text-align: center;
     font-size: 120px;
 }
+
+.contractor {
+    color: #aaaaaa;
+}
+
 .info{
     margin-right: 10em;
     margin-left: 10em;
     font-size: 24px;
+    color: gold;
+    font-family: 'Space Mono', monospace;
 }
 
 .image-gallery {
@@ -45,16 +55,35 @@ h1 {
     height: 500px;
 }
 
+.nav-div {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    align-items: flex-start;
+}
+
+.nav-login {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
 /*LORVILLE NAVBAR*/
-.navbar-lorville {
+.dropdown-menu {
+    background-color: #222222;
+}
+
+.navbar {
     background-color: #222222;
     color: gold;
     border-bottom:2px solid gold;
     text-decoration: none;
 }
 
-.lorville-item,
-.lorville-link {
+.nav-item,
+.nav-link,
+.dropdown-item {
     color: gold;
     text-decoration: none;
+    font-family: 'Cairo', sans-serif;
 }
