@@ -23,7 +23,11 @@ public class HomeController {
         if (user != null) {
             String userUrl = "/profile/" + user.getId();
             model.addAttribute("userUrl", userUrl);
+            System.out.println("HOME: START: " + user.getStartingArea());
+            System.out.println("USERNAME " + user.getUsername());
         }
+
+
         return "index/home";
     }
 }
