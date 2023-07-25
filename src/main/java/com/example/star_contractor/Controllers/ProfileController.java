@@ -47,7 +47,7 @@ public class ProfileController {
 //        model.addAttribute("grabId", userId);
         model.addAttribute("user", user);
         model.addAttribute("appliedJobs", appliedJobs);
-//        model.addAttribute("filestackapi", filestackapi);
+        model.addAttribute("filestackapi", filestackapi);
         System.out.println(userProfile.getFriendsList().contains(user));
 
 
@@ -155,8 +155,8 @@ public class ProfileController {
         return "redirect:/profile/" + userId;
     }
 
-    @PostMapping("profile/upload")
-    public String uploadProfile(@RequestParam(name = "stashFilestackURL") String uploadedProfilePic, Model model) {
+    @PostMapping("/profile/upload")
+    public String uploadProfile(@RequestParam(name = "stashFilestackURL") String uploadedProfilePic) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        user = userDao.getReferenceById((long) user.getId());
 
