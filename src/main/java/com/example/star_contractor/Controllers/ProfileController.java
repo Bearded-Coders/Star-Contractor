@@ -47,8 +47,7 @@ public class ProfileController {
         System.out.println(userProfile.getFriendsList().contains(user));
 
 
-
-
+        System.out.println(userProfile.getStartingArea());
 
         return "index/profile";
     }
