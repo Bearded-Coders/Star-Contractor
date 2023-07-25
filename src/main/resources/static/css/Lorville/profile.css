@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
 .profile-picture {
     border-radius: 50%;
     height: 100px;
@@ -13,4 +15,24 @@
 }
 body {
     background-color: yellow;
+}
+
+/*LORVILLE NAVBAR*/
+.dropdown-menu {
+    background-color: #222222;
+}
+
+.navbar {
+    background-color: #222222;
+    color: gold;
+    border-bottom:2px solid gold;
+    text-decoration: none;
+}
+
+.nav-item,
+.nav-link,
+.dropdown-item {
+    color: gold;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
 }
