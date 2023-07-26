@@ -11,7 +11,7 @@
     border: 2px solid #6F00FF;
     background-color: #E0E0E0;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px #001F3F;
+    box-shadow: 0 0 10px #001F3F;
 }
 
 .welcomeback {
@@ -36,7 +36,8 @@
     padding: 8px;
     border: 1px solid #6F00FF;
     border-radius: 3px;
-    box-shadow: 0px 0px 5px #001F3F;
+    box-shadow: 0 0 5px #001F3F;
+    font-family: 'Orbitron', sans-serif;
 }
 
 .form-input:focus {
