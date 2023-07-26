@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
+/*LORVILLE NAVBAR*/
+.nav-div {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.nav-login {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.navbar-collapse {
+    align-items: unset;
+}
+
+.dropdown-menu {
+    background-color: #222222;
+}
+
+.navbar {
+    background-color: #222222;
+    color: gold;
+    border-bottom:2px solid gold;
+    text-decoration: none;
+}
+
+.dropdown-item {
+    color: gold;
+}
+
+.nav-item,
+.nav-link,
+.dropdown-item-custom {
+    color: gold;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, black, gold);
+}
+
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the form within the page and set its width */
+.jobform {
+    background-color: #222222;
+    border-radius: 8px;
+    padding: 20px;
+    width: 50vw;
+    box-shadow: 0 4px 6px white;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    flex-direction: column;
+    margin-top: .5em;
+}
+
+#description {
+    min-height: 100px;
+}
+
+
+/* Style the form elements */
+.jobform label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Cairo', sans-serif;
+    color: gold;
+}
+
+.jobform input,
+.jobform select,
+.jobform textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid gold;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"] {
+    background-color: gold;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"]:hover {
+    background-color: #d4af37;
+}
