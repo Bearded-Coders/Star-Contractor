@@ -1,12 +1,44 @@
-body {
-    background-color: gray;
+/*LORVILLE NAVBAR*/
+.nav-div {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
 }
 
-.custom-nav {
-    border-bottom: 2px solid gold;
-    background-color: darkslategray;
+.nav-login {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
 }
 
+.navbar-collapse {
+    align-items: unset;
+}
+
+.dropdown-menu {
+    background-color: #222222;
+}
+
+.navbar {
+    background-color: #222222;
+    color: gold;
+    border-bottom:2px solid gold;
+    text-decoration: none;
+}
+
+.dropdown-item {
+    color: gold;
+}
+
+.nav-item,
+.nav-link,
+.dropdown-item-custom {
+    color: gold;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+}
+
+/*Searchbar with dropdown menu*/
 .searchbar {
     display: flex;
     flex-direction: row;
@@ -15,29 +47,29 @@ body {
     padding: 1em;
 }
 
-
 .custom-dropdown {
     min-width: 30%;
 }
 
-.dropdown-item {
+.dropdown-item-custom {
     display: block;
     width: 50%; /* Adjust this value to set the desired width for each column */
 }
 
-.dropdown-menu {
+.dropdown-menu-custom {
     display: none;
     visibility: hidden;
     position: absolute;
 }
 
-.dropdown-menu.show {
+.dropdown-menu-custom.show {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     visibility: visible;
     min-width: 100%;
     min-height: 350px;
+    color: gold;
 }
 
 .searchinput {
@@ -67,6 +99,8 @@ body {
     padding: 5px;
 }
 
+
+/*JOB CARDS*/
 .jobs-container {
     display: flex;
     align-items: center;
@@ -78,11 +112,12 @@ body {
     margin: auto;
     z-index: 1;
     background-color: #222222;
+    padding: 1em;
 }
 
 .job-card {
     width: 45%;
-    margin: 2px;
+    margin: 10px;
     border-radius: 3em;
     text-decoration: none;
     border-left: 2px solid goldenrod;
@@ -96,8 +131,8 @@ body {
     text-decoration: none;
     padding: 25px;
     border: 2px solid black;
-    background-color: darkslategray;
-    color: black;
+    background-color:  #222222;
+    color: gold;
 }
 
 .card-head {
@@ -105,12 +140,27 @@ body {
     flex-direction: row;
     justify-content: space-between;
     text-decoration: none;
-    color: black;
+    color: gold;
     font-size: 25%;
+}
+
+.card-head2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: none;
+    color: gold;
+    font-size: 25%;
+}
+
+.card-head:hover {
+    text-decoration: none;
+    color: red;
 }
 
 .card-desc {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     min-height: 100px;
     border-radius: 1em;
@@ -128,6 +178,7 @@ body {
     justify-content: space-between;
     text-decoration: none;
     margin-top: 1em;
+    color: gold;
 }
 
 .details-1 {
@@ -141,9 +192,16 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    text-decoration: none;
     justify-content: space-around;
-    list-style: none;
+}
+
+.details-2 a {
+    color: gold;
+    text-decoration: none;
+}
+
+.details-2 a:hover {
+    color: red;
 }
 
 .active {
@@ -154,6 +212,7 @@ body {
     color: green;
 }
 
+/*BG-VIDEO*/
 .job-video {
     position: fixed;
     right: 0;

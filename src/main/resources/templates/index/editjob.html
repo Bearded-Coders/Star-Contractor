@@ -13,21 +13,22 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">SC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse nav-div" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
             </li>
             <li sec:authorize="isAuthenticated()"  class="nav-item">
                 <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                <a class="nav-link" th:href="@{/profile/{id}(id=*{user.id})}">Profile</a>
+                <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/jobs}">Job Board</a>
@@ -43,7 +44,9 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-
+            </li>
+        </ul>
+        <ul class="navbar-nav">
             <li sec:authorize="isAnonymous()" class="nav-item">
                 <a class="nav-link" th:href="@{/login}">Login</a>
             </li>
@@ -51,40 +54,8 @@
                 <a class="nav-link" th:href="@{/signup}">Sign Up</a>
             </li>
 
-            <li>
-                <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" th:method="post">
-                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
-                    </form>
-                </div>
-            </li>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-                <a class="nav-link" th:href="@{/login}">Login</a>
-            </li>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
-            </li>
-
-            <li>
-                <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" th:method="post">
-                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
-                    </form>
-                </div>
-            </li>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-                <a class="nav-link" th:href="@{/login}">Login</a>
-            </li>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
-            </li>
-
-            <li>
-                <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" th:method="post">
-                        <button class="btn-link btn" style="margin-top: 8px">Logout</button>
-                    </form>
-                </div>
+            <li class="logout" sec:authorize="isAuthenticated()">
+                <a class="btn-link btn nav-link" th:href="@{/logout}">Logout</a>
             </li>
         </ul>
     </div>

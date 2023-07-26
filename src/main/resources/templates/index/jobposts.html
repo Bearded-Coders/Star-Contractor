@@ -11,144 +11,145 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/jobs.css">
+    <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/jobs.css'">
+    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/jobs.css">
     <title>Job Board</title>
 </head>
 <body>
 
-                    <!--  NavBar  -->
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <a class="navbar-brand" href="#">SC</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">SC</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
-                                </li>
-                                <li sec:authorize="isAuthenticated()"  class="nav-item">
-                                    <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                                    <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/jobs}">Job Board</a>
-                                </li>
-                                <li  class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        Dropdown
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-
-                                <li sec:authorize="isAnonymous()" class="nav-item">
-                                    <a class="nav-link" th:href="@{/login}">Login</a>
-                                </li>
-                                <li sec:authorize="isAnonymous()" class="nav-item">
-                                    <a class="nav-link" th:href="@{/signup}">Sign Up</a>
-                                </li>
-
-                                <li>
-                                    <div sec:authorize="isAuthenticated()">
-                                        <form th:action="@{/logout}" th:method="post">
-                                            <button class="btn-link btn" style="margin-top: 8px">Logout</button>
-                                        </form>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-
-<!---->
-<!---->
-<!---->
-<!---->
-
-
-
-                    <video class="job-video" src="/assets/vid/videoBg.mp4" autoplay loop muted></video>
-
-
-                    <div class="searchbar">
-                        <form>
-                            <input class="searchinput text-dark" type="text" placeholder="Search for job">
-                            <input class="searchBtn text-dark" type="submit">
-                        </form>
-                        <div class="dropdown custom-dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Contracts Filter
-                            </button>
-<!--                            <div class="dropTest">-->
-                                <form id="filterForm" class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:action="@{/jobs}" th:method="GET">
-                                    <input class="dropdown-item" type="checkbox" name="illegal" value="true" /> Illegal
-                                    <input class="dropdown-item" type="checkbox" name="mining" value="true" /> Mining
-                                    <input class="dropdown-item" type="checkbox" name="combat" value="true" /> Combat
-                                    <input class="dropdown-item" type="checkbox" name="salvage" value="true" /> Salvage
-                                    <input class="dropdown-item" type="checkbox" name="trading" value="true" /> Trading
-                                    <input class="dropdown-item" type="checkbox" name="exploring" value="true" /> Exploring
-                                    <input class="dropdown-item" type="checkbox" name="bountyHunting" value="true" /> Bounty Hunting
-                                    <input class="dropdown-item" type="checkbox" name="delivery" value="true" /> Delivery
-                                    <input class="dropdown-item" type="checkbox" name="pvp" value="true" /> PvP
-                                    <input class="dropdown-item" type="checkbox" name="pve" value="true" /> PvE
-                                    <input class="dropdown-item" type="checkbox" name="trading" value="true" /> Trading
-                                    <!-- Add other category tags checkboxes as needed -->
-                                    <button type="submit" class="dropdown-item">Filter Jobs</button>
-                                    <button type="button" class="dropdown-item bg-dark text-light" onclick="clearFilters()">Clear Filters</button>
-                                </form>
-                        </div>
-                        <div>
-                            <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
-                        </div>
-                    </div>
-
-    <div class="jobs-container">
-        <div th:each="AllJobs:${job}" class="job-card">
-            <div class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
-                <a th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}" class="card-head">
-                    <h4 th:text="*{AllJobs.getTitle()}"></h4>
-                    <h6 th:text="'Pay Split: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
+    <div class="collapse navbar-collapse nav-div" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
+            </li>
+            <li sec:authorize="isAuthenticated()"  class="nav-item">
+                <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
+                <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/jobs}">Job Board</a>
+            </li>
+            <li  class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Dropdown
                 </a>
-                <div class="card-head">
-                    <h6 th:text="*{#temporals.format(AllJobs.createdDate, 'yyyy-MM-dd')}"></h6>
-                    <h6 class="active" th:if="*{AllJobs.getJobStatus() == 'Active'}">Active</h6>
-                    <h6 class="complete" th:if="*{AllJobs.getJobStatus() == 'Complete'}">Complete</h6>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-                <div class="card-desc">
-                    <p th:text="*{AllJobs.getDescription()}"></p>
-                </div>
-                <div class="card-details">
-                    <div class="details-1">
-                        <h6 th:text="*{AllJobs.getCreatorId()?.getUsername()}"></h6>
-                        <h6 th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
-                    </div>
-                    <div>
-                        <ul class="details-2" th:each="category : ${AllJobs.getCategories()}">
-                            <a th:href="@{/jobs?illegal=true}" th:if="${category.illegal}">#Illegal</a>
-                            <a th:href="@{/jobs?mining=true}" th:if="${category.mining}">#Mining</a>
-                            <a th:href="@{/jobs?combat=true}" th:if="${category.combat}">#Combat</a>
-                            <a th:href="@{/jobs?salvage=true}" th:if="${category.salvage}">#Salvage</a>
-                            <a th:href="@{/jobs?trading=true}" th:if="${category.trading}">#Trading</a>
-                            <a th:href="@{/jobs?exploring=true}" th:if="${category.exploring}">#Exploring</a>
-                            <a th:href="@{/jobs?bountyHunting=true}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
-                            <a th:href="@{/jobs?delivery=true}" th:if="${category.delivery}">#Delivery</a>
-                            <a th:href="@{/jobs?pvp=true}" th:if="${category.pvp}">#PvP</a>
-                            <a th:href="@{/jobs?pve=true}" th:if="${category.pve}">#PvE</a>
-                            <a th:href="@{/jobs?rolePlay=true}" th:if="${category.rolePlay}">#Role Play</a>
-                        </ul>
-                    </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
 
+            <li class="logout" sec:authorize="isAuthenticated()">
+                <a class="btn-link btn nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--BACKGROUND VIDEO-->
+<video class="job-video" src="/assets/vid/videoBg.mp4" autoplay loop muted></video>
+
+<!--SEARCHBAR-->
+<section class="searchbar">
+<!--    Custom Search input and button-->
+    <form>
+        <input class="searchinput text-dark" type="text" placeholder="Search for job">
+        <input class="searchBtn text-dark" type="submit">
+    </form>
+    <!--       Job Filter Dropdown-->
+    <div class="dropdown custom-dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Contracts Filter
+        </button>
+        <form id="filterForm" class="dropdown-menu dropdown-menu-custom" aria-labelledby="dropdownMenuButton" th:action="@{/jobs}" th:method="GET">
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="illegal" value="true" /> Illegal
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="mining" value="true" /> Mining
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="combat" value="true" /> Combat
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="salvage" value="true" /> Salvage
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" /> Trading
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="exploring" value="true" /> Exploring
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="bountyHunting" value="true" /> Bounty Hunting
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="delivery" value="true" /> Delivery
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pvp" value="true" /> PvP
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pve" value="true" /> PvE
+            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" /> Trading
+            <!-- Add other category tags checkboxes as needed -->
+            <button type="submit" class="dropdown-item dropdown-item-custom">Filter Jobs</button>
+            <button type="button" class="dropdown-item dropdown-item-custom bg-dark text-light" onclick="clearFilters()">Clear Filters</button>
+        </form>
+    </div>
+<!--    Create Job Btn-->
+    <div>
+        <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
+    </div>
+</section>
+
+
+
+<!--JOB POSTINGS AND CARDS-->
+<section class="jobs-container">
+<!--    If complete we won't show the card-->
+    <div th:if="${AllJobs.jobStatus != 'Complete'}" th:each="AllJobs:${job}" class="job-card">
+        <div class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
+<!--            Username and Payment-->
+            <a th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}" class="card-head">
+                <h4 th:text="*{AllJobs.getTitle()}"></h4>
+                <h6 th:text="'Pay Split: ' + *{AllJobs.getPaymentPercent()} + '%'"></h6>
+            </a>
+<!--            Date and Status-->
+            <div class="card-head2">
+                <h6 th:text="*{#temporals.format(AllJobs.createdDate, 'MM-dd-yyyy')}"></h6>
+                <h6 class="active" th:if="*{AllJobs.getJobStatus() == 'Active'}">Active</h6>
+                <h6 class="complete" th:if="*{AllJobs.getJobStatus() == 'Complete'}">Complete</h6>
+            </div>
+<!--            Job Description-->
+            <div class="card-desc">
+                <p th:text="*{AllJobs.getDescription()}"></p>
+            </div>
+<!--            User and tag info-->
+            <div class="card-details">
+                <div class="details-1">
+                    <h6 th:text="'Posted By: ' + *{AllJobs.getCreatorId()?.getUsername()}"></h6>
+                    <h6 th:if="*{AllJobs.getCreatorId().getAvgRating() != null}" th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
+                </div>
+                <div class="details-2" th:each="category : ${AllJobs.getCategories()}">
+                        <a th:href="@{/jobs?illegal=true}" th:if="${category.illegal}">#Illegal</a>
+                        <a th:href="@{/jobs?mining=true}" th:if="${category.mining}">#Mining</a>
+                        <a th:href="@{/jobs?combat=true}" th:if="${category.combat}">#Combat</a>
+                        <a th:href="@{/jobs?salvage=true}" th:if="${category.salvage}">#Salvage</a>
+                        <a th:href="@{/jobs?trading=true}" th:if="${category.trading}">#Trading</a>
+                        <a th:href="@{/jobs?exploring=true}" th:if="${category.exploring}">#Exploring</a>
+                        <a th:href="@{/jobs?bountyHunting=true}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
+                        <a th:href="@{/jobs?delivery=true}" th:if="${category.delivery}">#Delivery</a>
+                        <a th:href="@{/jobs?pvp=true}" th:if="${category.pvp}">#PvP</a>
+                        <a th:href="@{/jobs?pve=true}" th:if="${category.pve}">#PvE</a>
+                        <a th:href="@{/jobs?rolePlay=true}" th:if="${category.rolePlay}">#Role Play</a>
                 </div>
             </div>
         </div>
-
     </div>
+</section>
+
+
 <script src="/js/jobs.js"></script>
 </body>
 </html>
