@@ -6,28 +6,34 @@
     <title>Sign up</title>
 </head>
 <body>
-<div class="container">
-    <form th:action="@{/signup}" method="POST" th:object="${user}">
-        <h1>Create an account</h1>
-        <label for="username">Username</label>
-        <input id="username" th:field="*{username}" />
-
-        <label for="email">Email</label>
-        <input id="email" th:field="*{email}" />
-
-        <label for="startingArea">Home City</label>
-        <select id="startingArea" th:field="*{startingArea}">
-            <option value="Lorville">Lorville</option>
-            <option value="New Babbage">New Babbage</option>
-            <option value="Area 18">Area 18</option>
-            <option value="Orison">Orison</option>
-        </select>
-
-        <label for="password">Password</label>
-        <input id="password" type="password" th:field="*{password}" />
-
+<img src="/assets/img/andromeda.jpg" class="background-image" alt="background-image" />
+    <form class="signup-form" th:action="@{/signup}" method="POST" th:object="${user}">
+        <h1 class="create">Create an account</h1>
+        <div class="signup-section">
+            <label for="username">Username</label>
+            <input class="signup-input" id="username" th:field="*{username}" />
+        </div>
+       <div class="signup-section">
+           <label for="email">Email</label>
+           <input class="signup-input" id="email" th:field="*{email}" />
+       </div>
+        <div class="signup-section">
+            <label for="startingArea">Home City</label>
+            <select class="signup-input" id="startingArea" th:field="*{startingArea}">
+                <option value="Lorville">Lorville</option>
+                <option value="New Babbage">New Babbage</option>
+                <option value="Area 18">Area 18</option>
+                <option value="Orison">Orison</option>
+            </select>
+        </div>
+        <div class="signup-section">
+            <label for="password">Password</label>
+            <input class="signup-input" id="password" type="password" th:field="*{password}" />
+        </div>
         <input value="Sign me up!" type="submit" />
+        <div>
+            <p>Already have an account? <a th:href="@{/login}">Login Here</a></p>
+        </div>
     </form>
-</div>
 </body>
 </html>
