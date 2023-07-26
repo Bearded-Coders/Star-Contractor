@@ -10,8 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="/css/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/createjob.css">
-
+    <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/createjob.css'">
+    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/createjob.css.css">
     <title>Create Job</title>
 </head>
 <body>
@@ -66,86 +66,102 @@
 
 
 
-<!--    JOB CREATION FORM-->
-    <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${job}">
-<!--        title-->
-        <label for="title">Title</label>
-            <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
-<!--        Description-->
-        <label for="description">Description</label>
-            <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
-        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(job.startDate, 'yyyy-MM-dd')}" placeholder="Select a date">
 
+<!--    JOB CREATION FORM-->
+<div class="container-center">
+    <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${job}">
+        <!--        title-->
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
+        <!--        Description-->
+        <label for="description">Description</label>
+        <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
+        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(job.startDate, 'yyyy-MM-dd')}" placeholder="Select a date">
 
         <!--            <input type="hidden" th:field="*{createdDate}">-->
         <input type="hidden" th:field="*{createdDate}" th:value="${#temporals.format(job.createdDate, 'yyyy-MM-ddTHH:mm:ss.SSS')}">
 
         <!--        Threat Level-->
         <label for="threat">Threat Level</label>
-            <select id="threat" name="dropdown" th:field="*{threat}">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Very High">Very High</option>
-                <option value="Extreme">Extreme</option>
-            </select>
-<!--        Payment Percent-->
+        <select id="threat" name="dropdown" th:field="*{threat}">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Very High">Very High</option>
+            <option value="Extreme">Extreme</option>
+        </select>
+        <!--        Payment Percent-->
         <label for="paymentPercent">Payment Percent</label>
-            <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
-<!--        Job Status-->
+        <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
+        <!--        Job Status-->
         <input type="hidden" th:field="*{jobStatus}">
-<!--        Starting location-->
+        <!--        Starting location-->
         <label for="location">Starting Location</label>
-            <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
-<!--        Distance to mission-->
+        <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
+        <!--        Distance to mission-->
         <label for="distance">Distance to travel</label>
-            <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
+        <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
         <!--        this will change to authorization later-->
         <input type="hidden" th:field="*{creatorId.id}">
 
         <!--        Job category tags-->
         <label>Categories</label>
-        <div th:object="${category}">
-            <label for="bounty">Bounty Hunting</label>
+        <div class="categories" th:object="${category}">
+            <div class="cat-group">
                 <input id="bounty" type="checkbox" th:field="*{bounty_hunting}" />
-
-            <label for="illegal">Illegal</label>
+                <label for="bounty">Bounties</label>
+            </div>
+            <div class="cat-group">
                 <input id="illegal" type="checkbox" th:field="*{illegal}" />
-
-            <label for="mining">Mining</label>
+                <label for="illegal">Illegal</label>
+            </div>
+            <div class="cat-group">
                 <input id="mining" type="checkbox" th:field="*{mining}" />
-
-            <label for="combat">Combat</label>
+                <label for="mining">Mining</label>
+            </div>
+            <div class="cat-group">
                 <input id="combat" type="checkbox" th:field="*{combat}" />
-
-            <label for="salvage">Salvage</label>
+                <label for="combat">Combat</label>
+            </div>
+            <div class="cat-group">
                 <input id="salvage" type="checkbox" th:field="*{salvage}" />
-
-            <label for="trading">Trading</label>
+                <label for="salvage">Salvage</label>
+            </div>
+            <div class="cat-group">
                 <input id="trading" type="checkbox" th:field="*{trading}" />
-
-            <label for="exploring">Exploring</label>
+                <label for="trading">Trading</label>
+            </div>
+            <div class="cat-group">
                 <input id="exploring" type="checkbox" th:field="*{exploring}" />
-
-            <label for="delivery">Delivery</label>
+                <label for="exploring">Exploring</label>
+            </div>
+            <div class="cat-group">
                 <input id="delivery" type="checkbox"  th:field="*{delivery}" />
-
-            <label for="pvp">PVP</label>
+                <label for="delivery">Delivery</label>
+            </div>
+            <div class="cat-group">
                 <input id="pvp" type="checkbox" th:field="*{pvp}" />
-
-            <label for="pve">PVE</label>
+                <label for="pvp">PVP</label>
+            </div>
+            <div class="cat-group">
                 <input id="pve" type="checkbox" th:field="*{pve}" />
-
-            <label for="rolePlay">RolePlay</label>
+                <label for="pve">PVE</label>
+            </div>
+            <div class="cat-group">
                 <input id="rolePlay" type="checkbox" th:field="*{rolePlay}" />
-
+                <label for="rolePlay">RolePlay</label>
+            </div>
             <input name="jobId" type="hidden" th:field="*{jobId.id}" />
         </div>
 
-<!--        Submit button-->
-        <input type="submit" value="Submit">
+        <!--        Submit button-->
+        <input class="text-dark" type="submit" value="Submit">
     </form>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!--    The jquery is TBD-->
     <script>
         $(function() {
