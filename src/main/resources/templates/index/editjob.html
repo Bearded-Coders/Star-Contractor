@@ -9,6 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="/css/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet">
+    <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/editjob.css'">
+    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/editjob.css">
     <title>Edit Job</title>
 </head>
 <body>
@@ -61,41 +63,46 @@
     </div>
 </nav>
 
-<form class="jobform" th:action="@{/jobs/editjob/{id}(id=${singleJob.id})}" method="POST" th:object="${singleJob}">
-    <!--        title-->
-    <label for="title">Title</label>
-    <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
-    <!--        Description-->
-    <label for="description">Description</label>
-    <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
-    <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(singleJob.getStartDate(), 'MM/dd/yyyy')}" />
-    <input type="hidden" th:field="*{createdDate}">
 
-    <!--        Threat Level-->
-    <label for="threat">Threat Level</label>
-    <select id="threat" name="dropdown" th:field="*{threat}">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Very High">Very High</option>
-        <option value="Extreme">Extreme</option>
-    </select>
-    <!--        Payment Percent-->
-    <label for="paymentPercent">Payment Percent</label>
-    <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
-    <!--        Job Status-->
-    <input type="hidden" th:field="*{jobStatus}">
-    <!--        Starting location-->
-    <label for="location">Starting Location</label>
-    <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
-    <!--        Distance to mission-->
-    <label for="distance">Distance to travel</label>
-    <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
-    <!--        this will change to authorization later-->
-    <input type="hidden" th:field="*{creatorId.id}">
-    <!--        Submit button-->
-    <input type="submit" value="Submit">
-</form>
+<div class="container-center">
+    <h1>Edit Your Job</h1>
+    <form class="jobform" th:action="@{/jobs/editjob/{id}(id=${singleJob.id})}" method="POST" th:object="${singleJob}">
+        <!--        title-->
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
+        <!--        Description-->
+        <label for="description">Description</label>
+        <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
+        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(singleJob.getStartDate(), 'MM/dd/yyyy')}" />
+        <input type="hidden" th:field="*{createdDate}">
+
+        <!--        Threat Level-->
+        <label for="threat">Threat Level</label>
+        <select id="threat" name="dropdown" th:field="*{threat}">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Very High">Very High</option>
+            <option value="Extreme">Extreme</option>
+        </select>
+        <!--        Payment Percent-->
+        <label for="paymentPercent">Payment Percent</label>
+        <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
+        <!--        Job Status-->
+        <input type="hidden" th:field="*{jobStatus}">
+        <!--        Starting location-->
+        <label for="location">Starting Location</label>
+        <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
+        <!--        Distance to mission-->
+        <label for="distance">Distance to travel</label>
+        <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
+        <!--        this will change to authorization later-->
+        <input type="hidden" th:field="*{creatorId.id}">
+        <!--        Submit button-->
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
 
 
 <!--    The jquery is TBD-->
