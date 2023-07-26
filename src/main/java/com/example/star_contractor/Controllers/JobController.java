@@ -1,9 +1,11 @@
 package com.example.star_contractor.Controllers;
 
 import com.example.star_contractor.Models.Categories;
+import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
+import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +28,7 @@ public class JobController {
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
     private final UserRepository userDao;
+    private final CommentRepository commentDao;
 
     User user = null;
 
@@ -35,10 +38,11 @@ public class JobController {
 //        return applicantsList;
 //    }
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
         this.userDao = userDao;
+        this.commentDao = commentDao;
     }
 
 
@@ -131,9 +135,12 @@ public class JobController {
 
         List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
 
+        List<Comment> comments = commentDao.findCommentsByJob(singleJob); // Fix the method call to findCommentsByJob
+
         model.addAttribute("singleJob", singleJob);
         model.addAttribute("category", categories);
         model.addAttribute("user", user);
+        model.addAttribute("comments", comments); // Pass the comments list to the model
         return "index/jobdetails";
     }
 

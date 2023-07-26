@@ -5,14 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <title th:text="${singleJob.getTitle()}"></title>
-    <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/jobdetails.css'">
+    <link sec:authorize="isAuthenticated()" rel="stylesheet"
+          th:href="'/css/' + ${user.startingArea} + '/jobdetails.css'">
     <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/jobdetails.css">
 </head>
 <body>
@@ -30,14 +38,14 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
             </li>
-            <li sec:authorize="isAuthenticated()"  class="nav-item">
+            <li sec:authorize="isAuthenticated()" class="nav-item">
                 <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
                 <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/jobs}">Job Board</a>
             </li>
-            <li  class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Dropdown
@@ -67,19 +75,19 @@
 
 <!--Job Card -->
 <div class="job-card">
-<!--    Job Title-->
+    <!--    Job Title-->
     <div class="card-head">
         <h1 class="job-title" th:text="${singleJob.getTitle()}"></h1>
         <h4 class="gold-text" th:text="'Pay Split: ' + ${singleJob.getPaymentPercent()} + '%'"></h4>
     </div>
 
 
-<!--    Job Description-->
+    <!--    Job Description-->
     <div class="job-description">
         <h6 th:text="${singleJob.getDescription()}"></h6>
     </div>
 
-<!--    Middle Section of page-->
+    <!--    Middle Section of page-->
     <div class="middle-section">
         <!--    Applicant List-->
         <div>
@@ -88,7 +96,7 @@
                 <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
             </div>
         </div>
-<!--        Start Date-->
+        <!--        Start Date-->
         <div>
             <h6 th:text="'Start Date: ' +${singleJob.getStartDate()}"></h6>
         </div>
@@ -110,16 +118,16 @@
         </div>
     </div>
 
-<!--    Creator tag-->
-        <div class="card-footer">
-            <h6 th:if="${singleJob.getCreatedDate() != null}"
-                th:text="'Posted on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
-            </h6>
-            <h6 class="job-creator" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></h6>
-            <h6 th:if="${singleJob.getCreatorId().getAvgRating() != null}"
-                th:text="'Creators Rating: ' + ${singleJob.getCreatorId().getAvgRating()}">
-            </h6>
-        </div>
+    <!--    Creator tag-->
+    <div class="card-footer">
+        <h6 th:if="${singleJob.getCreatedDate() != null}"
+            th:text="'Posted on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
+        </h6>
+        <h6 class="job-creator" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></h6>
+        <h6 th:if="${singleJob.getCreatorId().getAvgRating() != null}"
+            th:text="'Creators Rating: ' + ${singleJob.getCreatorId().getAvgRating()}">
+        </h6>
+    </div>
 
     <!--    Categories-->
     <div class="categories" th:each="cat : ${category}">
@@ -159,19 +167,31 @@
         <div class="modal-content">
             <span class="close" onclick="closeCompleteJobForm()">&times;</span>
             <h2>Complete Job</h2>
-            <form id="completeJobForm" th:object="${singleJob}" th:action="@{/jobs/complete/{id}(id=${singleJob.id})}" method="post" onsubmit="return validateForm();">
+            <form id="completeJobForm" th:object="${singleJob}" th:action="@{/jobs/complete/{id}(id=${singleJob.id})}"
+                  method="post" onsubmit="return validateForm();">
                 <label for="status">Is this Job complete</label>
                 <select id="status" th:field="*{jobStatus}">
                     <option value="Complete">Complete</option>
                     <option value="Active">On going?</option>
                 </select>
                 <label for="outcome">What was the outcome?</label>
-                    <select id="outcome" th:field="*{outcome}">
-                        <option th:value=true>Success</option>
-                        <option th:value=false>Failed</option>
-                    </select>
-                <input type="submit" value="submit" class="btn modal-btn" />
+                <select id="outcome" th:field="*{outcome}">
+                    <option th:value=true>Success</option>
+                    <option th:value=false>Failed</option>
+                </select>
+                <input type="submit" value="submit" class="btn modal-btn"/>
             </form>
+        </div>
+    </div>
+
+
+    <div>
+        <div th:each="comment : ${comments}">
+            <div class="d-flex">
+                <img class="profile-thumbnail" th:src="${comment.user.profilePic}">
+                <p th:text="*{comment.user.username}"></p>
+                <p th:text="*{comment.content}"></p>
+            </div>
         </div>
     </div>
 </div>
