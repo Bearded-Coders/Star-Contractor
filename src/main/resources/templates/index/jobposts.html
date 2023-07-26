@@ -81,20 +81,61 @@
             Contracts Filter
         </button>
         <form id="filterForm" class="dropdown-menu dropdown-menu-custom" aria-labelledby="dropdownMenuButton" th:action="@{/jobs}" th:method="GET">
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="illegal" value="true" /> Illegal
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="mining" value="true" /> Mining
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="combat" value="true" /> Combat
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="salvage" value="true" /> Salvage
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" /> Trading
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="exploring" value="true" /> Exploring
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="bountyHunting" value="true" /> Bounty Hunting
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="delivery" value="true" /> Delivery
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pvp" value="true" /> PvP
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pve" value="true" /> PvE
-            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" /> Trading
+            <div class="drop-sec">
+                <label>Illegal</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="illegal" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Mining</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="mining" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Combat</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="combat" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Salvage</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="salvage" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Trading</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Exploring</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="exploring" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Bounty Hunting</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="bountyHunting" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>Delivery</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="delivery" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>PvP</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pvp" value="true" />
+            </div>
+            <div class="drop-sec">
+                <label>PvE</label>
+                <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pve" value="true" />
+            </div>
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="illegal" value="true" /> Illegal-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="mining" value="true" /> Mining-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="combat" value="true" /> Combat-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="salvage" value="true" /> Salvage-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="trading" value="true" /> Trading-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="exploring" value="true" /> Exploring-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="bountyHunting" value="true" /> Bounty Hunting-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="delivery" value="true" /> Delivery-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pvp" value="true" /> PvP-->
+<!--            <input class="dropdown-item dropdown-item-custom" type="checkbox" name="pve" value="true" /> PvE-->
             <!-- Add other category tags checkboxes as needed -->
-            <button type="submit" class="dropdown-item dropdown-item-custom">Filter Jobs</button>
-            <button type="button" class="dropdown-item dropdown-item-custom bg-dark text-light" onclick="clearFilters()">Clear Filters</button>
+            <div class="drop-btns">
+                <button type="submit" class="dropdown-item dropdown-item-custom">Filter Jobs</button>
+                <button type="button" class="dropdown-item dropdown-item-custom bg-dark text-light" onclick="clearFilters()">Clear Filters</button>
+            </div>
         </form>
     </div>
 <!--    Create Job Btn-->

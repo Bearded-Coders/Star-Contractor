@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
 /*LORVILLE NAVBAR*/
 .nav-div {
     display: flex;
@@ -47,14 +49,10 @@
     padding: 1em;
 }
 
-.custom-dropdown {
-    min-width: 30%;
-}
-
-.dropdown-item-custom {
-    display: block;
-    width: 50%; /* Adjust this value to set the desired width for each column */
-}
+/*.dropdown-item-custom {*/
+/*    display: block;*/
+/*    width: 50%; !* Adjust this value to set the desired width for each column *!*/
+/*}*/
 
 .dropdown-menu-custom {
     display: none;
@@ -64,12 +62,27 @@
 
 .dropdown-menu-custom.show {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     visibility: visible;
-    min-width: 100%;
+    min-width: 500px;
     min-height: 350px;
     color: gold;
+    border: 2px solid gold;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.drop-sec {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+    align-items: center;
+}
+
+.drop-btns {
+    display: flex;
+    flex-direction: row;
+  align-items: center;
 }
 
 .searchinput {
@@ -83,15 +96,14 @@
 }
 
 .createBtn {
-    background-color: darkslategray;
+    background-color: #222222;
+    text-decoration: none;
     border: 1px solid gold;
+    color: gold;
     border-radius: 1em;
 }
 
 .createBtn:hover {
-    background-color: darkslategray;
-    border: 1px solid gold;
-    border-radius: 1em;
     opacity: 0.8;
 }
 

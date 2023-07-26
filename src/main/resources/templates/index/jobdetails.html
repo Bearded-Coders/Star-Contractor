@@ -70,7 +70,7 @@
 <!--    Job Title-->
     <div class="card-head">
         <h1 class="job-title" th:text="${singleJob.getTitle()}"></h1>
-        <h4 th:text="'Pay Split: ' + ${singleJob.getPaymentPercent()} + '%'"></h4>
+        <h4 class="gold-text" th:text="'Pay Split: ' + ${singleJob.getPaymentPercent()} + '%'"></h4>
     </div>
 
 
@@ -113,7 +113,7 @@
 <!--    Creator tag-->
         <div class="card-footer">
             <h6 th:if="${singleJob.getCreatedDate() != null}"
-                th:text="'Created on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'dd-MM-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
+                th:text="'Posted on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
             </h6>
             <h6 class="job-creator" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></h6>
             <h6 th:if="${singleJob.getCreatorId().getAvgRating() != null}"
@@ -140,17 +140,17 @@
 <div class="job-button-group">
     <!-- Edit Job button -->
     <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}">
-        <a class="btn bg-light" th:href="@{/jobs/editjob/{id}(id=*{singleJob.getId()})}">Edit Job</a>
+        <a class="btn" th:href="@{/jobs/editjob/{id}(id=*{singleJob.getId()})}">Edit Job</a>
     </div>
 
     <!-- Remove Job button -->
     <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}">
-        <button class="btn bg-light" th:attr="onclick=${'deleteJob('''+singleJob.getId()+''')'}">Remove Job</button>
+        <button class="btn" th:attr="onclick=${'deleteJob('''+singleJob.getId()+''')'}">Remove Job</button>
     </div>
 
-    <!-- Complete Job button, this will pop the form up to track completion -->
+    <!-- Complete Job button, this will pop the modal up to track completion -->
     <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}">
-        <button class="btn bg-light" onclick="showCompleteJobForm()">Complete Job</button>
+        <button class="btn" onclick="showCompleteJobForm()">Complete Job</button>
     </div>
 
     <!-- The Modal -->
@@ -170,7 +170,7 @@
                         <option th:value=true>Success</option>
                         <option th:value=false>Failed</option>
                     </select>
-                <input type="submit" value="submit" class="btn bg-light" />
+                <input type="submit" value="submit" class="btn modal-btn" />
             </form>
         </div>
     </div>

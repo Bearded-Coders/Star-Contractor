@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
 /*LORVILLE NAVBAR*/
 .nav-div {
     display: flex;
@@ -35,13 +37,21 @@
 }
 
 body {
-    background-color: #222222; /* Darker Body Background */
+    background: linear-gradient(to bottom right, gold, black, gold);
+    height: 100vh;
+    width: 100vw;
+    /*background: no-repeat;*/
+    /*background-size: cover;*/
     font-family: Arial, sans-serif;
     color: #ffffff; /* White Text Color */
 }
 
+.gold-text {
+    color: gold;
+}
+
 .job-card {
-    background-color: #333333; /* Darker Card Background */
+    background-color: #222222; /* Darker Card Background */
     padding: 20px;
     border: 1px solid #111111; /* Black Border */
     border-radius: 8px;
@@ -62,13 +72,14 @@ body {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+    font-family: 'Cairo', sans-serif;
 }
 
 .job-title {
     font-size: 45px;
     font-weight: bolder;
     margin-bottom: 10px;
-    color: #e3c17a; /* Gold Title Color */
+    color: gold; /* Gold Title Color */
 }
 
 .job-description {
@@ -78,13 +89,13 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #444444; /* Darker Gray Description Background */
-    border: 1px solid #e3c17a;
     border-radius: 2em;
-    box-shadow: .5px 3px 5px #e3c17a;
-    color: #ffffff; /* White Description Text */
+    box-shadow: .5px 3px 5px gold;
+    color: gold;
     min-width: 30%;
     min-height: 20vh;
     padding: 10px;
+    font-family: 'Space Mono', monospace;
 }
 
 .categories {
@@ -103,18 +114,21 @@ body {
     background-color: #e3c17a; /* Gold Category Background */
     color: #ffffff; /* White Category Text */
     text-decoration: none;
+    font-family: 'Cairo', sans-serif;
 }
 
 .job-creator {
     font-size: 18px;
     margin-bottom: 20px;
     color: #ffffff; /* White Creator Info Text */
+    font-family: 'Cairo', sans-serif;
 }
 
 .job-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Cairo', sans-serif;
 }
 
 .middle-section {
@@ -123,6 +137,8 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 20px;
+    color: gold;
+    font-family: 'Cairo', sans-serif;
 }
 
 .applicant-list {
@@ -135,6 +151,7 @@ body {
     margin-bottom: 8px;
     text-decoration: none;
     color: #007bff; /* Blue Link Color */
+    font-family: 'Cairo', sans-serif;
 }
 
 .apply-button,
@@ -148,6 +165,7 @@ body {
     font-size: 16px;
     text-align: center;
     transition: background-color 0.2s;
+    font-family: 'Cairo', sans-serif;
 }
 
 .apply-button:hover,
@@ -161,6 +179,7 @@ body {
     justify-content: space-around;
     flex-wrap: wrap;
     margin-top: 20px;
+    font-family: 'Cairo', sans-serif;
 }
 
 .card-footer h6 {
@@ -173,6 +192,17 @@ body {
     justify-content: space-around;
 }
 
+.job-button-group div a,
+.job-button-group div button {
+    background-color: #222222;
+    color: gold;
+    font-family: 'Cairo', sans-serif;
+}
+
+.job-button-group div button:hover,
+.job-button-group div a:hover {
+    background-color: #111111;
+}
 
 /* Alert Modal */
 #customAlertOverlay {
@@ -260,10 +290,16 @@ body {
 .modal-content select {
     width: 100%;
     padding: 8px;
-    border: 1px solid #e3c17a; /* Gold Border */
+    border: 1px solid gold; /* Gold Border */
     border-radius: 4px;
     background-color: #444444; /* Dark Gray Background */
     color: #ffffff; /* White Text Color */
+}
+
+.modal-btn {
+    background-color: #111111;
+    color: gold;
+    margin-top: 5px;
 }
 
 /* Submit Button */
