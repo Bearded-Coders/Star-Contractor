@@ -2,24 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/signup.css" />
     <title>Sign up</title>
 </head>
 <body>
-<h1>Create an account</h1>
-<form th:action="@{/signup}" method="POST" th:object="${user}">
-    <label for="username">Username</label>
-    <input id="username" th:field="*{username}" />
+<div class="container">
+    <form th:action="@{/signup}" method="POST" th:object="${user}">
+        <h1>Create an account</h1>
+        <label for="username">Username</label>
+        <input id="username" th:field="*{username}" />
 
-    <label for="email">Email</label>
-    <input id="email" th:field="*{email}" />
+        <label for="email">Email</label>
+        <input id="email" th:field="*{email}" />
 
-    <label for="startingArea">Home City</label>
-    <input id="startingArea" th:field="*{startingArea}" />
+        <label for="startingArea">Home City</label>
+        <select id="startingArea" th:field="*{startingArea}">
+            <option value="Lorville">Lorville</option>
+            <option value="New Babbage">New Babbage</option>
+            <option value="Area 18">Area 18</option>
+            <option value="Orison">Orison</option>
+        </select>
 
-    <label for="password">Password</label>
-    <input id="password" type="password" th:field="*{password}" />
+        <label for="password">Password</label>
+        <input id="password" type="password" th:field="*{password}" />
 
-    <input value="Sign me up!" type="submit" />
-</form>
+        <input value="Sign me up!" type="submit" />
+    </form>
+</div>
 </body>
 </html>
