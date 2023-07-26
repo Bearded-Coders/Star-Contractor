@@ -48,7 +48,8 @@ public class User{
             joinColumns = {@JoinColumn(name = "applicants_id")},
             inverseJoinColumns = {@JoinColumn(name = "job_id")})
     private List<Jobs> appliedJobs = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 //    Constructors
 
     @Override
@@ -66,7 +67,8 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs) {
+
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -78,9 +80,10 @@ public class User{
         this.ratings = ratings;
         this.friendsList = friendsList;
         this.appliedJobs = appliedJobs;
+        this.comments = comments;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs, List<Comment> comments) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -91,6 +94,7 @@ public class User{
         this.ratings = ratings;
         this.friendsList = friendsList;
         this.appliedJobs = appliedJobs;
+        this.comments = comments;
     }
 
     //For security  add email username with unique constraints
@@ -106,6 +110,7 @@ public class User{
         myJobs = copy.myJobs;
         ratings = copy.ratings;
         appliedJobs = copy.appliedJobs;
+        comments = copy.comments;
     }
 
 //    getters and setters
@@ -197,5 +202,13 @@ public class User{
 
     public void setAppliedJobs(List<Jobs> appliedJobs) {
         this.appliedJobs = appliedJobs;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

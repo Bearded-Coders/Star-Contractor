@@ -59,6 +59,8 @@ public class Jobs implements Serializable {
 
     @OneToMany(mappedBy = "jobId", cascade = CascadeType.ALL)
     private List<Categories> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
 
     public Jobs() {
@@ -66,7 +68,7 @@ public class Jobs implements Serializable {
     }
 
 
-    public Jobs(Integer id, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories) {
+    public Jobs(Integer id, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -81,6 +83,7 @@ public class Jobs implements Serializable {
         this.outcome = outcome;
         this.applicantList = applicantList;
         this.categories = categories;
+        this.comments = comments;
     }
 
     public Integer getId() {
@@ -195,6 +198,13 @@ public class Jobs implements Serializable {
         this.categories = categories;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 //    @Override
 //    public String toString() {
 //        return "Jobs{" +
