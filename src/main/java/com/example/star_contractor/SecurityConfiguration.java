@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -50,8 +51,13 @@ public class SecurityConfiguration {
                 /* Login configuration */
                 .formLogin((login) -> login.loginPage("/login").defaultSuccessUrl("/"))
                 /* Logout configuration */
-                .logout((logout) -> logout.logoutSuccessUrl("/"))
+                .logout(logout -> {
+                    logout.logoutSuccessUrl("/");
+                    // Allow logout with GET and POST requests
+                    logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
+                })
                 .httpBasic(withDefaults());
         return http.build();
     }
+
 }
