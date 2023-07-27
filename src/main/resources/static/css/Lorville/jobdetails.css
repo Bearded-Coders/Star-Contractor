@@ -320,7 +320,13 @@ body {
     background-color: #c7a35d; /* Darker Gold on Hover */
 }
 .profile-thumbnail {
-    height: 75px;
-    width: 75px;
+    height: 45px;
+    width: 45px;
     border-radius: 50%;
+}
+.comment-section {
+    align-content: end;
+    margin-bottom: 10px;
+    border: 1px solid #e3c17a;
+    background-color: #222222;
 }

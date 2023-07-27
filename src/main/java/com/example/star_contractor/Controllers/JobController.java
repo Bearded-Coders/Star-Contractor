@@ -144,6 +144,32 @@ public class JobController {
         return "index/jobdetails";
     }
 
+
+    @PostMapping("/jobs/{id}/comment")
+    public String addComment(@PathVariable Integer id, @RequestParam("commentContent") String commentContent) {
+        try {
+            // Get the currently authenticated user
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            // Find the job by its ID
+            Jobs singleJob = jobsRepository.getJobById(id);
+
+            // Create a new comment object
+            Comment comment = new Comment();
+            comment.setJob(singleJob); // Associate the comment with the job
+            comment.setUser(user);     // Associate the comment with the user
+            comment.setContent(commentContent); // Set the comment content from the form
+
+            // Save the comment to the database using your CommentRepository
+            commentDao.save(comment);
+
+            // Redirect back to the job details page
+            return "redirect:/jobs/" + id;
+        } catch (Exception e) {
+            return "index/errors/exception"; // Exception occurred error page
+        }
+    }
+
     // Goto Job Creation Form
     @GetMapping("/jobs/createjob")
     public String jobCreation(Model model, Principal principal) {
@@ -164,6 +190,8 @@ public class JobController {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
+
+
 
     // Create a Job
     @PostMapping("/jobs/createjob")
