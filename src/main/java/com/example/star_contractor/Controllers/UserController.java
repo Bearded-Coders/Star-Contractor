@@ -79,6 +79,8 @@ public class UserController {
             // Set the hashed password to the user object
             user.setPassword(hashedPassword);
 
+            user.setProfilePic("/assets/img/default_profile_pic.png");
+
             userDao.save(user);
 
             // Add user info to the page

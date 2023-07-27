@@ -187,7 +187,7 @@
 
     <div>
         <div th:each="comment : ${comments}">
-            <div class="d-flex">
+            <div class="comment-section d-flex">
                 <img class="profile-thumbnail" th:src="${comment.user.profilePic}">
                 <p th:text="*{comment.user.username}"></p>
                 <p th:text="*{comment.content}"></p>
