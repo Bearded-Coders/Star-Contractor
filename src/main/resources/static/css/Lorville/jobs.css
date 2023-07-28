@@ -1,22 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
 
 /*LORVILLE NAVBAR*/
-.nav-div {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-}
-
-.nav-login {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
-
-.navbar-collapse {
-    align-items: unset;
-}
-
 .dropdown-menu {
     background-color: #222222;
 }

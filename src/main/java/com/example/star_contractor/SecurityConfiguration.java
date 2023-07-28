@@ -40,7 +40,11 @@ public class SecurityConfiguration {
                         /* Pages that require authentication
                          * only authenticated users can create and edit ads */
 
-                        .requestMatchers("/jobs/{id}/comment", "/profile/delete", "profile/upload", "/profile/edit/{userId}", "/profile/edits/{userId}", "/profile/remove/{id}", "/profile/add/{id}", "/jobs/remove/{id}", "/jobs/apply/{id}", "/profile/{id}", "/jobs/{id}", "/jobs/createjob", "/jobs/editjob", "/jobs/editjob/{id}", "/jobs/delete/{id}", "/jobs/complete/{id}", "/logout").authenticated()
+                        .requestMatchers("/jobs/{id}/comment", "/jobs/{jobId}/comment/{commentId}/delete").authenticated()
+                        .requestMatchers("/jobs/remove/{id}", "/jobs/apply/{id}", "/jobs/{id}", "/jobs/editjob/{id}", "/jobs/delete/{id}", "/jobs/complete/{id}").authenticated()
+                        .requestMatchers("/profile/edit/{userId}", "/profile/edits/{userId}", "/profile/remove/{id}", "/profile/add/{id}").authenticated()
+                        .requestMatchers("/profile/{id}")
+                        .authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */

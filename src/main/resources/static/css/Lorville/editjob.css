@@ -1,22 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
 
+body {
+    background: linear-gradient(to bottom right, black, gold);
+}
+
 /*LORVILLE NAVBAR*/
-.nav-div {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-}
-
-.nav-login {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
-
-.navbar-collapse {
-    align-items: unset;
-}
-
 .dropdown-menu {
     background-color: #222222;
 }
@@ -39,11 +27,6 @@
     text-decoration: none;
     font-family: 'Cairo', sans-serif;
 }
-
-body {
-    background: linear-gradient(to bottom right, black, gold);
-}
-
 
 .container-center {
     display: flex;
