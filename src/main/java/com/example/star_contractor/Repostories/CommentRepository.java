@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findCommentsByJob(Jobs job);
+    Comment findById(Long Id);
 
 }

@@ -145,6 +145,7 @@ public class JobController {
     }
 
 
+    // Comment on a job
     @PostMapping("/jobs/{id}/comment")
     public String addComment(@PathVariable Integer id, @RequestParam("commentContent") String commentContent) {
         try {
@@ -169,6 +170,31 @@ public class JobController {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
+
+    // Delete a comment
+    @PostMapping("/jobs/{jobId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Integer jobId, @PathVariable Long commentId) {
+        try {
+            // Get the currently authenticated user
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            // Find the comment by its ID
+            Comment comment = commentDao.findById(commentId);
+
+            // Check if the comment exists and if it belongs to the currently authenticated user
+            if (comment != null && comment.getUser().getId().equals(user.getId())) {
+                commentDao.delete(comment);
+            } else {
+                return "redirect:/jobs/" + jobId;
+            }
+
+            // Redirect back to the job details page after successful deletion
+            return "redirect:/jobs/" + jobId;
+        } catch (Exception e) {
+            return "index/errors/exception"; // Exception occurred error page
+        }
+    }
+
 
     // Goto Job Creation Form
     @GetMapping("/jobs/createjob")
