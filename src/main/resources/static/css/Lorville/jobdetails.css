@@ -368,7 +368,16 @@ body {
 
 .comment-section .d-flex {
     display: flex;
-    align-items: center;
+    width: 100%;
+}
+
+.fa-trash:hover {
+    color: white;
+    padding: 1px;
+}
+
+.font-icon:hover {
+    color: white !important;
 }
 
 .profile-thumbnail {
