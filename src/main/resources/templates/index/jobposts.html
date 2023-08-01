@@ -173,17 +173,17 @@
                     <h6 th:if="*{AllJobs.getCreatorId().getAvgRating() != null}" th:text="'Avg Rating: ' + *{AllJobs.getCreatorId().getAvgRating()}"></h6>
                 </div>
                 <div class="details-2" th:each="category : ${AllJobs.getCategories()}">
-                        <a th:href="@{/jobs?illegal=true}" th:if="${category.illegal}">#Illegal</a>
-                        <a th:href="@{/jobs?mining=true}" th:if="${category.mining}">#Mining</a>
-                        <a th:href="@{/jobs?combat=true}" th:if="${category.combat}">#Combat</a>
-                        <a th:href="@{/jobs?salvage=true}" th:if="${category.salvage}">#Salvage</a>
-                        <a th:href="@{/jobs?trading=true}" th:if="${category.trading}">#Trading</a>
-                        <a th:href="@{/jobs?exploring=true}" th:if="${category.exploring}">#Exploring</a>
-                        <a th:href="@{/jobs?bountyHunting=true}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
-                        <a th:href="@{/jobs?delivery=true}" th:if="${category.delivery}">#Delivery</a>
-                        <a th:href="@{/jobs?pvp=true}" th:if="${category.pvp}">#PvP</a>
-                        <a th:href="@{/jobs?pve=true}" th:if="${category.pve}">#PvE</a>
-                        <a th:href="@{/jobs?rolePlay=true}" th:if="${category.rolePlay}">#Role Play</a>
+                        <a class="cat-link" th:href="@{/jobs?illegal=true}" th:if="${category.illegal}">#Illegal</a>
+                        <a class="cat-link" th:href="@{/jobs?mining=true}" th:if="${category.mining}">#Mining</a>
+                        <a class="cat-link" th:href="@{/jobs?combat=true}" th:if="${category.combat}">#Combat</a>
+                        <a class="cat-link" th:href="@{/jobs?salvage=true}" th:if="${category.salvage}">#Salvage</a>
+                        <a class="cat-link" th:href="@{/jobs?trading=true}" th:if="${category.trading}">#Trading</a>
+                        <a class="cat-link" th:href="@{/jobs?exploring=true}" th:if="${category.exploring}">#Exploring</a>
+                        <a class="cat-link" th:href="@{/jobs?bountyHunting=true}" th:if="${category.bounty_hunting}">#Bounty Hunting</a>
+                        <a class="cat-link" th:href="@{/jobs?delivery=true}" th:if="${category.delivery}">#Delivery</a>
+                        <a class="cat-link" th:href="@{/jobs?pvp=true}" th:if="${category.pvp}">#PvP</a>
+                        <a class="cat-link" th:href="@{/jobs?pve=true}" th:if="${category.pve}">#PvE</a>
+                        <a class="cat-link" th:href="@{/jobs?rolePlay=true}" th:if="${category.rolePlay}">#Role Play</a>
                 </div>
             </div>
         </div>
