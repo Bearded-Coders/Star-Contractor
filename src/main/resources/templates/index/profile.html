@@ -88,8 +88,13 @@
 <!--   Friends List -->
     <div class="friends-list">
         <h1>Friends Here</h1>
+        <div th:each="friend : ${friends}">
+            <a class="d-flex" th:href="@{/profile/{id}(id=*{friend.id})}">
+                <img class="friendPic" th:src="*{friend.profilePic}">
+                <p th:text="*{friend.username}"></p>
+            </a>
+        </div>
     </div>
-
     <!--Profile Details Card-->
     <div class="profile-card">
 <!--        Profile Pic-->
