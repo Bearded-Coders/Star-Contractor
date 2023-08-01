@@ -41,13 +41,15 @@ public class ProfileController {
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
-
+//        List<User> friendsList = userDao.findAllById(userDao.getReferenceById(id));
+        List<User> friendList = userDao.findUsersByFriendsListContaining(userProfile);
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
 //        model.addAttribute("grabId", userId);
         model.addAttribute("user", user);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
+        model.addAttribute("friends", friendList);
         System.out.println(userProfile.getFriendsList().contains(user));
 
 
