@@ -24,6 +24,10 @@
     font-family: 'Cairo', sans-serif;
 }
 
+.navbar-collapse {
+    justify-content: space-between;
+}
+
 body {
     background: linear-gradient(to bottom right, black, gold);
 }
