@@ -41,14 +41,14 @@ public class SecurityConfiguration {
                          * only authenticated users can create and edit ads */
 
                         .requestMatchers("/jobs/{id}/comment", "/jobs/{jobId}/comment/{commentId}/delete").authenticated()
-                        .requestMatchers("/jobs/remove/{id}", "/jobs/apply/{id}", "/jobs/{id}", "/jobs/editjob/{id}", "/jobs/delete/{id}", "/jobs/complete/{id}").authenticated()
+                        .requestMatchers("/jobs/remove/{id}", "/jobs/apply/{id}", "/jobs/{id}", "/jobs/editjob/{id}", "/jobs/delete/{id}", "/jobs/complete/{id}", "/webjars/font-awesome/6.4.0/css/all.css", "/webjars/font-awesome/6.4.0/webfonts/fa-solid-900.ttf", "/webjars/font-awesome/6.4.0/webfonts/fa-solid-900.woff2").authenticated()
                         .requestMatchers("/profile/edit/{userId}", "/profile/edits/{userId}", "/profile/remove/{id}", "/profile/add/{id}").authenticated()
                         .requestMatchers("/profile/{id}")
                         .authenticated()
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/jobs", "/signup", "/login","/register").permitAll()
+                        .requestMatchers("/", "/jobs", "/signup", "/login","/register", "/webjars/font-awesome/6.4.0/css/all.css").permitAll()
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "assets/**").permitAll()
                 )
