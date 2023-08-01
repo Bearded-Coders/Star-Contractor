@@ -28,6 +28,10 @@ body {
     font-family: 'Cairo', sans-serif;
 }
 
+.navbar-collapse {
+    justify-content: space-between;
+}
+
 .container-center {
     display: flex;
     flex-direction: column;
