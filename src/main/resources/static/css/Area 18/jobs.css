@@ -6,14 +6,14 @@ body {
 
 /*NAVBAR*/
 .navbar {
-    background-color: darkred;
+    background-color: #570707;
     color: white;
     border-bottom: 2px solid white;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: darkred;
+    background-color: #570707;
     border: 2px solid white;
 }
 
@@ -55,7 +55,7 @@ body {
     visibility: visible;
     min-width: 500px;
     min-height: 350px;
-    color: black;
+    color: white;
     border: 2px solid white;
     flex-direction: row;
     justify-content: space-around;
@@ -86,7 +86,7 @@ body {
 
 .createBtn {
     background-color: white;
-    border: 1px solid red;
+    border: 1px solid #570707;
     border-radius: 1em;
     text-decoration: none;
     color: black;
@@ -94,7 +94,7 @@ body {
 }
 
 .createBtn:hover {
-    background-color: darkred;
+    background-color: #570707;
     border: 1px solid white;
     border-radius: 1em;
     opacity: 0.8;
@@ -134,7 +134,7 @@ body {
     text-decoration: none;
     padding: 25px;
     border: 2px solid black;
-    background-color: darkred;
+    background-color: #570707;
     color: white;
 }
 

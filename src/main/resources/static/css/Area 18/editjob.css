@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
 
+body {
+    background: linear-gradient(to bottom right, #570707, white, #570707);
+}
 
 /*NAVBAR*/
 .navbar {
@@ -35,12 +38,9 @@
     justify-content: space-between;
 }
 
-body {
-    background: linear-gradient(to bottom right, darkred, white, darkred);
-}
-
 .container-center {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -64,23 +64,6 @@ body {
     min-height: 100px;
 }
 
-.categories {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    max-width: 80%;
-}
-
-.cat-group {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    margin-right: 20px;
-}
-
-.cat-group label {
-    margin: 5px;
-}
 
 /* Style the form elements */
 .jobform label {
@@ -95,7 +78,7 @@ body {
 .jobform textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 4px;
     margin-bottom: 10px;
     font-family: 'Cairo', sans-serif;
@@ -103,7 +86,7 @@ body {
 
 .jobform input[type="submit"] {
     background-color: white;
-    color: #fff;
+    color: black;
     cursor: pointer;
     font-family: 'Cairo', sans-serif;
 }

@@ -2,14 +2,14 @@
 
 /*NAVBAR*/
 .navbar {
-    background-color: darkred;
+    background-color: #570707;
     color: white;
     border-bottom: 2px solid white;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: darkred;
+    background-color: #570707;
     border: 2px solid white;
 }
 
@@ -31,7 +31,7 @@
 }
 
 body {
-    background: linear-gradient(to bottom right, darkred, white, darkred);
+    background: linear-gradient(to bottom right, #570707, white, #570707);
     height: 100%;
     min-height: 100vh; /* To ensure the gradient covers the viewport */
     width: 100%;
@@ -83,11 +83,15 @@ body {
     font-family: 'Cairo', sans-serif;
 }
 
+.card-head h4 {
+    color: #570707;
+}
+
 .job-title {
     font-size: 45px;
     font-weight: bolder;
     margin-bottom: 10px;
-    color: darkred; /* Gold Title Color */
+    color: #570707; /* Gold Title Color */
 }
 
 .job-description {
@@ -98,7 +102,7 @@ body {
     align-items: center;
     background-color: #444444; /* Darker Gray Description Background */
     border-radius: 2em;
-    box-shadow: .5px 3px 5px darkred;
+    box-shadow: .5px 3px 5px #570707;
     color: white;
     min-width: 30%;
     min-height: 20vh;
@@ -120,7 +124,7 @@ body {
     padding: 6px 12px;
     border-radius: 4px;
     background-color: black; /* Gold Category Background */
-    color: darkred; /* White Category Text */
+    color: white; /* White Category Text */
     text-decoration: none;
     font-family: 'Cairo', sans-serif;
 }
@@ -150,27 +154,28 @@ body {
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 20px;
-    color: gold;
+    color: #570707;
     font-family: 'Cairo', sans-serif;
 }
 
 .applicant-list {
     min-height: 10vh;
     margin-bottom: 3em;
+    color: #570707;
 }
 
 .applicant-list a {
     display: block;
     margin-bottom: 8px;
     text-decoration: none;
-    color: #007bff; /* Blue Link Color */
+    color: #570707;
     font-family: 'Cairo', sans-serif;
 }
 
 .apply-button,
 .leave-button {
     padding: 10px 20px;
-    background-color: darkred; /* Gold Button Background */
+    background-color: #570707; /* Gold Button Background */
     color: #ffffff; /* White Button Text */
     border: none;
     border-radius: 4px;
@@ -183,7 +188,7 @@ body {
 
 .apply-button:hover,
 .leave-button:hover {
-    background-color: #c7a35d; /* Darker Gold on Hover */
+    background-color: #580808; /* Darker Gold on Hover */
 }
 
 .card-footer {
@@ -196,7 +201,7 @@ body {
 }
 
 .card-footer h6 {
-    color: #ffffff; /* White Footer Info Text */
+    color: #570707; /* White Footer Info Text */
 }
 
 .job-button-group {
@@ -273,7 +278,7 @@ body {
     background-color: #222222;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #e3c17a; /* Gold Border */
+    border: 1px solid #570707; /* Gold Border */
     width: 80%;
     color: #ffffff; /* White Text Color */
 }
@@ -303,7 +308,7 @@ body {
 .modal-content select {
     width: 100%;
     padding: 8px;
-    border: 1px solid gold; /* Gold Border */
+    border: 1px solid #570707; /* Gold Border */
     border-radius: 4px;
     background-color: #444444; /* Dark Gray Background */
     color: #ffffff; /* White Text Color */
@@ -311,7 +316,7 @@ body {
 
 .modal-btn {
     background-color: #111111;
-    color: gold;
+    color: white;
     margin-top: 5px;
 }
 
@@ -344,7 +349,7 @@ body {
     flex-direction: column;
     max-height: 70vh;
     overflow-y: auto;
-    background-color: #444444;
+    background-color: white;
     align-items: center;
     border-radius: 1em;
 }
@@ -362,8 +367,8 @@ body {
 
 .comment-section {
     margin-bottom: 10px;
-    border: 1px solid #e3c17a;
-    background-color: #222222;
+    border: 2px solid black;
+    background-color: #570707;
     color: #ffffff;
     padding: 10px;
     border-radius: 8px;
@@ -373,11 +378,13 @@ body {
     flex-direction: column;
     align-items: flex-start;
     word-break: break-word;
+    border-bottom: 1px solid white;
 }
 
 .comment-section .d-flex {
     display: flex;
     width: 100%;
+    border-bottom: 1px solid white;
 }
 
 .fa-trash:hover {
@@ -396,8 +403,12 @@ body {
     margin-right: 10px;
 }
 
+.comment-text {
+    margin-top: 8px;
+}
+
 .comment-section p {
-    margin: 0;
+    margin: 4px 0;
 }
 
 .comment-form {
@@ -410,7 +421,7 @@ body {
 .comment-form input[name="commentContent"] {
     flex: 1;
     padding: 8px;
-    border: 1px solid #e3c17a;
+    border: 2px solid #570707;
     border-radius: 4px;
 }
 

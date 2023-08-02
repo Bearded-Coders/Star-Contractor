@@ -2,14 +2,14 @@
 
 /*NAVBAR*/
 .navbar {
-    background-color: darkred;
+    background-color: #570707;
     color: white;
     border-bottom: 2px solid white;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: darkred;
+    background-color: #570707;
     border: 2px solid white;
 }
 
@@ -73,9 +73,9 @@
     min-height: 60vh;
     border: 2px solid white;
     border-radius: 2em;
-    box-shadow: 0 0 6px darkred;
+    box-shadow: 0 0 6px #570707;
     background: rgba(100, 100, 100, 0.8);
-    color: darkred;
+    color: #570707;
 }
 
 .jobCard {

@@ -72,6 +72,7 @@
         <!--        Description-->
         <label for="description">Description</label>
         <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
+        <label for="datepicker">Start Date</label>
         <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(singleJob.getStartDate(), 'MM/dd/yyyy')}" />
         <input type="hidden" th:field="*{createdDate}">
 
