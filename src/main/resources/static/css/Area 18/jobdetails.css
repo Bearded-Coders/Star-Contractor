@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
+/*NAVBAR*/
+.navbar {
+    background-color: darkred;
+    color: white;
+    border-bottom: 2px solid white;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: darkred;
+    border: 2px solid white;
+}
+
+.nav-link,
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+    text-shadow: 1px 1px white;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+body {
+    background: linear-gradient(to bottom right, darkred, white, darkred);
+    height: 100%;
+    min-height: 100vh; /* To ensure the gradient covers the viewport */
+    width: 100%;
+    background-attachment: fixed; /* Keep the background fixed */
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #ffffff; /* White Text Color */
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.gold-text {
+    color: gold;
+}
+
+.job-card {
+    background-color: white; /* Darker Card Background */
+    padding: 20px;
+    border: 1px solid #111111; /* Black Border */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 70%;
+    min-height: 80vh;
+    margin-bottom: 20px;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-family: 'Cairo', sans-serif;
+}
+
+.job-title {
+    font-size: 45px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    color: darkred; /* Gold Title Color */
+}
+
+.job-description {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #444444; /* Darker Gray Description Background */
+    border-radius: 2em;
+    box-shadow: .5px 3px 5px darkred;
+    color: white;
+    min-width: 30%;
+    min-height: 20vh;
+    padding: 10px;
+    font-family: 'Space Mono', monospace;
+}
+
+.categories {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.categories-item {
+    display: inline-block;
+    margin: 5px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: black; /* Gold Category Background */
+    color: darkred; /* White Category Text */
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+}
+
+.change-btn {
+    background-color: black;
+    border-radius: 9px;
+}
+
+.job-creator {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #ffffff; /* White Creator Info Text */
+    font-family: 'Cairo', sans-serif;
+}
+
+.job-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+}
+
+.middle-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    color: gold;
+    font-family: 'Cairo', sans-serif;
+}
+
+.applicant-list {
+    min-height: 10vh;
+    margin-bottom: 3em;
+}
+
+.applicant-list a {
+    display: block;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: #007bff; /* Blue Link Color */
+    font-family: 'Cairo', sans-serif;
+}
+
+.apply-button,
+.leave-button {
+    padding: 10px 20px;
+    background-color: darkred; /* Gold Button Background */
+    color: #ffffff; /* White Button Text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.2s;
+    font-family: 'Cairo', sans-serif;
+}
+
+.apply-button:hover,
+.leave-button:hover {
+    background-color: #c7a35d; /* Darker Gold on Hover */
+}
+
+.card-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.card-footer h6 {
+    color: #ffffff; /* White Footer Info Text */
+}
+
+.job-button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.job-button-group div a,
+.job-button-group div button {
+    background-color: #222222;
+    color: gold;
+    font-family: 'Cairo', sans-serif;
+}
+
+.job-button-group div button:hover,
+.job-button-group div a:hover {
+    background-color: #111111;
+}
+
+/* Alert Modal */
+#customAlertOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Ensure it appears on top of other elements */
+}
+
+#customAlertBox {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: black;
+}
+
+#customAlertTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: black;
+}
+
+#customAlertOkButton {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #222222;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #e3c17a; /* Gold Border */
+    width: 80%;
+    color: #ffffff; /* White Text Color */
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #ffffff; /* White Text Color on Hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Labels */
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+}
+
+/* Form Input Styles */
+.modal-content select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid gold; /* Gold Border */
+    border-radius: 4px;
+    background-color: #444444; /* Dark Gray Background */
+    color: #ffffff; /* White Text Color */
+}
+
+.modal-btn {
+    background-color: #111111;
+    color: gold;
+    margin-top: 5px;
+}
+
+/* Submit Button */
+.modal-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #e3c17a; /* Gold Button Background */
+    color: #222222; /* Black Text Color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.modal-content button:hover {
+    background-color: #c7a35d; /* Darker Gold on Hover */
+}
+.profile-thumbnail {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.comments {
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+    overflow-y: auto;
+    background-color: #444444;
+    align-items: center;
+    border-radius: 1em;
+}
+
+/* Track (the area where the scrollbar is shown) */
+.comments::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+/* Thumb (the draggable portion of the scrollbar) */
+.comments::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the thumb */
+    border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+.comment-section {
+    margin-bottom: 10px;
+    border: 1px solid #e3c17a;
+    background-color: #222222;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 20vw;
+    max-width: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    word-break: break-word;
+}
+
+.comment-section .d-flex {
+    display: flex;
+    width: 100%;
+}
+
+.fa-trash:hover {
+    color: white;
+    padding: 1px;
+}
+
+.font-icon:hover {
+    color: white !important;
+}
+
+.profile-thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-section p {
+    margin: 0;
+}
+
+.comment-form {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    width: 90%;
+}
+
+.comment-form input[name="commentContent"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #e3c17a;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    display: none;
+}
