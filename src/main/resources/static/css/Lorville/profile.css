@@ -5,11 +5,13 @@
     height: 100px;
     width: 100px;
 }
+
 .friendPic {
     border-radius: 50%;
     height: 45px;
     width: 45px;
 }
+
 .background {
     position: fixed;
     right: 0;

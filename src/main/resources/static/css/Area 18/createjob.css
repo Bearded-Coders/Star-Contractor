@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+
+/*NAVBAR*/
+.navbar {
+    background-color: darkred;
+    color: white;
+    border-bottom: 2px solid white;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: darkred;
+    border: 2px solid white;
+}
+
+.nav-link,
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+    text-shadow: 1px 1px white;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+}
+
+body {
+    background: linear-gradient(to bottom right, darkred, white, darkred);
+}
+
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the form within the page and set its width */
+.jobform {
+    background-color: darkred;
+    border-radius: 8px;
+    padding: 20px;
+    width: 50vw;
+    box-shadow: 0 4px 6px black;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    flex-direction: column;
+    margin-top: .5em;
+}
+
+#description {
+    min-height: 100px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    max-width: 80%;
+}
+
+.cat-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-right: 20px;
+}
+
+.cat-group label {
+    margin: 5px;
+}
+
+/* Style the form elements */
+.jobform label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Cairo', sans-serif;
+    color: white;
+}
+
+.jobform input,
+.jobform select,
+.jobform textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid white;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"] {
+    background-color: white;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"]:hover {
+    background-color: whitesmoke;
+}
