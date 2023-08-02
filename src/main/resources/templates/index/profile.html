@@ -122,22 +122,21 @@
 <!--        Jobs the user created-->
         <h3 th:if="${userProfileLink.myJobs != null}"><u>My Jobs</u></h3>
         <h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
-        <div class="jobCard" th:each="myJob : ${myJobs}" >
+        <div class="jobCard" th:if="${myJob.jobStatus != 'Complete'}" th:each="myJob : ${myJobs}" >
             <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
-                <ul class="userJobs">
-                    <li th:text="*{myJob.getTitle()}"></li>
-                    <li th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></li>
-                    <li th:text="'Status: ' + *{myJob.jobStatus}"></li>
-                </ul>
+                <h6 th:text="*{myJob.getTitle()}"></h6>
+                <h6 th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></h6>
+                <h6 th:text="'Status: ' + *{myJob.jobStatus}"></h6>
             </a>
         </div>
 
 <!--        Jobs user applied for-->
         <h3 th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
-        <div th:each="appliedJob : ${appliedJobs}">
-            <a class="Card" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
-                <h1 th:text="*{appliedJob.getTitle()}"></h1>
-                <h1 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h1>
+        <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">
+            <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+                <h6 th:text="*{appliedJob.getTitle()}"></h6>
+                <h6 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h6>
+                <h6 th:text="'Status: ' + ${appliedJob.getJobStatus()}"></h6>
             </a>
         </div>
 
