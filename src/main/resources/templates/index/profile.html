@@ -136,7 +136,7 @@
         </div>
 
 <!--        Jobs user applied for-->
-        <h3 th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
+        <h3 class="mt-3" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
         <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">
             <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
                 <h6 th:text="*{appliedJob.getTitle()}"></h6>
@@ -144,6 +144,30 @@
                 <h6 th:text="'Status: ' + ${appliedJob.getJobStatus()}"></h6>
             </a>
         </div>
+
+<!--        Jobs a user has completed-->
+<!--        We show this if the list is less than 5-->
+        <h3 class="mt-3" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}"><u>Completed Jobs</u></h3>
+        <div class="completed-jobs" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}">
+            <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Active'}" th:each="appliedJob : ${appliedJobs}">
+                <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+                    <h6 th:text="*{appliedJob.getTitle()}"></h6>
+                    <h6 class="red" th:if="*{appliedJob.getOutcome() == false}">Fail</h6>
+                    <h6 class="green" th:if="*{appliedJob.getOutcome() == true}">Successful</h6>
+                </a>
+            </div>
+            <div class="jobCard" th:if="${myJob.jobStatus != 'Active'}" th:each="myJob : ${myJobs}" >
+                <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
+                    <h6 th:text="*{myJob.getTitle()}"></h6>
+                    <h6 class="red" th:if="*{myJob.getOutcome() == false}">Fail</h6>
+                    <h6 class="green" th:if="*{myJob.getOutcome() == true}">Successful</h6>
+                </a>
+            </div>
+        </div>
+<!--        Else, we redirect them to completed jobs page-->
+        <a th:href="@{/jobs/completedjobs}" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) > 5}">Completed jobs</a>
+
+
 
         <div th:if="${userProfileLink.id == user.id}">
             <a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
