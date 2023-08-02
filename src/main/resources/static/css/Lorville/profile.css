@@ -46,28 +46,31 @@
 }
 
 .jobCard {
+    display: flex;
     width: 90%;
-    border-bottom: 2px solid black;
+    height: 70px;
+    border: 2px solid black;
+    border-radius: 1em;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
 }
 
 .jobLink {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.userJobs {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    list-style: none;
-    padding: 0;
+    color: gold;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 1em;
 }
 
-.userJobs li {
-    flex: 1;
-    text-align: center;
-    color: gold;
+.jobLink:hover {
+    color: black;
+    box-shadow: 1px 2px 3px gold;
+    text-decoration: none;
 }
 
 .messages {
