@@ -4,20 +4,20 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: darkred;
+    background-color: #570707;
     color: white;
 }
 
  /*NAVBAR*/
 .navbar {
-    background-color: darkred;
+    background-color: #570707;
     color: white;
     border-bottom: 2px solid white;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: darkred;
+    background-color: #570707;
     border: 2px solid white;
 }
 

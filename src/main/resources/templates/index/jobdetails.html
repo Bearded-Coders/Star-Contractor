@@ -95,9 +95,9 @@
             <!--    Middle Section of page-->
             <div class="middle-section">
                 <!--    Applicant List-->
-                <div>
+                <div class="applicant-list">
                     <h2><u>Applicants List</u></h2>
-                    <div class="applicant-list" th:each="applicant : ${singleJob.applicantList}">
+                    <div th:each="applicant : ${singleJob.applicantList}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                     </div>
                 </div>
@@ -203,7 +203,9 @@
                             </button>
                         </form>
                     </div>
-                    <p th:text="*{comment.content}"></p>
+                    <p class="comment-text" th:text="*{comment.content}"></p>
+<!--                   TODO: add dates to comments later-->
+<!--                    <h6 th:text="*{comment.getDate}"></h6>-->
                 </div>
             </div>
             <form class="comment-form" th:action="@{/jobs/{id}/comment(id=${singleJob.id})}" method="post">
