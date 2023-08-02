@@ -1,27 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
 
-/*LORVILLE NAVBAR*/
-.dropdown-menu {
-    background-color: #222222;
-}
 
+/*NAVBAR*/
 .navbar {
-    background-color: #222222;
-    color: gold;
-    border-bottom:2px solid gold;
+    background-color: white;
+    color: black;
+    border-bottom: 2px solid blue;
     text-decoration: none;
 }
 
-.dropdown-item {
-    color: gold;
+.dropdown-menu {
+    background-color: white;
+    border: 2px solid blue;
 }
 
-.nav-item,
 .nav-link,
-.dropdown-item-custom {
-    color: gold;
+.dropdown-item {
+    color: black;
     text-decoration: none;
-    font-family: 'Cairo', sans-serif;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: blue;
+}
+
+.dropdown-item:hover {
+    color: blue;
 }
 
 .navbar-collapse {
@@ -29,7 +35,7 @@
 }
 
 body {
-    background: linear-gradient(to bottom right, black, gold);
+    background: linear-gradient(to bottom right, black, white, black);
 }
 
 .container-center {
@@ -41,11 +47,11 @@ body {
 
 /* Center the form within the page and set its width */
 .jobform {
-    background-color: #222222;
+    background-color: white;
     border-radius: 8px;
     padding: 20px;
     width: 50vw;
-    box-shadow: 0 4px 6px white;
+    box-shadow: 0 4px 6px blue;
     display: flex;
     align-items: center;
     height: fit-content;
@@ -80,7 +86,8 @@ body {
     display: block;
     margin-bottom: 5px;
     font-family: 'Cairo', sans-serif;
-    color: gold;
+    color: black;
+    font-weight: bold;
 }
 
 .jobform input,
@@ -88,19 +95,21 @@ body {
 .jobform textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid gold;
+    border: 1px solid blue;
     border-radius: 4px;
     margin-bottom: 10px;
     font-family: 'Cairo', sans-serif;
 }
 
 .jobform input[type="submit"] {
-    background-color: gold;
-    color: #fff;
+    background-color: blue;
+    color: white;
     cursor: pointer;
     font-family: 'Cairo', sans-serif;
+    font-weight: bold;
 }
 
 .jobform input[type="submit"]:hover {
-    background-color: #d4af37;
+    background-color: #333333;
+    color: white;
 }
