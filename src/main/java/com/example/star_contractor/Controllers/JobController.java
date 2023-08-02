@@ -8,6 +8,7 @@ import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import com.example.star_contractor.Services.EmailService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ public class JobController {
     private final CategoriesRepository catDao;
     private final UserRepository userDao;
     private final CommentRepository commentDao;
+    private final EmailService emailService;
 
     User user = null;
 
@@ -38,11 +40,12 @@ public class JobController {
 //        return applicantsList;
 //    }
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
+        this.emailService = emailService;
     }
 
 
@@ -230,20 +233,22 @@ public class JobController {
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //            LocalDateTime startDate = LocalDateTime.parse(job.getStartDate(), formatter);
 //            job.setStartDate(String.valueOf(startDate));
-
+            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
             categories.setJobId(job);
             catDao.save(categories);
-            System.out.println(categories);
+//            System.out.println(categories);
 
 //             Save the job (which will have the associated category)
             job.setJobStatus("Active");
             jobsRepository.save(job);
-            System.out.println(categories.getJobId());
+            emailService.prepareAndSend(job, "Job Creation", body);
+//            System.out.println(categories.getJobId());
 
             return "redirect:/jobs";
         } catch (Exception e) {
-            System.out.println(e);
-            return "index/errors/exception"; // Exception occurred error page
+            e.printStackTrace();
+            // Handle the exception and show an error page
+            return "index/errors/exception";
         }
     }
 
