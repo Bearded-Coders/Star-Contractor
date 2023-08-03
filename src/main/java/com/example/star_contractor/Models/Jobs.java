@@ -17,6 +17,9 @@ public class Jobs implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
+    private String creatorEmail;
+
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
@@ -68,8 +71,9 @@ public class Jobs implements Serializable {
     }
 
 
-    public Jobs(Integer id, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories, List<Comment> comments) {
+    public Jobs(Integer id, String creatorEmail, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories, List<Comment> comments) {
         this.id = id;
+        this.creatorEmail = creatorEmail;
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -205,7 +209,16 @@ public class Jobs implements Serializable {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-//    @Override
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "Jobs{" +
 //                "id=" + id +

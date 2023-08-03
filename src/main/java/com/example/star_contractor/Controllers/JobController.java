@@ -226,24 +226,18 @@ public class JobController {
     @PostMapping("/jobs/createjob")
     public String addJob(@ModelAttribute Jobs job, @ModelAttribute Categories categories) {
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             job.setCreatedDate(LocalDateTime.now());
+            job.setCreatorEmail(user.getEmail());
 
-//            The current start date is a value of "String", we may need to change this later or verify that it is in the correct format in the future
-            // Convert the date string to LocalDateTime using DateTimeFormatter
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            LocalDateTime startDate = LocalDateTime.parse(job.getStartDate(), formatter);
-//            job.setStartDate(String.valueOf(startDate));
             String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
             categories.setJobId(job);
             catDao.save(categories);
-//            System.out.println(categories);
-
-//             Save the job (which will have the associated category)
             job.setJobStatus("Active");
             jobsRepository.save(job);
             emailService.prepareAndSend(job, "Job Creation", body);
 //            System.out.println(categories.getJobId());
-
+//            System.out.println("Should be creator ID" + job.getCreatorId());
             return "redirect:/jobs";
         } catch (Exception e) {
             e.printStackTrace();
