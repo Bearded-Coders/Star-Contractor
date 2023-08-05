@@ -125,7 +125,7 @@
         </div>
 
 <!--        Jobs the user created-->
-        <h3 th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}"><u>My Jobs</u></h3>
+        <a th:href="@{/jobs/{id}/myjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}"><u>My Jobs</u></a>
         <h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
         <div class="jobCard" th:if="${myJob.jobStatus != 'Complete'}" th:each="myJob : ${myJobs}" >
             <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">

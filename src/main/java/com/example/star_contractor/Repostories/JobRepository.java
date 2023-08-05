@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface JobRepository extends JpaRepository<Jobs, Integer> {
     Jobs getJobById(Integer id) throws Exception;
-    List<Jobs> findJobsByCreatorId(User user);
+//    Jobs getJobsByCreatorId(Integer id) throws Exception;
+    List<Jobs> findJobsByCreatorId(User creatorId);
     List<Jobs> findJobsByApplicantListContains(User user);
 
     @Query("SELECT DISTINCT j FROM Jobs j JOIN j.categories c WHERE " +

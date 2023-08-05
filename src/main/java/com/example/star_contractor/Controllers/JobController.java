@@ -146,7 +146,19 @@ public class JobController {
         model.addAttribute("comments", comments); // Pass the comments list to the model
         return "index/jobdetails";
     }
+    @GetMapping("/jobs/{id}/myjobs")
+    public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+
+        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
+//        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
+
+        model.addAttribute("myJobs", myJobs);
+//        model.addAttribute("category", categories);
+        model.addAttribute("user", user);
+        return "index/myjobs";
+    }
 
     // Comment on a job
     @PostMapping("/jobs/{id}/comment")
