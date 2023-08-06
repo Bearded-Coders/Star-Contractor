@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+body {
+    background: linear-gradient(to bottom right, white, black, white);
+}
+
+/*NAVBAR*/
+.navbar {
+    background-color: #444444;
+    color: #26b3f7;
+    border-bottom: 2px solid #26b3f7;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #444444;
+    border: 2px solid #26b3f7;
+}
+
+.nav-link,
+.dropdown-item {
+    color: #26b3f7;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+}
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the form within the page and set its width */
+.jobform {
+    background-color: #444444;
+    border-radius: 8px;
+    padding: 20px;
+    width: 50vw;
+    box-shadow: 0 4px 6px #26b3f7;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    flex-direction: column;
+    margin-top: .5em;
+}
+
+#description {
+    min-height: 100px;
+}
+
+
+/* Style the form elements */
+.jobform label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Cairo', sans-serif;
+    color: #26b3f7;
+}
+
+.jobform input,
+.jobform select,
+.jobform textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #26b3f7;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"] {
+    background-color: #26b3f7;
+    color: black;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"]:hover {
+    background-color: whitesmoke;
+}

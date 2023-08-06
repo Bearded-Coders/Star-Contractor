@@ -1,16 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+/*NAVBAR*/
+.navbar {
+    background-color: #444444;
+    color: #26b3f7;
+    border-bottom: 2px solid #26b3f7;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #444444;
+    border: 2px solid #26b3f7;
+}
+
+.nav-link,
+.dropdown-item {
+    color: #26b3f7;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+}
+
 .profile-picture {
     border-radius: 50%;
     height: 100px;
     width: 100px;
 }
-.jumbotron {
-    width: 100%;
-    height: 350px;
+
+.friendPic {
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
 }
-.jumbotron img {
-    width: 100%;
+
+.background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -9999;
+}
+
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+.friends-list {
+    min-width: 20vw;
+    min-height: 60vh;
+    border: 3px solid limegreen;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 40vw;
+    min-height: 60vh;
+    border: 2px solid #26b3f7;
+    border-radius: 2em;
+    box-shadow: 0 0 6px #26b3f7;
+    background: rgba(100, 100, 100, 0.8);
+    color: #26b3f7;
+}
+
+.jobCard {
+    display: flex;
+    width: 90%;
+    height: 70px;
+    border: 2px solid black;
+    border-radius: 1em;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+}
+
+.jobLink {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: space-around;
+    align-items: center;
     height: 100%;
+    width: 100%;
+    border-radius: 1em;
 }
-body {
-    background-color: blue;
+
+.jobLink:hover {
+    color: black;
+    box-shadow: 1px 2px 3px white;
+    text-decoration: none;
+}
+
+.completed-jobs {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+    min-width: 20vw;
+    border: 2px solid limegreen;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
 }
