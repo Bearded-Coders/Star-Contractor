@@ -103,7 +103,7 @@ body {
 
 .jobform input[type="submit"] {
     background-color: blue;
-    color: white;
+    color: white !important;
     cursor: pointer;
     font-family: 'Cairo', sans-serif;
     font-weight: bold;

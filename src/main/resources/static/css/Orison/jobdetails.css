@@ -131,6 +131,11 @@ body {
 .change-btn {
     background-color: black;
     border-radius: 9px;
+    color: white !important;
+}
+
+.orison-btnChange {
+    color: white !important;
 }
 
 .job-creator {
