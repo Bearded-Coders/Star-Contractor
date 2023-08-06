@@ -1,7 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #0b93d5;
+    background-color: #444444;
+    color: #26b3f7;
+}
+
+/*NAVBAR*/
+.navbar {
+    background-color: #444444;
+    color: #26b3f7;
+    border-bottom: 2px solid #26b3f7;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #444444;
+    border: 2px solid #26b3f7;
+}
+
+.nav-link,
+.dropdown-item {
+    color: #26b3f7;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.dropdown-item:hover {
+    color: black;
 }
 
 .jumbotron {
@@ -11,6 +43,7 @@ body {
     text-align: center;
     padding: 100px 0;
     height: 200px; /* Adjust the height as desired */
+    border: 2px solid black;
 }
 
 .jumbotron video {
@@ -27,16 +60,24 @@ h1 {
     text-align: center;
     font-size: 120px;
 }
+
+.contractor {
+    color: #26b3f7;
+}
+
 .info{
     margin-right: 10em;
     margin-left: 10em;
     font-size: 24px;
+    color: white;
+    font-family: 'Space Mono', monospace;
 }
 
 .image-gallery {
     width: 100%;
     overflow-x: hidden;
     white-space: nowrap; /* Ensures images stay in a single line */
+    border: 2px solid black;
 }
 
 .image-gallery img {
@@ -44,3 +85,4 @@ h1 {
     width: 100%;
     height: 500px;
 }
+

@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+
+/*NAVBAR*/
+.navbar {
+    background-color: #444444;
+    color: #26b3f7;
+    border-bottom: 2px solid #26b3f7;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #444444;
+    border: 2px solid #26b3f7;
+}
+
+.nav-link,
+.dropdown-item {
+    color: #26b3f7;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+}
+
+body {
+    background: linear-gradient(to bottom right, white, black, white);
+}
+
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Center the form within the page and set its width */
+.jobform {
+    background-color: #444444;
+    border-radius: 8px;
+    padding: 20px;
+    width: 50vw;
+    box-shadow: 0 4px 6px #26b3f7;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    flex-direction: column;
+    margin-top: .5em;
+}
+
+#description {
+    min-height: 100px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    max-width: 80%;
+}
+
+.cat-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-right: 20px;
+}
+
+.cat-group label {
+    margin: 5px;
+}
+
+/* Style the form elements */
+.jobform label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Cairo', sans-serif;
+    color: #26b3f7;
+    font-weight: bold;
+}
+
+.jobform input,
+.jobform select,
+.jobform textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #26b3f7;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.jobform input[type="submit"] {
+    background-color: #26b3f7;
+    color: black !important;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: bold;
+}
+
+.jobform input[type="submit"]:hover {
+    background-color: #333333;
+    color: white;
+}
