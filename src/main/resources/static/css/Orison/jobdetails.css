@@ -282,7 +282,7 @@ body {
     background-color: #222222;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #570707; /* Gold Border */
+    border: 1px solid #252593; /* Blue Border */
     width: 80%;
     color: #ffffff; /* White Text Color */
 }
@@ -312,7 +312,7 @@ body {
 .modal-content select {
     width: 100%;
     padding: 8px;
-    border: 1px solid #570707; /* Gold Border */
+    border: 1px solid #252593; /* Blue Border */
     border-radius: 4px;
     background-color: #444444; /* Dark Gray Background */
     color: #ffffff; /* White Text Color */
@@ -322,6 +322,11 @@ body {
     background-color: #111111;
     color: white;
     margin-top: 5px;
+}
+
+.modal-btn:hover {
+    background: white;
+    color: blue;
 }
 
 /* Submit Button */
@@ -339,7 +344,7 @@ body {
 }
 
 .modal-content button:hover {
-    background-color: #c7a35d; /* Darker Gold on Hover */
+    background-color: white; /* Darker Gold on Hover */
 }
 .profile-thumbnail {
     height: 45px;
