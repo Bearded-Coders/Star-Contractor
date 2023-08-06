@@ -40,6 +40,4 @@ public class EmailService {
             System.err.println("Error sending email: " + ex.getMessage());
         }
     }
-
-
 }

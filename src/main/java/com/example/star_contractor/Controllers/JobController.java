@@ -31,14 +31,7 @@ public class JobController {
     private final UserRepository userDao;
     private final CommentRepository commentDao;
     private final EmailService emailService;
-
     User user = null;
-
-//    private List<String> applicantsList = new ArrayList<>();
-//
-//    public List<String> getApplicantsList() {
-//        return applicantsList;
-//    }
 
     public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService) {
         this.jobsRepository = jobsRepository;
@@ -241,7 +234,7 @@ public class JobController {
 //             Save the job (which will have the associated category)
             job.setJobStatus("Active");
             jobsRepository.save(job);
-            emailService.prepareAndSend(job, "Job Creation", body);
+//            emailService.prepareAndSend(job, "Job Creation", body);
 //            System.out.println(categories.getJobId());
 
             return "redirect:/jobs";
