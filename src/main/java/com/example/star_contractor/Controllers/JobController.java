@@ -133,9 +133,12 @@ public class JobController {
 
         List<Comment> comments = commentDao.findCommentsByJob(singleJob); // Fix the method call to findCommentsByJob
 
+        String userUrl = "/profile/" + user.getId();
+
         model.addAttribute("singleJob", singleJob);
         model.addAttribute("category", categories);
         model.addAttribute("user", user);
+        model.addAttribute("userUrl", userUrl);
         model.addAttribute("comments", comments); // Pass the comments list to the model
         return "index/jobdetails";
     }
@@ -215,6 +218,8 @@ public class JobController {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 job.setCreatorId(user);
                 model.addAttribute("user", user);
+                String userUrl = "/profile/" + user.getId();
+                model.addAttribute("userUrl", userUrl);
             }
 
             model.addAttribute("category", category);
@@ -260,6 +265,8 @@ public class JobController {
         if (principal != null) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             model.addAttribute("user", user);
+            String userUrl = "/profile/" + user.getId();
+            model.addAttribute("userUrl", userUrl);
         }
 
         model.addAttribute("singleJob", singleJob);
