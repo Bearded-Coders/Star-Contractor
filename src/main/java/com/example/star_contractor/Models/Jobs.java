@@ -57,7 +57,7 @@ public class Jobs implements Serializable {
 //            joinColumns = {@JoinColumn(name = "job_id")},
 //            inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
 //    private List<User> applicantList;
-    @ManyToMany(mappedBy = "appliedJobs", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "appliedJobs", cascade = CascadeType.REMOVE)
     private List<User> applicantList = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobId", cascade = CascadeType.ALL)

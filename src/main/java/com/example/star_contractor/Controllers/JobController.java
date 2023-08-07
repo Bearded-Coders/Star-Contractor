@@ -1,5 +1,6 @@
 package com.example.star_contractor.Controllers;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
@@ -9,6 +10,8 @@ import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.EmailService;
+import jakarta.security.auth.message.config.AuthConfig;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -345,34 +349,54 @@ public class JobController {
     // Apply for job
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
-        Jobs existingJob = jobsRepository.getJobById(id);
-        User applicant = userDao.getUserById(usersId);
+        try {
+            Jobs existingJob = jobsRepository.getJobById(id);
+            User applicant = userDao.getUserById(usersId);
 
-        existingJob.getApplicantList().add(applicant); // Add the applicant to the job
-        applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
+            existingJob.getApplicantList().add(applicant); // Add the applicant to the job
+            applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
 
-        // Save the updated entities in the repository
-        jobsRepository.save(existingJob);
-        userDao.save(applicant);
+            // Save the updated entities in the repository
+            jobsRepository.save(existingJob);
+            userDao.save(applicant);
 
-        return "redirect:/jobs/" + id;
+            System.out.println("APPLIED TO JOB");
+            return "redirect:/jobs/" + id;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return "index/errors/exception";
+        }
+
     }
 
     // Remove applicant from job
+    @Transactional
     @PostMapping("/jobs/remove/{id}")
     public String removeJob(@PathVariable Integer id, @RequestParam(name = "userIdRemove") Long usersId) throws Exception {
+        try {
+            Jobs existingJob = jobsRepository.getJobById(id);
 
-        Jobs existingJob = jobsRepository.getJobById(id);
+            // Fetch the User object corresponding to the usersId
+            User applicant = userDao.getUserById(usersId);
 
-        // Fetch the User object corresponding to the usersId
-        User applicant = userDao.getUserById(usersId);
+            System.out.println(applicant.getId());
+            // Add the single applicant to the list
 
-        // Add the single applicant to the list
-        existingJob.getApplicantList().remove(applicant);
+            System.out.println("Applicant List Before Removal: " + existingJob.getApplicantList());
+            existingJob.getApplicantList().remove(applicant);
+            applicant.getAppliedJobs().remove(existingJob); // Added this to remove the exiting job from the applicant, it was forcing the applicant to remain on the job
 
-        // Save the updated job in the repository (not shown in your code, but you need to do this)
-        jobsRepository.save(existingJob);
 
-        return "redirect:/jobs/" + id;
+            // Save the updated job in the repository (not shown in your code, but you need to do this)
+            jobsRepository.save(existingJob);
+
+            System.out.println("Applicant List After Removal: " + existingJob.getApplicantList());
+            System.out.println("******************* Removed applicant from Job successfully ***********************");
+
+            return "redirect:/jobs/" + id;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return "index/errors/exception";
+        }
     }
 }

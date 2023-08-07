@@ -43,7 +43,7 @@ public class User{
             inverseJoinColumns = {@JoinColumn(name = "friend_id")}
     )
     private List<User> friendsList = new ArrayList<>();
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "applicants_users",
             joinColumns = {@JoinColumn(name = "applicants_id")},
             inverseJoinColumns = {@JoinColumn(name = "job_id")})
@@ -52,18 +52,6 @@ public class User{
     private List<Comment> comments = new ArrayList<>();
 //    Constructors
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
     public User() {
     }
 
@@ -210,5 +198,18 @@ public class User{
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
