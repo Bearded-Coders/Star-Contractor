@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -28,7 +31,7 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
             "AND (:pvp IS NULL OR c.pvp = :pvp) " +
             "AND (:pve IS NULL OR c.pve = :pve) " +
             "AND (:rolePlay IS NULL OR c.rolePlay = :rolePlay)")
-    List<Jobs> findJobsByCategoryTags(
+    Page<Jobs> findPaginatedJobsByCategoryTags(
             @Param("illegal") Boolean illegal,
             @Param("mining") Boolean mining,
             @Param("combat") Boolean combat,
@@ -39,6 +42,7 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
             @Param("delivery") Boolean delivery,
             @Param("pvp") Boolean pvp,
             @Param("pve") Boolean pve,
-            @Param("rolePlay") Boolean rolePlay
+            @Param("rolePlay") Boolean rolePlay,
+            Pageable pageable
     );
 }

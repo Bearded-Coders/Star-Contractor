@@ -148,7 +148,7 @@
 <!--JOB POSTINGS AND CARDS-->
 <section class="jobs-container">
 <!--    If complete we won't show the card-->
-    <div th:if="${AllJobs.jobStatus != 'Complete'}" th:each="AllJobs:${job}" class="job-card">
+    <div th:if="${AllJobs.jobStatus != 'Complete'}" th:each="AllJobs:${job.content}" class="job-card">
         <div class="card" th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}">
 <!--            Username and Payment-->
             <a th:href="@{/jobs/{id}(id=*{AllJobs.getId()})}" class="card-head">
@@ -188,6 +188,29 @@
         </div>
     </div>
 </section>
+
+<!-- ... Your job cards section ... -->
+
+<div class="pagination">
+    <ul>
+        <li th:if="${job.number > 0}">
+            <a th:href="@{/jobs(page=0)}" class="page-link">&lt;&lt;</a>
+        </li>
+        <li th:if="${job.number > 0}">
+            <a th:href="@{/jobs(page=${job.number - 1})}" class="page-link">&lt;</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, job.totalPages - 1)}" th:class="${i == job.number ? 'active' : ''}">
+            <a th:href="@{/jobs(page=${i})}" class="page-link" th:text="${i + 1}"></a>
+        </li>
+        <li th:if="${job.number < job.totalPages - 1}">
+            <a th:href="@{/jobs(page=${job.number + 1})}" class="page-link">&gt;</a>
+        </li>
+        <li th:if="${job.number < job.totalPages - 1}">
+            <a th:href="@{/jobs(page=${job.totalPages - 1})}" class="page-link">&gt;&gt;</a>
+        </li>
+    </ul>
+</div>
+
 
 
 <script src="/js/jobs.js"></script>
