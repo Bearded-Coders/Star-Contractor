@@ -12,6 +12,9 @@ import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.EmailService;
 import jakarta.security.auth.message.config.AuthConfig;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -60,12 +62,19 @@ public class JobController {
             @RequestParam(name = "pvp", required = false) Boolean pvp,
             @RequestParam(name = "pve", required = false) Boolean pve,
             @RequestParam(name = "rolePlay", required = false) Boolean rolePlay,
+            @RequestParam(name = "page", defaultValue = "0") int page,
             Model model,
             Principal principal) {
 
         try {
+            int pageSize = 10; // Number of jobs per page
+
+
             // Create a list to store categories for each job
             List<List<Categories>> categoriesList = new ArrayList<>();
+
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<Jobs> jobs;
 
             // Check if filters are present
             if(illegal != null || mining != null || combat != null || salvage != null || trading != null
@@ -73,10 +82,10 @@ public class JobController {
             || pvp != null || rolePlay != null) {
 
                 // Search jobs by provided categories
-                List<Jobs> jobs = jobsRepository.findJobsByCategoryTags(
+                  jobs = jobsRepository.findPaginatedJobsByCategoryTags(
                         illegal, mining, combat, salvage, trading, exploring,
-                        bountyHunting, delivery, pvp, pve, rolePlay);
-
+                        bountyHunting, delivery, pvp, pve, rolePlay, pageable);
+ 
                 // Loop through the jobs to fetch categories for each job
                 for (Jobs job : jobs) {
                     List<Categories> categories = catDao.findCategoriesByJobId(job);
@@ -94,12 +103,11 @@ public class JobController {
                 }
 
                 model.addAttribute("job", jobs);
-                model.addAttribute("categoriesList", categoriesList);
 
             } else {
 
                 // Otherwise we use findAll
-                List<Jobs> jobs = jobsRepository.findAll();
+                 jobs = jobsRepository.findAll(pageable);
 
                 // Loop through the jobs to fetch categories for each job
                 for (Jobs job : jobs) {
@@ -118,8 +126,8 @@ public class JobController {
                 }
 
                 model.addAttribute("job", jobs);
-                model.addAttribute("categoriesList", categoriesList);
             }
+            model.addAttribute("categoriesList", categoriesList);
 
             return "index/jobposts";
         } catch (Exception e) {

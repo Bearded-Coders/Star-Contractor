@@ -212,3 +212,46 @@
     min-height: 100%;
     z-index: -9999;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.pagination ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 3px;
+}
+
+.pagination .page-link:hover {
+    background-color: #ddd;
+}
+
+.pagination .active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.pagination .active .page-link:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
