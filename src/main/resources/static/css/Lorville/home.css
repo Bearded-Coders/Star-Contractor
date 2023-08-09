@@ -72,20 +72,20 @@ h1 {
     text-decoration: none;
 }
 
-.img-dropdown {
-    display: flex;
-    margin-right: 1em;
-    flex-direction: column;
-    align-items: flex-end;
-    position: relative;
-}
-
 .nav-item,
 .nav-link,
 .dropdown-item {
     color: gold;
     text-decoration: none;
     font-family: 'Cairo', sans-serif;
+}
+
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
 }
 
 .profile-picture {
