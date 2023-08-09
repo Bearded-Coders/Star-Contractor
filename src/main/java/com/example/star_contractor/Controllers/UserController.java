@@ -28,37 +28,7 @@ public class UserController {
     }
 
 
-//    LOGIN
-//    @GetMapping("/login")
-//    public String login(Model model) {
-//        try {
-//            Login login = new Login();
-//            model.addAttribute("login", login);
-//            return "index/login";
-//        } catch (Exception e) {
-//            return "index/errors/exception"; // Exception occurred error page
-//        }
-//    }
-//    @PostMapping("/login")
-//    public String userLogin(@ModelAttribute String email, String password) {
-//        try {
-//                User existingUser = userDao.findByEmail(email);
-//
-//                // Verify the password using bcrypt
-//                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//                if (passwordEncoder.matches(password, existingUser.getPassword())) {
-//                    // TODO: Implement security logic here, If needed
-//                    return "redirect:/"; // TODO: This is not redirecting to proper page
-//                } else {
-//                    // Passwords don't match, handle the error accordingly
-//                    return "index/errors/invalid-password"; // TODO: Create this alert or page
-//                }
-//        } catch (Exception e) {
-//            return "index/errors/exception"; // Exception occurred error page
-//        }
-//    }
-
-//    REGISTER
+//    REGISTER get route
     @GetMapping("/signup")
     public String register(Model model) {
         try {
@@ -70,6 +40,7 @@ public class UserController {
         }
     }
 
+    // REGISTER user post route
     @PostMapping("/signup")
     public String newRegistration(@ModelAttribute User user, Model model) {
         try {
@@ -93,22 +64,7 @@ public class UserController {
         }
     }
 
-//    @DeleteMapping("/removeaccount/{id}")
-//    public String removeAccount(@PathVariable Integer id) {
-//        userDao.deleteById(Long.valueOf(id));
-//        return "redirect:/deletesuccess"; // TODO: create this page or choose another
-//    }
-
-//    @PostMapping("/profile/delete")
-//    public String deleteProfile() {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        user = userDao.getReferenceById((long) user.getId());
-//
-//        userDao.delete(user);
-//
-//        return "redirect:/";
-//    }
-
+    // Remove account
     @PostMapping("/profile/delete")
     public String deleteUser(HttpServletRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -130,7 +86,7 @@ public class UserController {
     }
 
 
-
+//    LOGOUT
     private void logoutUser(HttpServletRequest request) {
         // Invalidate the session
         HttpSession session = request.getSession(false);

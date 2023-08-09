@@ -3,6 +3,11 @@
 /*LORVILLE NAVBAR*/
 .dropdown-menu {
     background-color: #222222;
+    border: 1px solid gold;
+    left: auto;
+    right: 0;
+    transform: translateX(15%);
+    transform-origin: right top;
 }
 
 .navbar {
@@ -15,10 +20,47 @@
 .nav-item,
 .nav-link,
 .dropdown-item {
-    /*background-color: #222222;*/
     color: gold;
     text-decoration: none;
     font-family: 'Cairo', sans-serif;
+}
+
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+
+.profile-picture {
+    height: 100%;
+    width: 7%;
+    cursor: pointer;
+}
+
+.navbar-nav {
+    max-width: 50%;
+}
+
+.fa-lines-leaning {
+    color: white;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .profile-picture {
+        max-width: 5%;
+    }
 }
 
 body {

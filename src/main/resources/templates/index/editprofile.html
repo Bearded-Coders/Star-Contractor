@@ -8,6 +8,56 @@
     <title>Edit Profile</title>
 </head>
 <body>
+
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">SC</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-lines-leaning lines-leaning"></i>
+    </button>
+
+    <div class="collapse navbar-collapse nav-div" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Home <span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/jobs}">Job Board</a>
+            </li>
+            <li  class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a th:if="${user?.getId() != null}" class="dropdown-item" th:href="@{/jobs/createjob}">Create Job</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item">
+                <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+            </li>
+            <li class="logout dropdown img-dropdown" sec:authorize="isAuthenticated()">
+                <!--                Proifle picture dropdown menu-->
+                <img class="profile-picture dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
+                <div class="dropdown-menu dropdown-menu-bottom" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item" th:href="@{${userUrl}}">Profile</a>
+                    <a class="dropdown-item" th:href="@{/}">Settings</a>
+                    <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <h2 class="">Edit Profile</h2>
 <form th:method="POST" th:action="@{/profile/edits/{userId}(userId=${user.id})}" th:object="${user}">
     <div class="container">
