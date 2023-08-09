@@ -26,18 +26,6 @@ body {
     text-shadow: #001F3F ;
 }
 
-.nav-div {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    align-items: flex-start;
-}
-
-.nav-login {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
 
 .jumbotron {
     position: relative;

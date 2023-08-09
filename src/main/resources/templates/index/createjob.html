@@ -21,7 +21,7 @@
     <a class="navbar-brand" href="#">SC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <i class="fa-solid fa-lines-leaning lines-leaning"></i>
     </button>
 
     <div class="collapse navbar-collapse nav-div" id="navbarSupportedContent">
@@ -38,7 +38,7 @@
                     Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
+                    <a th:if="${user?.getId() != null}" class="dropdown-item" th:href="@{/jobs/createjob}">Create Job</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -52,12 +52,14 @@
             <li sec:authorize="isAnonymous()" class="nav-item">
                 <a class="nav-link" th:href="@{/signup}">Sign Up</a>
             </li>
-            <li class="logout" sec:authorize="isAuthenticated()">
-                <!--                <a class="nav-link" th:href="@{/profile/{id}(id=${userProfileLink.getId()})}">Profile</a>-->
-                <a class="nav-link" th:href="@{${userUrl}}">Profile</a>
-            </li>
-            <li class="logout" sec:authorize="isAuthenticated()">
-                <a class="btn-link btn nav-link" th:href="@{/logout}">Logout</a>
+            <li class="logout dropdown img-dropdown" sec:authorize="isAuthenticated()">
+                <!--                Proifle picture dropdown menu-->
+                <img class="profile-picture dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
+                <div class="dropdown-menu dropdown-menu-bottom" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item" th:href="@{${userUrl}}">Profile</a>
+                    <a class="dropdown-item" th:href="@{/}">Settings</a>
+                    <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                </div>
             </li>
         </ul>
     </div>
