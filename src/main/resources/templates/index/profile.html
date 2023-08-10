@@ -140,7 +140,7 @@
         </div>
 
 <!--        Jobs user applied for-->
-        <h3 class="mt-3" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
+        <a th:href="@{/jobs/{id}/appliedjobs(id=*{userProfileLink.id})}" class="mt-3" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></a>
         <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">
             <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
                 <h6 th:text="*{appliedJob.getTitle()}"></h6>

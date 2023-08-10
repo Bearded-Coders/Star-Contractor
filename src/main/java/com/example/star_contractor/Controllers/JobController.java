@@ -168,21 +168,21 @@ public class JobController {
         return "index/myjobs";
     }
 
-//    @GetMapping("/jobs/{id}/appliedjobs")
-//    public String getAppliedJobs(@PathVariable Integer id, Model model) throws Exception {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//
-////        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
-//        List<Jobs> appliedJobs = jobsRepository.findJobsByApplicantListContains(user);
-//
-////        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
-//
-//        model.addAttribute("appliedJobs", appliedJobs);
-////        model.addAttribute("category", categories);
-//        model.addAttribute("user", user);
-//        return "index/myjobs";
-//    }
+    @GetMapping("/jobs/{id}/appliedjobs")
+    public String getAppliedJobs(@PathVariable Integer id, Model model) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+//        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
+        List<Jobs> appliedJobs = jobsRepository.findJobsByApplicantListContains(userDao.getReferenceById(Long.valueOf(id)));
+
+//        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
+
+        model.addAttribute("appliedJobs", appliedJobs);
+//        model.addAttribute("category", categories);
+        model.addAttribute("user", user);
+        return "index/appliedjobs";
+    }
 
     // Comment on a job
     @PostMapping("/jobs/{id}/comment")

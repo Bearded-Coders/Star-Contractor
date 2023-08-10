@@ -6,7 +6,12 @@
     <title>My Jobs</title>
 </head>
 <body>
-<div th:each="job : ${myJobs}">
+<div th:if="${myJobs.size()} < 1">
+    <p>You do not have any jobs!</p>
+    <br>
+    <a>Create A Jobe Here!</a>
+</div>
+<div th:unless="${myJobs.size()} < 1" th:each="job : ${myJobs}">
     <p th:text="${job.title}"></p>
 </div>
 </body>
