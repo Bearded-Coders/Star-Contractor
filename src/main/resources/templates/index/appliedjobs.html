@@ -55,8 +55,12 @@
         </ul>
     </div>
 </nav>
-
-<div th:each="appliedJob : ${appliedJobs}">
+<div th:if="${appliedJobs.size()} < 1">
+    <p>You do not have any applied jobs!</p>
+    <br>
+    <a>Join A Job Here!</a>
+</div>
+<div th:unless="${appliedJobs.size()} < 1" th:each="appliedJob : ${appliedJobs}">
     <p th:text="${appliedJob.title}"></p>
 </div>
 </body>
