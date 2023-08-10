@@ -19,6 +19,8 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
     List<Jobs> findJobsByCreatorId(User creatorId);
     List<Jobs> findJobsByApplicantListContains(User user);
 
+    Page<Jobs> findByDescriptionContainingIgnoreCase(String filter, Pageable pageable);
+
     @Query("SELECT DISTINCT j FROM Jobs j JOIN j.categories c WHERE " +
             "(:illegal IS NULL OR c.illegal = :illegal) " +
             "AND (:mining IS NULL OR c.mining = :mining) " +
