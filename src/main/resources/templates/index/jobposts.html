@@ -75,9 +75,11 @@
 <!--SEARCHBAR-->
 <section class="searchbar">
 <!--    Custom Search input and button-->
-    <form>
-        <input class="searchinput text-dark" type="text" placeholder="Search for job">
-        <input class="searchBtn text-dark" type="submit">
+    <!-- Custom Search input and dropdown -->
+    <form id="searchForm" th:action="@{/jobs/filter}">
+        <input class="searchinput text-dark" type="text" name="filter" placeholder="Search for job"
+               oninput="performSearch(this.value)">
+        <div id="dropdown" class="dropdown-content"></div>
     </form>
     <!--       Job Filter Dropdown-->
     <div class="dropdown custom-dropdown">
@@ -134,10 +136,9 @@
     </div>
 <!--    Create Job Btn-->
     <div>
-        <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
+        <a type="button" class="btn createBtn" th:href="@{/jobs/createjob}">Create Job</a>
     </div>
 </section>
-
 
 
 <!--JOB POSTINGS AND CARDS-->
@@ -185,7 +186,6 @@
 </section>
 
 <!-- ... Your job cards section ... -->
-
 <div class="pagination">
     <ul>
         <li th:if="${job.number > 0}">
@@ -205,8 +205,6 @@
         </li>
     </ul>
 </div>
-
-
 
 <script src="/js/jobs.js"></script>
 </body>
