@@ -133,7 +133,7 @@
 
 .picture-nav {
     height: 100%;
-    width: 7%;
+    width: 30px;
     cursor: pointer;
 }
 
@@ -156,7 +156,7 @@
     .img-dropdown {
         align-items: flex-start;
     }
-    .profile-picture {
+    .picture-nav {
         max-width: 5%;
     }
 }

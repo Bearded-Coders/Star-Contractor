@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- External CSS stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/6.4.0/css/all.css" />
     <link href="/css/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet">
     <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/editjob.css'">
     <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/editjob.css">
@@ -57,10 +58,11 @@
             </li>
             <li class="logout dropdown img-dropdown" sec:authorize="isAuthenticated()">
                 <!--                Proifle picture dropdown menu-->
-                <img class="profile-picture dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
+                <img class="picture-nav dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
                 <div class="dropdown-menu dropdown-menu-bottom" aria-labelledby="dropdownMenu2">
                     <a class="dropdown-item" th:href="@{${userUrl}}">Profile</a>
                     <a class="dropdown-item" th:href="@{/}">Settings</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                 </div>
             </li>
