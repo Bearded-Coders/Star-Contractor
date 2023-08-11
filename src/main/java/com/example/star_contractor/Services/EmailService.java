@@ -26,15 +26,56 @@ public class EmailService {
         User user = job.getCreatorId();
         String userEmail = job.getCreatorEmail();
 //        String userEmailAgain = job.get;
-        System.out.println("Id for user: " + user.getId());
-        System.out.println("Username for user: " + user.getUsername());
-//        System.out.println("Email for user: " + user.g());
-        System.out.println("Email for user: " + userEmail);
-        System.out.println("Starting Area for user: " + user.getStartingArea());
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        if (userEmail != null) {
+            msg.setTo(userEmail);
+        } else {
+            System.err.println("CreatorId or email is null. Cannot send the email.");
+            return; // Abort the email sending if creatorId or email is null
+        }
+
+        msg.setSubject(subject);
+        msg.setText(body);
+
+        try {
+            this.emailSender.send(msg);
+        } catch (MailException ex) {
+            System.err.println("Error sending email: " + ex.getMessage());
+        }
+    }
+
+    public void passwordRecovery(Jobs job, String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+
+        // Check if the creatorId and email are not null before setting the "To" address
+        User user = job.getCreatorId();
+        String userEmail = job.getCreatorEmail();
+//        String userEmailAgain = job.get;
+        if (userEmail != null) {
+            msg.setTo(userEmail);
+        } else {
+            System.err.println("CreatorId or email is null. Cannot send the email.");
+            return; // Abort the email sending if creatorId or email is null
+        }
+
+        msg.setSubject(subject);
+        msg.setText(body);
+
+        try {
+            this.emailSender.send(msg);
+        } catch (MailException ex) {
+            System.err.println("Error sending email: " + ex.getMessage());
+        }
+    }
+
+    public void emailVerify(Jobs job, String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+
+        // Check if the creatorId and email are not null before setting the "To" address
+        User user = job.getCreatorId();
+        String userEmail = job.getCreatorEmail();
+//        String userEmailAgain = job.get;
         if (userEmail != null) {
             msg.setTo(userEmail);
         } else {

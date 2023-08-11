@@ -141,6 +141,7 @@
             <br>
             <a>Create A Job Here!</a>
         </div>
+
         <div th:unless="${myJobs.size()} < 1" class="jobCard" th:if="${myJob.jobStatus != 'Complete'}" th:each="myJob : ${myJobs}">
             <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
                 <h6 th:text="*{myJob.getTitle()}"></h6>
