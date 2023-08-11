@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
 
+body {
+    background: linear-gradient(to bottom right, darkred, white, darkred);
+}
 
 /*NAVBAR*/
 .navbar {
@@ -12,6 +15,10 @@
 .dropdown-menu {
     background-color: #570707;
     border: 2px solid white;
+    left: auto;
+    right: 0;
+    transform: translateX(15%);
+    transform-origin: right top;
 }
 
 .nav-link,
@@ -31,12 +38,42 @@
     color: black;
 }
 
-.navbar-collapse {
-    justify-content: space-between;
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
 }
 
-body {
-    background: linear-gradient(to bottom right, darkred, white, darkred);
+.picture-nav {
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+}
+
+.navbar-nav {
+    max-width: 50%;
+}
+
+.fa-lines-leaning {
+    color: white;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
 }
 
 .container-center {

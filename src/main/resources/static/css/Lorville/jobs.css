@@ -33,9 +33,9 @@
     position: relative;
 }
 
-.profile-picture {
+.picture-nav {
     height: 100%;
-    width: 7%;
+    width: 30px;
     cursor: pointer;
 }
 
@@ -292,5 +292,11 @@
 .pagination .active .page-link:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+    color: black;
 }
 

@@ -57,10 +57,11 @@
             </li>
             <li class="logout dropdown img-dropdown" sec:authorize="isAuthenticated()">
                 <!--                Proifle picture dropdown menu-->
-                <img class="profile-picture dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
+                <img class="picture-nav dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
                 <div class="dropdown-menu dropdown-menu-bottom" aria-labelledby="dropdownMenu2">
                     <a class="dropdown-item" th:href="@{${userUrl}}">Profile</a>
                     <a class="dropdown-item" th:href="@{/}">Settings</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                 </div>
             </li>
@@ -74,9 +75,11 @@
 <!--SEARCHBAR-->
 <section class="searchbar">
 <!--    Custom Search input and button-->
-    <form>
-        <input class="searchinput text-dark" type="text" placeholder="Search for job">
-        <input class="searchBtn text-dark" type="submit">
+    <!-- Custom Search input and dropdown -->
+    <form id="searchForm" th:action="@{/jobs/filter}">
+        <input class="searchinput text-dark" type="text" name="filter" placeholder="Search for job"
+               oninput="performSearch(this.value)">
+        <div id="dropdown" class="dropdown-content"></div>
     </form>
     <!--       Job Filter Dropdown-->
     <div class="dropdown custom-dropdown">
@@ -133,10 +136,9 @@
     </div>
 <!--    Create Job Btn-->
     <div>
-        <a type="button" class="btn createBtn" th:href="@{jobs/createjob}">Create Job</a>
+        <a type="button" class="btn createBtn" th:href="@{/jobs/createjob}">Create Job</a>
     </div>
 </section>
-
 
 
 <!--JOB POSTINGS AND CARDS-->
@@ -184,7 +186,6 @@
 </section>
 
 <!-- ... Your job cards section ... -->
-
 <div class="pagination">
     <ul>
         <li th:if="${job.number > 0}">
@@ -204,8 +205,6 @@
         </li>
     </ul>
 </div>
-
-
 
 <script src="/js/jobs.js"></script>
 </body>

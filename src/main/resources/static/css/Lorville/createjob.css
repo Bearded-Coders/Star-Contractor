@@ -33,9 +33,9 @@
     position: relative;
 }
 
-.profile-picture {
+.picture-nav {
     height: 100%;
-    width: 7%;
+    width: 30px;
     cursor: pointer;
 }
 

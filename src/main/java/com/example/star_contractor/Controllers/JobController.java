@@ -12,6 +12,7 @@ import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.EmailService;
 import jakarta.security.auth.message.config.AuthConfig;
 import jakarta.transaction.Transactional;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -135,6 +136,43 @@ public class JobController {
         }
     }
 
+    @GetMapping("/jobs/filter")
+    public String filterJobs(
+            @RequestParam String filter, @RequestParam(name = "page", defaultValue = "0") int page,
+            Model model,
+            Principal principal) {
+        try {
+            int pageSize = 10; // Number of jobs per page
+
+            // Create a list to store categories for each job
+            List<List<Categories>> categoriesList = new ArrayList<>();
+
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<Jobs> jobs = jobsRepository.findByDescriptionContainingIgnoreCase(filter, pageable);;
+
+            for (Jobs job : jobs) {
+                List<Categories> categories = catDao.findCategoriesByJobId(job);
+                categoriesList.add(categories);
+            }
+
+            if (principal != null) {
+                user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                model.addAttribute("user", user);
+            }
+
+            if (user != null) {
+                String userUrl = "/profile/" + user.getId();
+                model.addAttribute("userUrl", userUrl);
+            }
+
+            model.addAttribute("job", jobs);
+
+            return "index/jobposts";
+        } catch (Exception e) {
+            return "index/errors/exception";
+        }
+    }
+
     // Go to Job Details page
     @GetMapping("/jobs/{id}")
     public String getJob(@PathVariable Integer id, Model model) throws Exception {
@@ -154,6 +192,7 @@ public class JobController {
         model.addAttribute("comments", comments); // Pass the comments list to the model
         return "index/jobdetails";
     }
+
     @GetMapping("/jobs/{id}/myjobs")
     public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
