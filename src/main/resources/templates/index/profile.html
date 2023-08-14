@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/6.4.0/css/all.css" />
     <link sec:authorize="isAuthenticated()" rel="stylesheet" th:href="'/css/' + ${user.startingArea} + '/profile.css'">
-    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/profile.css">
+    <link sec:authorize="isAnonymous()" rel="stylesheet" href="/css/default/profile.css">
 
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -22,6 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
     <title>Profile</title>
 
 </head>
@@ -90,7 +91,111 @@
 
 
 <div class="profile-page">
-<!--   Friends List -->
+    <div class="profile-cards">
+
+    <!--Profile Details Card-->
+    <div class="profile-card">
+        <a class="edit" th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}"><i class="fa-solid fa-pen"></i></a>
+
+        <div class="profile-head" th:if="${userProfileLink.id == user.id}">
+            <img class="profile-picture" th:src="${userProfileLink.profilePic}">
+            <label for="upload"></label>
+            <button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
+                    class="button-Pro picture-btn" name="upload"><i class="fa-solid fa-camera"></i>
+            </button>
+            <form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
+                <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
+            </form>
+        </div>
+
+        <div class="user-info">
+            <!--            Users Info-->
+            <div>
+                <!--        Welcome message-->
+                <h1 th:text="${userProfileLink.username}"></h1>
+                <!--        Starting Area-->
+                <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
+                <!--            AVG Rating-->
+                <h3 th:text="'Rating: ' + ${userProfileLink.getAvgRating()}"></h3>
+                <!--            Amount of jobs completed-->
+                <h3 th:text="${#lists.size(myJobs.?[jobStatus == 'Complete']) + #lists.size(appliedJobs.?[jobStatus == 'Complete'])} + ' Jobs completed'"></h3>
+            </div>
+
+            <!--        THIS IS FOR SOMEONE ELSE'S PAGE-->
+            <div th:unless="${userProfileLink.id} == ${user.id}">
+                <!--            <h1 th:text="${userProfileLink.username}"></h1>-->
+
+                <div th:if="${userProfileLink.friendsList.contains(user)}">
+                    <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
+                        <button>Remove Friend</button>
+                    </form>
+                </div>
+
+                <div th:unless="${userProfileLink.friendsList.contains(user)}">
+                    <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
+                        <button>Add Friend</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+        <!--        Jobs the user created-->
+        <div class="profile-card">
+            <h4 class="user-jobs"><u>My Jobs</u></h4>
+            <h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
+            <div class="jobCard" th:if="${myJob.jobStatus != 'Complete'}" th:each="myJob : ${myJobs}" >
+                <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
+                    <h6 th:text="*{myJob.getTitle()}"></h6>
+                    <h6 th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></h6>
+                    <h6 th:text="'Status: ' + *{myJob.jobStatus}"></h6>
+                </a>
+            </div>
+            <a th:href="@{/jobs/{id}/myjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}">See all Jobs &#8594;</a>
+        </div>
+
+        <!--        Jobs user applied for-->
+        <div class="profile-card">
+            <h4 class="user-jobs" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h4>
+            <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">
+                <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+                    <h6 th:text="*{appliedJob.getTitle()}"></h6>
+                    <h6 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h6>
+                    <h6 th:text="'Status: ' + ${appliedJob.getJobStatus()}"></h6>
+                </a>
+            </div>
+            <a th:href="@{/jobs/{id}/appliedjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}">See all applied &#8594;</a>
+        </div>
+
+        <!--        Jobs a user has completed-->
+        <div class="profile-card">
+            <!--        We show this if the list is less than 5-->
+            <h4 class="user-jobs" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}"><u>Completed Jobs</u></h4>
+            <div class="completed-jobs" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}">
+                <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Active'}" th:each="appliedJob : ${appliedJobs}">
+                    <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
+                        <h6 th:text="*{appliedJob.getTitle()}"></h6>
+                        <h6 class="red" th:if="*{appliedJob.getOutcome() == false}">Fail</h6>
+                        <h6 class="green" th:if="*{appliedJob.getOutcome() == true}">Successful</h6>
+                    </a>
+                </div>
+                <div class="jobCard" th:if="${myJob.jobStatus != 'Active'}" th:each="myJob : ${myJobs}" >
+                    <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
+                        <h6 th:text="*{myJob.getTitle()}"></h6>
+                        <h6 class="red" th:if="*{myJob.getOutcome() == false}">Fail</h6>
+                        <h6 class="green" th:if="*{myJob.getOutcome() == true}">Successful</h6>
+                    </a>
+                </div>
+            </div>
+            <!--        Else, we redirect them to completed jobs page-->
+            <a th:href="@{/jobs/completedjobs}" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) > 5}">Completed jobs</a>
+        </div>
+    </div>
+
+    <!--   Friends List -->
     <div class="friends-list">
         <h1>Friends Here</h1>
         <div th:each="friend : ${friends}">
@@ -100,97 +205,16 @@
             </a>
         </div>
     </div>
-    <!--Profile Details Card-->
-    <div class="profile-card">
-<!--        Profile Pic-->
-        <img class="profile-picture" th:src="${userProfileLink.profilePic}">
-<!--        Welcome message-->
-        <h1 th:if="${userProfileLink.id} == ${user.id}" th:text="'Welcome, ' + ${userProfileLink.username} + '!'"></h1>
-
-<!--        THIS IS FOR SOMEONE ELSE'S PAGE-->
-        <div th:unless="${userProfileLink.id} == ${user.id}">
-            <h1 th:text="${userProfileLink.username}"></h1>
-
-            <div th:if="${userProfileLink.friendsList.contains(user)}">
-                <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
-                    <button>Remove Friend</button>
-                </form>
-            </div>
-
-            <div th:unless="${userProfileLink.friendsList.contains(user)}">
-                <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
-                    <button>Add Friend</button>
-                </form>
-            </div>
-        </div>
-
-<!--        Starting Area-->
-        <div>
-            <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
-        </div>
-
-<!--        Jobs the user created-->
-        <a th:href="@{/jobs/{id}/myjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}"><u>My Jobs</u></a>
-        <h3 th:unless="${userProfileLink.id == user.id}" th:text="${userProfileLink.username} + '\'s Jobs'"></h3>
-        <div class="jobCard" th:if="${myJob.jobStatus != 'Complete'}" th:each="myJob : ${myJobs}" >
-            <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
-                <h6 th:text="*{myJob.getTitle()}"></h6>
-                <h6 th:text="'Payment: ' + *{myJob.getPaymentPercent()} + '%'"></h6>
-                <h6 th:text="'Status: ' + *{myJob.jobStatus}"></h6>
-            </a>
-        </div>
-
-<!--        Jobs user applied for-->
-        <h3 class="mt-3" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h3>
-        <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">
-            <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
-                <h6 th:text="*{appliedJob.getTitle()}"></h6>
-                <h6 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h6>
-                <h6 th:text="'Status: ' + ${appliedJob.getJobStatus()}"></h6>
-            </a>
-        </div>
-
-<!--        Jobs a user has completed-->
-<!--        We show this if the list is less than 5-->
-        <h3 class="mt-3" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}"><u>Completed Jobs</u></h3>
-        <div class="completed-jobs" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) <= 5}">
-            <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Active'}" th:each="appliedJob : ${appliedJobs}">
-                <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">
-                    <h6 th:text="*{appliedJob.getTitle()}"></h6>
-                    <h6 class="red" th:if="*{appliedJob.getOutcome() == false}">Fail</h6>
-                    <h6 class="green" th:if="*{appliedJob.getOutcome() == true}">Successful</h6>
-                </a>
-            </div>
-            <div class="jobCard" th:if="${myJob.jobStatus != 'Active'}" th:each="myJob : ${myJobs}" >
-                <a class="jobLink" th:href="@{/jobs/{id}(id=*{myJob.getId()})}">
-                    <h6 th:text="*{myJob.getTitle()}"></h6>
-                    <h6 class="red" th:if="*{myJob.getOutcome() == false}">Fail</h6>
-                    <h6 class="green" th:if="*{myJob.getOutcome() == true}">Successful</h6>
-                </a>
-            </div>
-        </div>
-<!--        Else, we redirect them to completed jobs page-->
-        <a th:href="@{/jobs/completedjobs}" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) > 5}">Completed jobs</a>
-
-
-
-        <div th:if="${userProfileLink.id == user.id}">
-            <a th:href="@{/profile/edit/{userId}(userId=${userProfileLink.id})}">Edit Profile</a>
-            <label for="upload"></label>
-            <button th:if="${user.getId() == userProfileLink.getId()}" type="button" id="upload"
-                    class="button-Pro picture-btn" name="upload">Profile Picture
-            </button>
-            <form th:action="@{/profile/upload}" th:method="POST" id="submitMePls">
-                <input id="stashFilestackURL" name="stashFilestackURL" type="hidden" value="">
-            </form>
-        </div>
-    </div>
-
-
-    <div class="messages">
-        <h1>Messages Here</h1>
-    </div>
 </div>
+
+
+
+
+
+<!--    Messages will be re included later-->
+<!--    <div class="messages">-->
+<!--        <h1>Messages Here</h1>-->
+<!--    </div>-->
 
 
 
