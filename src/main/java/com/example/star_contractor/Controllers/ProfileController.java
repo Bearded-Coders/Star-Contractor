@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +36,6 @@ public class ProfileController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        long userId = user.getId();
 
-
-
         User userProfile = userDao.findById(id).orElse(null);
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
@@ -50,12 +48,16 @@ public class ProfileController {
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
         model.addAttribute("friends", friendList);
-        System.out.println(userProfile.getFriendsList().contains(user));
+        System.out.println("************" + userProfile.getFriendsList() + "***********");
 
 
-        System.out.println(userProfile.getStartingArea());
+//        System.out.println(userProfile.getStartingArea());
 
-        return "index/profile";
+        if(user.getId().equals(id)) {
+            return "index/profile";
+        } else {
+            return "index/user-profile";
+        }
     }
 
     @GetMapping("/profile/edit/{userId}")

@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
+
+/*NAVBAR*/
+.navbar {
+    background-color: #570707;
+    color: white;
+    border-bottom: 2px solid white;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #570707;
+    border: 2px solid white;
+    left: auto;
+    right: 0;
+    transform: translateX(15%);
+    transform-origin: right top;
+}
+
+.nav-link,
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+    text-shadow: 1px 1px white;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+
+.picture-nav {
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+}
+
+.navbar-nav {
+    max-width: 50%;
+}
+
+.fa-lines-leaning {
+    color: white;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
+}
+
+
+/*Profile area*/
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 50vw;
+    border: 2px solid white;
+    border-radius: 2em;
+    box-shadow: 0 0 6px #570707;
+    background: rgba(100, 100, 100, 0.8);
+    color: #570707;
+    margin-top: 1em;
+}
+
+.profile-cards {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit {
+    display: flex;
+    justify-content: flex-end;
+    justify-self: end;
+    align-self: self-end;
+    margin: 1em;
+}
+
+.profile-head {
+    display: flex;
+    align-items: flex-end;
+    align-self: flex-start;
+    margin-left: 2em;
+
+}
+
+.fa-camera {
+    border-radius: 1em;
+}
+
+.profile-picture {
+    margin-top: 5px;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+}
+
+
+.user-details {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 7px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.user-jobs {
+    display: flex;
+    align-self: flex-start;
+    margin-left: 2em;
+}
+
+.friendPic {
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+}
+
+.background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -9999;
+}
+
+.friends-list {
+    min-width: 20vw;
+    min-height: 60vh;
+    border: 3px solid limegreen;
+}
+
+.jobCard {
+    display: flex;
+    width: 90%;
+    height: 70px;
+    border: 2px solid black;
+    border-radius: 1em;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+}
+
+.jobLink {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 1em;
+}
+
+.jobLink:hover {
+    color: black;
+    box-shadow: 1px 2px 3px white;
+    text-decoration: none;
+}
+
+.completed-jobs {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+    min-width: 20vw;
+    border: 2px solid limegreen;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
