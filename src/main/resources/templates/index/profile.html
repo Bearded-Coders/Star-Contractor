@@ -125,13 +125,13 @@
             <div th:unless="${userProfileLink.id} == ${user.id}">
                 <!--            <h1 th:text="${userProfileLink.username}"></h1>-->
 
-                <div th:if="${userProfileLink.friendsList.contains(user)}">
+                <div th:if="${userProfileLink.friends.contains(user)}">
                     <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
                         <button>Remove Friend</button>
                     </form>
                 </div>
 
-                <div th:unless="${userProfileLink.friendsList.contains(user)}">
+                <div th:unless="${userProfileLink.friends.contains(user)}">
                     <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
                         <button>Add Friend</button>
                     </form>
@@ -204,16 +204,16 @@
                 <p th:text="*{friend.username}"></p>
             </a>
         </div>
-        <div th:if="${sentFriendRequests >= 1}" class="sent-requests">
+        <div th:if="${#lists.size(sentFriendRequests) >= 1}" class="sent-requests">
             <h2>Sent Friend Requests</h2>
             <div th:each="sentRequest: ${sentFriendRequests}">
                 <h2 th:text="${sentRequest.getReceiver().getUsername()}"></h2>
             </div>
         </div>
-        <div th:if="${sentFriendRequests >= 1}" class="friend-requests">
+        <div th:if="${#lists.size(pendingFriendRequests) >= 1}" class="friend-requests">
             <h2>Pending Friend Requests</h2>
                 <div th:each="request : ${pendingFriendRequests}">
-                    <h4 th:text="${request.getSender().getUsername() + ' wants to be your friend.'}"></h4>
+                    <h4><a th:href="@{/profile/{id}(id=*{request.getSender().getId()})}"><span th:text="${request.getSender().getUsername()}"></span></a> wants to be your friend</h4>
                     <form th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
                         <button type="submit">Accept</button>
                     </form>

@@ -37,33 +37,49 @@ public class ProfileController {
     // Get user profile
     @GetMapping("/profile/{id}")
     public String getProfile(@PathVariable Long id, Model model) {
+        // Get the logged in user here
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.findById(user.getId()).orElse(null);
 
+        // Get the user whose profile any person is viewing
         User userProfile = userDao.findById(id).orElse(null);
+
+        // Search JobsRepo for applied/created jobs
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
-        List<User> friends = user.getFriends();
 
-        List<Friends> pendingFriendRequests = userProfile.getReceivedFriendRequests();
-        List<Friends> sentFriendRequests = userProfile.getSentFriendRequests();
-//        List<Friends> pendingFriendRequests = receivedFriendRequests.stream()
-//                .filter(request -> !request.getAccepted())
-//                .toList();
+
+        // Search the friend repo for friends and sent/received request's
+        List<User> friends = userProfile.getFriends();
+        List<Friends> receivedFriendRequests = userProfile.getReceivedFriendRequests();
+        List<Friends> pendingSentRequests = userProfile.getSentFriendRequests();
+
+        // We will filter to make sure we are not showing request's that have been accepted
+        List<Friends> sentFriendRequests = pendingSentRequests.stream()
+                .filter(request -> !request.getAccepted())
+                .toList();
+        List<Friends> pendingFriendRequests = receivedFriendRequests.stream()
+                .filter(request -> !request.getAccepted())
+                .toList();
 
 
 
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
-//        model.addAttribute("grabId", userId);
-        model.addAttribute("user", user);
+        model.addAttribute("user", currentUser);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
-        model.addAttribute("friends", friends);
-        model.addAttribute("pendingFriendRequests", pendingFriendRequests);
-        model.addAttribute("sentFriendRequests", sentFriendRequests);
-        System.out.println("************" + userProfile.getFriends() + "***********");
-        System.out.println("******************" + sentFriendRequests + "******************");
-        System.out.println("******************" + pendingFriendRequests + "******************");
+        model.addAttribute("friends", friends); // Friends List
+        model.addAttribute("pendingFriendRequests", pendingFriendRequests); // Pending friend request's
+        model.addAttribute("sentFriendRequests", sentFriendRequests); // Sent friend request's
+
+//        For trouble shooting
+        System.out.println("Friends' usernames:");
+        for (User friend : friends) {
+            System.out.println(friend.getUsername());
+        }
+
+        System.out.println(currentUser.getSentFriendRequests().contains(userProfile));
 
         if(user.getId().equals(id)) {
             // If the profile belongs to the user, we display the "profile" page
@@ -81,25 +97,24 @@ public class ProfileController {
         User currentUser = userDao.findById(user.getId()).orElse(null);
         User targetUser = userDao.findById(id).orElse(null); // Find the user to be added as a friend
 
-        if (currentUser != null && targetUser != null) {
-            Friends friendRequest = new Friends();
-            friendRequest.setSender(currentUser);
-            friendRequest.setReceiver(targetUser);
-            friendRequest.setRequested(true);
-            friendRequest.setAccepted(false);
-            friendRequest.setDenied(false);
+        try {
+            if (currentUser != null && targetUser != null) {
+                Friends friendRequest = new Friends();
+                friendRequest.setSender(currentUser);
+                friendRequest.setReceiver(targetUser);
+                friendRequest.setRequested(true);
+                friendRequest.setAccepted(false);
+                friendRequest.setDenied(false);
 
-            currentUser.getSentFriendRequests().add(friendRequest);
-            targetUser.getReceivedFriendRequests().add(friendRequest);
+                currentUser.getSentFriendRequests().add(friendRequest);
+                targetUser.getReceivedFriendRequests().add(friendRequest);
 
-            friendDao.save(friendRequest);
-            userDao.save(currentUser);
-            userDao.save(targetUser);
-
-            System.out.println(friendRequest);
-            System.out.println(currentUser.getSentFriendRequests().add(friendRequest));
-            System.out.println(targetUser.getReceivedFriendRequests().add(friendRequest));
-            System.out.println(currentUser.getSentFriendRequests());
+                friendDao.save(friendRequest);
+                userDao.save(currentUser);
+                userDao.save(targetUser);
+            }
+        } catch (Exception e) {
+            e.toString();
         }
 
         // Redirect to the user's profile page
@@ -133,18 +148,28 @@ public class ProfileController {
         User currentUser = userDao.findById(user.getId()).orElse(null);
         Friends friendRequest = friendDao.findById(requestId).orElse(null);
 
-        if (currentUser != null && friendRequest != null && friendRequest.getReceiver().equals(currentUser)) {
-            friendRequest.setAccepted(true);
+        try {
+            if (currentUser != null && friendRequest != null && friendRequest.getReceiver().equals(currentUser)) {
+                friendRequest.setAccepted(true);
 
-            User sender = friendRequest.getSender();
-            User receiver = friendRequest.getReceiver();
+                User sender = friendRequest.getSender();
+                User receiver = friendRequest.getReceiver();
 
-            sender.getFriends().add(receiver);
-            receiver.getFriends().add(sender);
+                sender.getFriends().add(receiver);
+                receiver.getFriends().add(sender);
 
-            userDao.save(sender);
-            userDao.save(receiver);
-            friendDao.save(friendRequest);
+                userDao.save(sender);
+                userDao.save(receiver);
+                friendDao.delete(friendRequest);
+
+                System.out.println("Sender: " + sender.getUsername());
+                System.out.println("Reciever: " + receiver.getUsername());
+                System.out.println("Request Id: " + requestId);
+                System.out.println("User added friend");
+            }
+
+        } catch (Exception e) {
+            e.toString();
         }
 
         // Redirect to the user's profile page

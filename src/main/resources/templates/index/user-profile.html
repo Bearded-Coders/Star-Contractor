@@ -117,8 +117,11 @@
         </div>
 
 <!--        Add and remove friend-->
-<!--        TODO: Add friends is always showing, need to figure out why the "userProfileLink.friendsList.contains(user)" is returning false even though they are displayed in the friendslist-->
         <div class="add-remove" th:unless="${userProfileLink.id == user.id}">
+          <div th:if="${userProfileLink.getSentFriendRequests().contains(user)}">
+            <h6>Request Pending...</h6>
+          </div>
+
           <div th:if="!${userProfileLink.friends.contains(user)}">
             <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
               <button class="btn btn-dark">Add Friend</button>
@@ -130,12 +133,6 @@
               <button class="btn btn-dark">Remove Friend</button>
             </form>
           </div>
-
-<!--          This is for troubleshooting-->
-<!--          <p>User ID: <span th:text="${user.id}"></span></p>-->
-<!--          <p>User Profile Link Object: <span th:text="${userProfileLink}"></span></p>-->
-<!--          <p>Friends List: <span th:text="${userProfileLink.friends}"></span></p>-->
-<!--          <p>Contains User: <span th:text="${user.friends.contains(userProfileLink)}"></span></p>-->
         </div>
       </div>
     </div>
