@@ -197,23 +197,27 @@
 
     <!--   Friends List -->
     <div class="friends-list">
-        <h1>Friends Here</h1>
-        <div th:each="friend : ${friends}">
+        <h1 class="text-center">Friends</h1>
+        <div class="friend-card" th:each="friend : ${friends}">
             <a class="d-flex" th:href="@{/profile/{id}(id=*{friend.id})}">
                 <img class="friendPic" th:src="*{friend.profilePic}">
                 <p th:text="*{friend.username}"></p>
             </a>
         </div>
-        <div th:if="${pendingFriendRequests != null}" class="friend-requests">
+        <div th:if="${sentFriendRequests >= 1}" class="sent-requests">
+            <h2>Sent Friend Requests</h2>
+            <div th:each="sentRequest: ${sentFriendRequests}">
+                <h2 th:text="${sentRequest.getReceiver().getUsername()}"></h2>
+            </div>
+        </div>
+        <div th:if="${sentFriendRequests >= 1}" class="friend-requests">
             <h2>Pending Friend Requests</h2>
-            <ul>
-                <li th:each="request : ${pendingFriendRequests}">
-                    <p th:text="${request.sender.username + ' wants to be your friend.'}"></p>
+                <div th:each="request : ${pendingFriendRequests}">
+                    <h4 th:text="${request.getSender().getUsername() + ' wants to be your friend.'}"></h4>
                     <form th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
                         <button type="submit">Accept</button>
                     </form>
-                </li>
-            </ul>
+                </div>
         </div>
     </div>
 </div>

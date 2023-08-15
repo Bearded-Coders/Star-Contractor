@@ -44,10 +44,11 @@ public class ProfileController {
         List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
         List<User> friends = user.getFriends();
 
-        List<Friends> receivedFriendRequests = user.getReceivedFriendRequests();
-        List<Friends> pendingFriendRequests = receivedFriendRequests.stream()
-                .filter(request -> !request.getAccepted())
-                .toList();
+        List<Friends> pendingFriendRequests = userProfile.getReceivedFriendRequests();
+        List<Friends> sentFriendRequests = userProfile.getSentFriendRequests();
+//        List<Friends> pendingFriendRequests = receivedFriendRequests.stream()
+//                .filter(request -> !request.getAccepted())
+//                .toList();
 
 
 
@@ -59,7 +60,10 @@ public class ProfileController {
         model.addAttribute("filestackapi", filestackapi);
         model.addAttribute("friends", friends);
         model.addAttribute("pendingFriendRequests", pendingFriendRequests);
+        model.addAttribute("sentFriendRequests", sentFriendRequests);
         System.out.println("************" + userProfile.getFriends() + "***********");
+        System.out.println("******************" + sentFriendRequests + "******************");
+        System.out.println("******************" + pendingFriendRequests + "******************");
 
         if(user.getId().equals(id)) {
             // If the profile belongs to the user, we display the "profile" page
@@ -74,8 +78,7 @@ public class ProfileController {
     @PostMapping("/profile/add/{id}")
     public String addFriend(@PathVariable Long id, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.findById(user.getId()).orElse(null);
         User targetUser = userDao.findById(id).orElse(null); // Find the user to be added as a friend
 
         if (currentUser != null && targetUser != null) {
@@ -92,6 +95,11 @@ public class ProfileController {
             friendDao.save(friendRequest);
             userDao.save(currentUser);
             userDao.save(targetUser);
+
+            System.out.println(friendRequest);
+            System.out.println(currentUser.getSentFriendRequests().add(friendRequest));
+            System.out.println(targetUser.getReceivedFriendRequests().add(friendRequest));
+            System.out.println(currentUser.getSentFriendRequests());
         }
 
         // Redirect to the user's profile page
@@ -101,7 +109,8 @@ public class ProfileController {
     // Remove a friend
     @PostMapping("/profile/remove/{id}")
     public String removeFriend(@PathVariable Long id, Model model) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.findById(user.getId()).orElse(null);
         User friendToRemove = userDao.findById(id).orElse(null); // Find the friend to be removed
 
         if (currentUser != null && friendToRemove != null) {
@@ -120,7 +129,8 @@ public class ProfileController {
     // Accept Friend Request
     @PostMapping("/profile/accept-friend-request/{requestId}")
     public String acceptFriendRequest(@PathVariable Long requestId, Model model) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.findById(user.getId()).orElse(null);
         Friends friendRequest = friendDao.findById(requestId).orElse(null);
 
         if (currentUser != null && friendRequest != null && friendRequest.getReceiver().equals(currentUser)) {
