@@ -119,23 +119,23 @@
 <!--        Add and remove friend-->
 <!--        TODO: Add friends is always showing, need to figure out why the "userProfileLink.friendsList.contains(user)" is returning false even though they are displayed in the friendslist-->
         <div class="add-remove" th:unless="${userProfileLink.id == user.id}">
-          <div th:if="!${userProfileLink.friendsList.contains(user)}">
+          <div th:if="!${userProfileLink.friends.contains(user)}">
             <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
               <button class="btn btn-dark">Add Friend</button>
             </form>
           </div>
 
-          <div th:if="${userProfileLink.friendsList.contains(user)}">
+          <div th:if="${userProfileLink.friends.contains(user)}">
             <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
               <button class="btn btn-dark">Remove Friend</button>
             </form>
           </div>
 
 <!--          This is for troubleshooting-->
-          <p>User ID: <span th:text="${user.id}"></span></p>
-          <p>User Profile Link ID: <span th:text="${userProfileLink.id}"></span></p>
-          <p>Friends List: <span th:text="${userProfileLink.friendsList}"></span></p>
-          <p>Contains User: <span th:text="${userProfileLink.friendsList.contains(user)}"></span></p>
+<!--          <p>User ID: <span th:text="${user.id}"></span></p>-->
+<!--          <p>User Profile Link Object: <span th:text="${userProfileLink}"></span></p>-->
+<!--          <p>Friends List: <span th:text="${userProfileLink.friends}"></span></p>-->
+<!--          <p>Contains User: <span th:text="${user.friends.contains(userProfileLink)}"></span></p>-->
         </div>
       </div>
     </div>
@@ -153,18 +153,6 @@
       <a th:href="@{/jobs/{id}/myjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}">See all Jobs &#8594;</a>
     </div>
 
-    <!--        Jobs user applied for-->
-    <div class="profile-card">
-<!--      <h4 class="user-jobs" th:if="${userProfileLink.appliedJobs}"><u>Applied Jobs</u></h4>-->
-<!--      <div class="jobCard" th:if="${appliedJob.getJobStatus() != 'Complete'}" th:each="appliedJob : ${appliedJobs}">-->
-<!--        <a class="jobLink" th:href="@{/jobs/{id}(id=*{appliedJob.getId()})}">-->
-<!--          <h6 th:text="*{appliedJob.getTitle()}"></h6>-->
-<!--          <h6 th:text="'Payment: ' + *{appliedJob.getPaymentPercent()} + '%'"></h6>-->
-<!--          <h6 th:text="'Status: ' + ${appliedJob.getJobStatus()}"></h6>-->
-<!--        </a>-->
-<!--      </div>-->
-<!--      <a th:href="@{/jobs/{id}/appliedjobs(id=*{userProfileLink.id})}" th:if="${userProfileLink.myJobs != null && userProfileLink.id == user.id}">See all applied &#8594;</a>-->
-    </div>
 
     <!--        Jobs a user has completed-->
     <div class="profile-card">
@@ -195,6 +183,9 @@
   <div class="friends-list">
     <h1>Friends Here</h1>
     <div th:each="friend : ${friends}">
+      <div th:if="${friends}" class="friends-card">
+
+      </div>
       <a class="d-flex" th:href="@{/profile/{id}(id=*{friend.id})}">
         <img class="friendPic" th:src="*{friend.profilePic}">
         <p th:text="*{friend.username}"></p>

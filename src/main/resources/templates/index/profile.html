@@ -204,6 +204,17 @@
                 <p th:text="*{friend.username}"></p>
             </a>
         </div>
+        <div th:if="${pendingFriendRequests != null}" class="friend-requests">
+            <h2>Pending Friend Requests</h2>
+            <ul>
+                <li th:each="request : ${pendingFriendRequests}">
+                    <p th:text="${request.sender.username + ' wants to be your friend.'}"></p>
+                    <form th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
+                        <button type="submit">Accept</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
