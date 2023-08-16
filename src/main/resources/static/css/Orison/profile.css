@@ -55,26 +55,69 @@
     color: white;
 }
 
-@media screen and (max-width: 992px) {
-    .collapse.show {
-        display: flex;
-        flex-direction: column;
-    }
-    .navbar-nav {
-        max-width: 100%;
-    }
-    .img-dropdown {
-        align-items: flex-start;
-    }
-    .picture-nav {
-        max-width: 5%;
-    }
+/*Profile area*/
+.profile-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1em;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 50vw;
+    border: 2px solid white;
+    border-radius: 2em;
+    box-shadow: 0 0 4px blue;
+    background: rgba(100, 100, 100, 0.8);
+    color: blue;
+    margin-top: 1em;
+}
+
+.profile-cards {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit {
+    display: flex;
+    justify-content: flex-end;
+    justify-self: end;
+    align-self: self-end;
+    margin: 1em;
+}
+
+.profile-head {
+    display: flex;
+    align-items: flex-end;
+    align-self: flex-start;
+    margin-left: 2em;
+}
+
+.fa-camera {
+    border-radius: 1em;
 }
 
 .profile-picture {
     border-radius: 50%;
     height: 100px;
     width: 100px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    margin-left: 2em;
+}
+
+.user-jobs {
+    display: flex;
+    align-self: flex-start;
+    margin-left: 2em;
 }
 
 .friendPic {
@@ -90,33 +133,6 @@
     min-width: 100%;
     min-height: 100%;
     z-index: -9999;
-}
-
-.profile-page {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 1em;
-}
-
-.friends-list {
-    min-width: 20vw;
-    min-height: 60vh;
-    border: 3px solid limegreen;
-}
-
-.profile-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    min-width: 40vw;
-    min-height: 60vh;
-    border: 2px solid white;
-    border-radius: 2em;
-    box-shadow: 0 0 6px blue;
-    background: rgba(100, 100, 100, 0.8);
-    color: blue;
 }
 
 .jobCard {
@@ -168,4 +184,100 @@
 
 .red {
     color: red;
+}
+
+/*Friends list*/
+.friends-list {
+    min-width: 20vw;
+    min-height: 60vh;
+    border: 2px solid blue;
+    border-radius: 1em;
+    background: rgba(100, 100, 100, 0.8);
+    overflow-y: scroll;
+}
+
+/* Track (the area where the scrollbar is shown) */
+.friends-list::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+/* Thumb (the draggable portion of the scrollbar) */
+.friends-list::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the thumb */
+    border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+.friend-card {
+    display: flex;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.friend-card a,
+.pending-card a,
+.sent-card a {
+    margin-left: 10px;
+}
+
+.friend-card a h4,
+.pending-card a h4,
+.sent-card a h4 {
+    color: blue;
+}
+
+/* Styling for sent and pending friend requests sections */
+.sent-requests, .friend-requests {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sent-card {
+    display: flex;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.pending-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.friend-card h4, .sent-card h4, .pending-card h4 {
+    margin-top: 10px;
+}
+
+/* Styling for buttons */
+button {
+    margin-top: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
 }
