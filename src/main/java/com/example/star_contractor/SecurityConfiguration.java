@@ -48,7 +48,7 @@ public class SecurityConfiguration {
 
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/resetpassword/{token}/{emailReset}", "/resetpassword", "/", "/jobs", "/signup", "/login","/register", "/webjars/font-awesome/6.4.0/css/all.css").permitAll()
+                        .requestMatchers("/emailverify/{token}/{username}", "/resetpassword/{token}/{emailReset}", "/resetpassword", "/", "/jobs", "/signup", "/login","/register", "/webjars/font-awesome/6.4.0/css/all.css").permitAll()
                         // allow loading of static resources
                         .requestMatchers("/css/**", "/js/**", "assets/**").permitAll()
                 )

@@ -36,7 +36,21 @@ public class EmailService {
         }
     }
 
+    public void emailVerify(String email, String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
 
+        msg.setFrom(from);
+
+        msg.setTo(email);
+        msg.setSubject(subject);
+        msg.setText(body);
+
+        try{
+            this.emailSender.send(msg);
+        } catch (MailException ex) {
+            System.err.println("Error sending email: " + ex.getMessage());
+        }
+    }
 
 
 
