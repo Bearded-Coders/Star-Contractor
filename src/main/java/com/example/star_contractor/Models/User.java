@@ -28,35 +28,40 @@ public class User{
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Rating> ratings;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "friendship",
-//            joinColumns = {@JoinColumn(name = "user_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
-//    )
-//    private List<User> friendsList;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<User> friends = new ArrayList<>(); // Initialize with an empty list
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "friendship",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
-    )
-    private List<User> friendsList = new ArrayList<>();
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private final List<Friends> sentFriendRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private final List<Friends> receivedFriendRequests = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "applicants_users",
             joinColumns = {@JoinColumn(name = "applicants_id")},
             inverseJoinColumns = {@JoinColumn(name = "job_id")})
     private List<Jobs> appliedJobs = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-//    Constructors
 
+    //    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "friendship",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+//    )
+//    private List<User> friendsList = new ArrayList<>();
+
+//    Constructors
     public User() {
     }
 
-
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -66,7 +71,7 @@ public class User{
         this.avgRating = avgRating;
         this.myJobs = myJobs;
         this.ratings = ratings;
-        this.friendsList = friendsList;
+        this.friends = friends;
         this.appliedJobs = appliedJobs;
         this.comments = comments;
     }
@@ -80,7 +85,7 @@ public class User{
         this.avgRating = avgRating;
         this.myJobs = myJobs;
         this.ratings = ratings;
-        this.friendsList = friendsList;
+        this.friends = friendsList;
         this.appliedJobs = appliedJobs;
         this.comments = comments;
     }
@@ -176,12 +181,20 @@ public class User{
         this.ratings = ratings;
     }
 
-    public List<User> getFriendsList() {
-        return friendsList;
+    public List<User> getFriends() {
+        return friends;
     }
 
-    public void setFriendsList(List<User> friendsList) {
-        this.friendsList = friendsList;
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public List<Friends> getSentFriendRequests() {
+        return sentFriendRequests;
+    }
+
+    public List<Friends> getReceivedFriendRequests() {
+        return receivedFriendRequests;
     }
 
     public List<Jobs> getAppliedJobs() {

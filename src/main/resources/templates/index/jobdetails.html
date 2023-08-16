@@ -107,6 +107,7 @@
                 <!--        Start Date-->
                 <div>
                     <h6 th:text="'Start Date: ' +${singleJob.getStartDate()}"></h6>
+                    <h6 th:text="${singleJob.getCreatorId().id}"></h6>
                 </div>
             </div>
 
@@ -131,7 +132,7 @@
                 <h6 th:if="${singleJob.getCreatedDate() != null}"
                     th:text="'Posted on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
                 </h6>
-                <h6 class="job-creator" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></h6>
+                <a class="job-creator" th:href="@{/profile/{id}(id=${singleJob.getCreatorId().id})}" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></a>
                 <h6 th:if="${singleJob.getCreatorId().getAvgRating() != null}"
                     th:text="'Creators Rating: ' + ${singleJob.getCreatorId().getAvgRating()}">
                 </h6>

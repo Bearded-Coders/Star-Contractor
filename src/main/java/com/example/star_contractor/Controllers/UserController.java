@@ -1,22 +1,17 @@
 package com.example.star_contractor.Controllers;
 
 import com.example.star_contractor.Models.Jobs;
-import com.example.star_contractor.Models.Login;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
@@ -28,7 +23,7 @@ public class UserController {
     }
 
 
-//    REGISTER get route
+//    REGISTER user get route
     @GetMapping("/signup")
     public String register(Model model) {
         try {
@@ -81,8 +76,8 @@ public class UserController {
             for (Jobs job : userToDelete.getAppliedJobs()) {
                 job.getApplicantList().remove(userToDelete);
             }
-            for (User friend : userToDelete.getFriendsList()) {
-                friend.getFriendsList().remove(userToDelete);
+            for (User friend : userToDelete.getFriends()) {
+                friend.getFriends().remove(userToDelete);
             }
             logoutUser(request);
             userDao.delete(userToDelete);

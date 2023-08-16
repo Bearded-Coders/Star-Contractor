@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User getUserById(Long usersId);
 
-    List<User> findUsersByFriendsListContaining(User id);
+    List<User> findUsersByFriendsContaining(User id);
 //    List<User> findUsersByApplicant();
 }
