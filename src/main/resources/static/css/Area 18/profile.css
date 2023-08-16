@@ -56,23 +56,6 @@
     color: white;
 }
 
-@media screen and (max-width: 992px) {
-    .collapse.show {
-        display: flex;
-        flex-direction: column;
-    }
-    .navbar-nav {
-        max-width: 100%;
-    }
-    .img-dropdown {
-        align-items: flex-start;
-    }
-    .picture-nav {
-        max-width: 5%;
-    }
-}
-
-
 /*Profile area*/
 .profile-page {
     display: flex;
@@ -282,4 +265,20 @@ button {
 
 button:hover {
     background-color: #555;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
 }
