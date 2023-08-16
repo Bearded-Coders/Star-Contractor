@@ -40,6 +40,7 @@ public class ProfileController {
         // Get the logged in user here
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.findById(user.getId()).orElse(null);
+        String userUrl = "/profile/" + user.getId();
 
         // Get the user whose profile any person is viewing
         User userProfile = userDao.findById(id).orElse(null);
@@ -47,7 +48,6 @@ public class ProfileController {
         // Search JobsRepo for applied/created jobs
         List<Jobs> userJobs = jobDao.findJobsByCreatorId(userDao.getReferenceById(id));
         List<Jobs> appliedJobs = jobDao.findJobsByApplicantListContains(userDao.getReferenceById(id));
-
 
         // Search the friend repo for friends and sent/received request's
         List<User> friends = userProfile.getFriends();
@@ -61,7 +61,6 @@ public class ProfileController {
         List<Friends> pendingFriendRequests = receivedFriendRequests.stream()
                 .filter(request -> !request.getAccepted())
                 .toList();
-
         boolean hasSentFriendRequest = currentUser.getSentFriendRequests().stream()
                 .anyMatch(request -> request.getReceiver().getId().equals(id));
 
@@ -69,9 +68,9 @@ public class ProfileController {
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
         model.addAttribute("user", currentUser);
+        model.addAttribute("userUrl", userUrl);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
-
         model.addAttribute("hasSentFriendRequest", hasSentFriendRequest);
         model.addAttribute("friends", friends); // Friends List
         model.addAttribute("pendingFriendRequests", pendingFriendRequests); // Pending friend request's
