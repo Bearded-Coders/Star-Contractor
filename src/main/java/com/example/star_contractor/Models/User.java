@@ -49,14 +49,6 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    //    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "friendship",
-//            joinColumns = {@JoinColumn(name = "user_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
-//    )
-//    private List<User> friendsList = new ArrayList<>();
-
 //    Constructors
     public User() {
     }

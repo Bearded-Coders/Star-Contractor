@@ -90,8 +90,8 @@
         <img class="background" th:if="${userProfileLink.startingArea} == 'Grim Hex'" src="/assets/img/GrimV2.jpeg">
 
 
-<div class="profile-page">
-    <div class="profile-cards">
+<main class="profile-page">
+    <section class="profile-cards">
 
     <!--Profile Details Card-->
     <div class="profile-card">
@@ -120,27 +120,7 @@
                 <!--            Amount of jobs completed-->
                 <h3 th:text="${#lists.size(myJobs.?[jobStatus == 'Complete']) + #lists.size(appliedJobs.?[jobStatus == 'Complete'])} + ' Jobs completed'"></h3>
             </div>
-
-            <!--        THIS IS FOR SOMEONE ELSE'S PAGE-->
-            <div th:unless="${userProfileLink.id} == ${user.id}">
-                <!--            <h1 th:text="${userProfileLink.username}"></h1>-->
-
-                <div th:if="${userProfileLink.friends.contains(user)}">
-                    <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
-                        <button>Remove Friend</button>
-                    </form>
-                </div>
-
-                <div th:unless="${userProfileLink.friends.contains(user)}">
-                    <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
-                        <button>Add Friend</button>
-                    </form>
-                </div>
-            </div>
         </div>
-
-
-
     </div>
 
         <!--        Jobs the user created-->
@@ -193,39 +173,45 @@
             <!--        Else, we redirect them to completed jobs page-->
             <a th:href="@{/jobs/completedjobs}" th:if="${#lists.size(appliedJobs.?[jobStatus != 'Active']) + #lists.size(myJobs.?[jobStatus != 'Active']) > 5}">Completed jobs</a>
         </div>
-    </div>
+    </section>
 
     <!--   Friends List -->
-    <div class="friends-list">
+    <section class="friends-list">
         <h1 class="text-center">Friends</h1>
         <div class="friend-card" th:each="friend : ${friends}">
-            <a class="d-flex" th:href="@{/profile/{id}(id=*{friend.id})}">
+            <a class="ml-2 d-flex flex-row" th:href="@{/profile/{id}(id=*{friend.id})}">
                 <img class="friendPic" th:src="*{friend.profilePic}">
-                <p th:text="*{friend.username}"></p>
+                <h4 th:text="*{friend.username}"></h4>
             </a>
         </div>
         <div th:if="${#lists.size(sentFriendRequests) >= 1}" class="sent-requests">
-            <h2>Sent Friend Requests</h2>
-            <div th:each="sentRequest: ${sentFriendRequests}">
-                <img class="friendPic" th:src="${sentRequest.getReceiver().getProfilePic()}" alt="profile-pic" />
-                <h4><a th:href="@{/profile/{id}(id=*{sentRequest.getReceiver().getId()})}"><span th:text="${sentRequest.getReceiver().getUsername()}"></span></a></h4>
+            <h4>Sent Friend Requests</h4>
+            <div th:each="sentRequest: ${sentFriendRequests}" class="sent-card">
+                <a th:href="@{/profile/{id}(id=*{sentRequest.getReceiver().getId()})}" class="ml-2 d-flex flex-row">
+                    <img class="friendPic" th:src="${sentRequest.getReceiver().getProfilePic()}" alt="profile-pic" />
+                    <h4 th:text="${sentRequest.getReceiver().getUsername()}"></h4>
+                </a>
             </div>
         </div>
         <div th:if="${#lists.size(pendingFriendRequests) >= 1}" class="friend-requests">
-            <h2>Pending Friend Requests</h2>
-                <div th:each="request : ${pendingFriendRequests}">
-                    <img class="friendPic" th:src="${request.getSender().getProfilePic()}" alt="profile-pic" />
-                    <h4><a th:href="@{/profile/{id}(id=*{request.getSender().getId()})}"><span th:text="${request.getSender().getUsername()}"></span></a></h4>
-                    <form th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
-                        <button type="submit">Accept</button>
-                    </form>
-                    <form th:action="@{/profile/deny-friend-request/{requestId}(requestId=${request.id})}" method="post">
-                        <button type="submit">Deny</button>
-                    </form>
+            <h4>Pending Friend Requests</h4>
+                <div th:each="request : ${pendingFriendRequests}" class="pending-card">
+                    <a th:href="@{/profile/{id}(id=*{request.getSender().getId()})}" class="ml-2 d-flex flex-row">
+                        <img class="friendPic" th:src="${request.getSender().getProfilePic()}" alt="profile-pic" />
+                        <h4 th:text="${request.getSender().getUsername()}"></h4>
+                    </a>
+                    <div class="mr-1 d-flex flex-row">
+                        <form class="mr-1" th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form class="ml-1" th:action="@{/profile/deny-friend-request/{requestId}(requestId=${request.id})}" method="post">
+                            <button type="submit">Deny</button>
+                        </form>
+                    </div>
                 </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
 
 

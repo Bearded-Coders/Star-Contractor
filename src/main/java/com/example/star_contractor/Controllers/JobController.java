@@ -64,10 +64,10 @@ public class JobController {
         try {
             int pageSize = 10; // Number of jobs per page
 
-
             // Create a list to store categories for each job
             List<List<Categories>> categoriesList = new ArrayList<>();
 
+            // Pagination
             Pageable pageable = PageRequest.of(page, pageSize);
             Page<Jobs> jobs;
 
