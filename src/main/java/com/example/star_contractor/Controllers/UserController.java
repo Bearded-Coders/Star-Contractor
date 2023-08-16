@@ -12,11 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
+import java.time.Instant;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
+import java.util.Map;
 
 
 @Controller
@@ -26,6 +29,8 @@ public class UserController {
     private final EmailService emailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private Map<String, Instant> tokenCreationTimes = new HashMap<>();
 
 
     public UserController(UserRepository userDao, EmailService emailService) {
@@ -60,9 +65,15 @@ public class UserController {
     @PostMapping("/resetpassword")
     public String sendEmail(@RequestParam("email") String emailReset) {
 
+        SecureRandom random = new SecureRandom();
+        byte[] tokenBytes = new byte[32];
+        random.nextBytes(tokenBytes);
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
 
+        // Store the token creation time
+        Instant tokenCreationTime = Instant.now();
+        tokenCreationTimes.put(token, tokenCreationTime);
 
-        String token = "testingToken";
 
         String body = "http://localhost:8080/resetpassword/" + token + "/" + emailReset;
 
@@ -82,9 +93,19 @@ public class UserController {
     }
     @GetMapping("/resetpassword/{token}/{emailReset}")
     public String tokenSent(@PathVariable String token, @PathVariable String emailReset, Model model) {
-        User user = userDao.findByEmail(emailReset);
-        model.addAttribute("user", user);
-        model.addAttribute("token", token);
+        // Check if the token is valid and not expired
+        Instant tokenCreationTime = tokenCreationTimes.get(token);
+        if (tokenCreationTime == null || Instant.now().isAfter(tokenCreationTime.plusSeconds(3600))) {
+            System.out.println("Your token has expired!");
+        } else {
+            // Token is valid and not expired, proceed with the reset process
+            User user = userDao.findByEmail(emailReset);
+            model.addAttribute("user", user);
+            model.addAttribute("token", token);
+
+            // Remove the token entry from the map to mark it as used
+            tokenCreationTimes.remove(token);
+        }
 
         return "/index/resetpassword-token";
     }
@@ -137,7 +158,6 @@ public class UserController {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
-
     // Remove account
     @PostMapping("/profile/delete")
     public String deleteUser(HttpServletRequest request) {
