@@ -2,15 +2,15 @@
 
 /*NAVBAR*/
 .navbar {
-    background-color: #570707;
+    background-color: white;
     color: white;
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid blue;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: #570707;
-    border: 2px solid white;
+    background-color: white;
+    border: 2px solid blue;
     left: auto;
     right: 0;
     transform: translateX(15%);
@@ -19,19 +19,18 @@
 
 .nav-link,
 .dropdown-item {
-    color: white;
+    color: black;
     text-decoration: none;
     font-family: 'Orbitron', sans-serif;
     font-weight: bold;
 }
 
 .nav-link:hover {
-    color: black;
-    text-shadow: 1px 1px white;
+    color: blue;
 }
 
 .dropdown-item:hover {
-    color: black;
+    color: blue;
 }
 
 .img-dropdown {
@@ -56,7 +55,6 @@
     color: white;
 }
 
-
 /*Profile area*/
 .profile-page {
     display: flex;
@@ -73,9 +71,9 @@
     min-width: 50vw;
     border: 2px solid white;
     border-radius: 2em;
-    box-shadow: 0 0 6px #570707;
+    box-shadow: 0 0 4px blue;
     background: rgba(100, 100, 100, 0.8);
-    color: #570707;
+    color: blue;
     margin-top: 1em;
 }
 
@@ -125,6 +123,7 @@
     display: flex;
     flex-direction: column;
 }
+
 
 .user-jobs {
     display: flex;
@@ -202,7 +201,7 @@
 .friends-list {
     min-width: 20vw;
     min-height: 60vh;
-    border: 2px solid white;
+    border: 2px solid blue;
     border-radius: 1em;
     background: rgba(100, 100, 100, 0.8);
     overflow-y: scroll;
@@ -224,13 +223,12 @@
 }
 
 .friend-card a h4 {
-    color: #570707;
+    color: blue;
 }
 
 .friend-card h4 {
     margin-top: 10px;
 }
-
 
 @media screen and (max-width: 992px) {
     .collapse.show {
