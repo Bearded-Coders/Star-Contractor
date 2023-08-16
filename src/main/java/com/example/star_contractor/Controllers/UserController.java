@@ -132,27 +132,54 @@ public class UserController {
 
     // REGISTER user post route
     @PostMapping("/signup")
-    public String newRegistration(@ModelAttribute User user, Model model) {
+    public String newRegistration(@ModelAttribute User user, Model model, @RequestParam("email") String email) {
+        User userObject = userDao.findByEmail(email);
         try {
+
+            SecureRandom random = new SecureRandom();
+            byte[] tokenBytes = new byte[32];
+            random.nextBytes(tokenBytes);
+            String token = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
+
+
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(user.getPassword());
 
+
+
             // Set the hashed password to the user object
+            user.setVerified(false);
             user.setPassword(hashedPassword);
 
             user.setProfilePic("/assets/img/default_profile_pic.png");
 
             userDao.save(user);
-
+            String body = "http://localhost:8080/emailverify/" + token + "/" + user.getUsername();
+            System.out.println(user.getEmail());
             // Add user info to the page
             User returningUser = userDao.findByEmail(user.getEmail());
             model.addAttribute("user", returningUser);
             // Then redirect to the profile page
+
+            emailService.emailVerify(user.getEmail(), "Verify Email", body);
+
             return "redirect:/login";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
+
+    @GetMapping("/emailverify/{token}/{username}")
+    public String emailVerify(@PathVariable String token, @PathVariable String username, Model model) {
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
+
+        user.setVerified(true);
+        userDao.save(user);
+
+        return "users/login"; // Replace with the actual name of your confirmation page
+    }
+
     // Remove account
     @PostMapping("/profile/delete")
     public String deleteUser(HttpServletRequest request) {
