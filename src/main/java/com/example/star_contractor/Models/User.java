@@ -23,6 +23,8 @@ public class User{
     private String profilePic;
     @Column()
     private Short avgRating;
+    @Column(nullable = false)
+    private Boolean verified;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<Jobs> myJobs;
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -61,7 +63,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -69,6 +71,7 @@ public class User{
         this.startingArea = startingArea;
         this.profilePic = profilePic;
         this.avgRating = avgRating;
+        this.verified = verified;
         this.myJobs = myJobs;
         this.ratings = ratings;
         this.friends = friends;
@@ -76,16 +79,17 @@ public class User{
         this.comments = comments;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, List<Jobs> myJobs, List<Rating> ratings, List<User> friendsList, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.startingArea = startingArea;
         this.profilePic = profilePic;
         this.avgRating = avgRating;
+        this.verified = verified;
         this.myJobs = myJobs;
         this.ratings = ratings;
-        this.friends = friendsList;
+        this.friends = friends;
         this.appliedJobs = appliedJobs;
         this.comments = comments;
     }
@@ -100,6 +104,7 @@ public class User{
         startingArea = copy.startingArea;
         profilePic = copy.profilePic;
         avgRating = copy.avgRating;
+        verified = copy.verified;
         myJobs = copy.myJobs;
         ratings = copy.ratings;
         appliedJobs = copy.appliedJobs;
@@ -211,6 +216,14 @@ public class User{
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
 
     @Override

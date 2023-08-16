@@ -111,12 +111,7 @@ public class UserController {
     }
 
     @PostMapping("/resetpassword/{token}/{emailReset}")
-    public String newPasswordSubmit(
-            @PathVariable String token,
-            @PathVariable String emailReset,
-            @RequestParam String password,
-            Model model
-    ) {
+    public String newPasswordSubmit(@PathVariable String token, @PathVariable String emailReset, @RequestParam String password, Model model) {
         User user = userDao.findByEmail(emailReset);
 
         model.addAttribute("user", user);
