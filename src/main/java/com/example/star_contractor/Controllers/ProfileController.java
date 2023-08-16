@@ -183,13 +183,16 @@ public class ProfileController {
     // Deny Friend request
     @PostMapping("/profile/deny-friend-request/{requestId}")
     public String denyFriendRequest(@PathVariable Long requestId, Model model) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.findById(user.getId()).orElse(null);
         Friends friendRequest = friendDao.findById(requestId).orElse(null);
 
         if (currentUser != null && friendRequest != null && friendRequest.getReceiver().equals(currentUser)) {
-            friendRequest.setDenied(true);
-
-            friendDao.save(friendRequest);
+//            friendRequest.setDenied(true);
+//            TODO: Implement logic of how we want to handle the timeout to allow another request
+            friendDao.delete(friendRequest);
+            System.out.println(friendRequest);
+            System.out.println("Successfully deleted request");
         }
 
         // Redirect to the user's profile page
