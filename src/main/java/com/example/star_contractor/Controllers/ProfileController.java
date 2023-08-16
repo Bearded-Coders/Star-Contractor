@@ -62,6 +62,8 @@ public class ProfileController {
                 .filter(request -> !request.getAccepted())
                 .toList();
 
+        boolean hasSentFriendRequest = currentUser.getSentFriendRequests().stream()
+                .anyMatch(request -> request.getReceiver().getId().equals(id));
 
 
         model.addAttribute("userProfileLink", userProfile);
@@ -69,6 +71,8 @@ public class ProfileController {
         model.addAttribute("user", currentUser);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
+
+        model.addAttribute("hasSentFriendRequest", hasSentFriendRequest);
         model.addAttribute("friends", friends); // Friends List
         model.addAttribute("pendingFriendRequests", pendingFriendRequests); // Pending friend request's
         model.addAttribute("sentFriendRequests", sentFriendRequests); // Sent friend request's
@@ -79,7 +83,7 @@ public class ProfileController {
             System.out.println(friend.getUsername());
         }
 
-        System.out.println(currentUser.getSentFriendRequests().contains(userProfile));
+        System.out.println("***************" + hasSentFriendRequest + "***************");
 
         if(user.getId().equals(id)) {
             // If the profile belongs to the user, we display the "profile" page

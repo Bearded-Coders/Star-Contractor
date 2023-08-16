@@ -118,16 +118,19 @@
 
 <!--        Add and remove friend-->
         <div class="add-remove" th:unless="${userProfileLink.id == user.id}">
-          <div th:if="${userProfileLink.getSentFriendRequests().contains(user)}">
+          <!-- Show if there is a pending friend request -->
+          <div th:if="${hasSentFriendRequest}">
             <h6>Request Pending...</h6>
           </div>
 
-          <div th:if="!${userProfileLink.friends.contains(user)}">
+          <!-- Show if no friend request has been sent and they are not friends -->
+          <div th:unless="${hasSentFriendRequest || userProfileLink.friends.contains(user)}">
             <form th:action="@{/profile/add/{id}(id=${userProfileLink.id})}" method="POST">
               <button class="btn btn-dark">Add Friend</button>
             </form>
           </div>
 
+          <!-- Show if they are already friends -->
           <div th:if="${userProfileLink.friends.contains(user)}">
             <form th:action="@{/profile/remove/{id}(id=${userProfileLink.id})}" method="POST">
               <button class="btn btn-dark">Remove Friend</button>
