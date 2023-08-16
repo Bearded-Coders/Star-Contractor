@@ -306,9 +306,11 @@ public class JobController {
             catDao.save(categories);
             job.setJobStatus("Active");
             jobsRepository.save(job);
+
+//            This code will email the creator of a job.
 //            emailService.prepareAndSend(job, "Job Creation", body);
-//            System.out.println(categories.getJobId());
-//            System.out.println("Should be creator ID" + job.getCreatorId());
+
+
             return "redirect:/jobs";
         } catch (Exception e) {
             e.printStackTrace();

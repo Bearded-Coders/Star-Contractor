@@ -3,27 +3,42 @@ package com.example.star_contractor.Controllers;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.UserRepository;
+import com.example.star_contractor.Services.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Controller
 public class UserController {
 
     private final UserRepository userDao;
+    private final EmailService emailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userDao) {
+
+    public UserController(UserRepository userDao, EmailService emailService) {
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
 
+//    REGISTER get route
+
+
 //    REGISTER user get route
+
     @GetMapping("/signup")
     public String register(Model model) {
         try {
@@ -41,6 +56,64 @@ public class UserController {
 
         return "index/resetpassword";
     }
+
+    @PostMapping("/resetpassword")
+    public String sendEmail(@RequestParam("email") String emailReset) {
+
+
+
+        String token = "testingToken";
+
+        String body = "http://localhost:8080/resetpassword/" + token + "/" + emailReset;
+
+        System.out.println("Body: " + body);
+        System.out.println("emailReset" + emailReset);
+
+        User usersEmails = userDao.findByEmail(emailReset);
+
+        if (usersEmails != null) {
+            emailService.passwordResetEmail(emailReset, "Password Recovery", body);
+        } else {
+            System.out.println("Email does not exist!");
+        }
+
+
+        return "redirect:/resetpassword";
+    }
+    @GetMapping("/resetpassword/{token}/{emailReset}")
+    public String tokenSent(@PathVariable String token, @PathVariable String emailReset, Model model) {
+        User user = userDao.findByEmail(emailReset);
+        model.addAttribute("user", user);
+        model.addAttribute("token", token);
+
+        return "/index/resetpassword-token";
+    }
+
+    @PostMapping("/resetpassword/{token}/{emailReset}")
+    public String newPasswordSubmit(
+            @PathVariable String token,
+            @PathVariable String emailReset,
+            @RequestParam String password,
+            Model model
+    ) {
+        User user = userDao.findByEmail(emailReset);
+
+        model.addAttribute("user", user);
+        model.addAttribute("token", token);
+
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPassword(hashedPassword);
+
+        userDao.save(user);
+
+        return "redirect:/login";
+    }
+
+
+
+
+
+
     // REGISTER user post route
     @PostMapping("/signup")
     public String newRegistration(@ModelAttribute User user, Model model) {
