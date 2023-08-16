@@ -12,10 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Controller
 public class UserController {
@@ -31,7 +33,12 @@ public class UserController {
         this.emailService = emailService;
     }
 
+
 //    REGISTER get route
+
+
+//    REGISTER user get route
+
     @GetMapping("/signup")
     public String register(Model model) {
         try {
@@ -142,8 +149,8 @@ public class UserController {
             for (Jobs job : userToDelete.getAppliedJobs()) {
                 job.getApplicantList().remove(userToDelete);
             }
-            for (User friend : userToDelete.getFriendsList()) {
-                friend.getFriendsList().remove(userToDelete);
+            for (User friend : userToDelete.getFriends()) {
+                friend.getFriends().remove(userToDelete);
             }
             logoutUser(request);
             userDao.delete(userToDelete);
