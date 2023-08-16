@@ -2,15 +2,15 @@
 
 /*NAVBAR*/
 .navbar {
-    background-color: #570707;
-    color: white;
-    border-bottom: 2px solid white;
+    background-color: #444444;
+    color: #26b3f7;
+    border-bottom: 2px solid #26b3f7;
     text-decoration: none;
 }
 
 .dropdown-menu {
-    background-color: #570707;
-    border: 2px solid white;
+    background-color: #444444;
+    border: 2px solid #26b3f7;
     left: auto;
     right: 0;
     transform: translateX(15%);
@@ -19,7 +19,7 @@
 
 .nav-link,
 .dropdown-item {
-    color: white;
+    color: #26b3f7;
     text-decoration: none;
     font-family: 'Orbitron', sans-serif;
     font-weight: bold;
@@ -27,7 +27,6 @@
 
 .nav-link:hover {
     color: black;
-    text-shadow: 1px 1px white;
 }
 
 .dropdown-item:hover {
@@ -56,7 +55,6 @@
     color: white;
 }
 
-
 /*Profile area*/
 .profile-page {
     display: flex;
@@ -71,11 +69,11 @@
     align-items: center;
     justify-content: space-around;
     min-width: 50vw;
-    border: 2px solid white;
+    border: 2px solid #26b3f7;
     border-radius: 2em;
-    box-shadow: 0 0 6px #570707;
+    box-shadow: 0 0 6px white;
     background: rgba(100, 100, 100, 0.8);
-    color: #570707;
+    color: #26b3f7;
     margin-top: 1em;
 }
 
@@ -125,6 +123,7 @@
     display: flex;
     flex-direction: column;
 }
+
 
 .user-jobs {
     display: flex;
@@ -202,7 +201,7 @@
 .friends-list {
     min-width: 20vw;
     min-height: 60vh;
-    border: 2px solid white;
+    border: 2px solid #26b3f7;
     border-radius: 1em;
     background: rgba(100, 100, 100, 0.8);
     overflow-y: scroll;
@@ -224,13 +223,12 @@
 }
 
 .friend-card a h4 {
-    color: #570707;
+    color: #26b3f7;
 }
 
 .friend-card h4 {
     margin-top: 10px;
 }
-
 
 @media screen and (max-width: 992px) {
     .collapse.show {
