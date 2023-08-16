@@ -40,6 +40,12 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("/resetpassword")
+    public String passwordReset() {
+
+        return "index/resetpassword";
+    }
     // REGISTER user post route
     @PostMapping("/signup")
     public String newRegistration(@ModelAttribute User user, Model model) {
