@@ -154,12 +154,6 @@
     z-index: -9999;
 }
 
-.friends-list {
-    min-width: 20vw;
-    min-height: 60vh;
-    border: 3px solid limegreen;
-}
-
 .jobCard {
     display: flex;
     width: 90%;
@@ -209,4 +203,65 @@
 
 .red {
     color: red;
+}
+
+.friends-list {
+    min-width: 20vw;
+    min-height: 60vh;
+    border: 2px solid white;
+    border-radius: 1em;
+    background: rgba(100, 100, 100, 0.8);
+}
+
+.friend-card {
+    display: inline-block;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.friend-card a {
+    margin-left: 10px;
+}
+
+.friend-card a p {
+    color: #570707;
+}
+
+/* Styling for sent and pending friend requests sections */
+.sent-requests, .friend-requests {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sent-card {
+    display: flex;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.pending-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.sent-card h4, .pending-card h4 {
+    margin-top: 10px;
+}
+
+/* Styling for buttons */
+button {
+    margin-top: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
 }

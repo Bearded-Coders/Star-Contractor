@@ -206,22 +206,26 @@
         </div>
         <div th:if="${#lists.size(sentFriendRequests) >= 1}" class="sent-requests">
             <h2>Sent Friend Requests</h2>
-            <div th:each="sentRequest: ${sentFriendRequests}">
+            <div th:each="sentRequest: ${sentFriendRequests}" class="sent-card">
                 <img class="friendPic" th:src="${sentRequest.getReceiver().getProfilePic()}" alt="profile-pic" />
                 <h4><a th:href="@{/profile/{id}(id=*{sentRequest.getReceiver().getId()})}"><span th:text="${sentRequest.getReceiver().getUsername()}"></span></a></h4>
             </div>
         </div>
         <div th:if="${#lists.size(pendingFriendRequests) >= 1}" class="friend-requests">
             <h2>Pending Friend Requests</h2>
-                <div th:each="request : ${pendingFriendRequests}">
-                    <img class="friendPic" th:src="${request.getSender().getProfilePic()}" alt="profile-pic" />
-                    <h4><a th:href="@{/profile/{id}(id=*{request.getSender().getId()})}"><span th:text="${request.getSender().getUsername()}"></span></a></h4>
-                    <form th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
-                        <button type="submit">Accept</button>
-                    </form>
-                    <form th:action="@{/profile/deny-friend-request/{requestId}(requestId=${request.id})}" method="post">
-                        <button type="submit">Deny</button>
-                    </form>
+                <div th:each="request : ${pendingFriendRequests}" class="pending-card">
+                    <div class="ml-2 d-flex flex-row">
+                        <img class="friendPic" th:src="${request.getSender().getProfilePic()}" alt="profile-pic" />
+                        <h4><a th:href="@{/profile/{id}(id=*{request.getSender().getId()})}"><span th:text="${request.getSender().getUsername()}"></span></a></h4>
+                    </div>
+                    <div class="mr-1 d-flex flex-row">
+                        <form class="mr-1" th:action="@{/profile/accept-friend-request/{requestId}(requestId=${request.id})}" method="post">
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form class="ml-1" th:action="@{/profile/deny-friend-request/{requestId}(requestId=${request.id})}" method="post">
+                            <button type="submit">Deny</button>
+                        </form>
+                    </div>
                 </div>
         </div>
     </div>
