@@ -149,6 +149,7 @@ public class UserController {
 
             // Set the hashed password to the user object
             user.setVerified(false);
+            user.setAdmin(false);
             user.setPassword(hashedPassword);
 
             user.setProfilePic("/assets/img/default_profile_pic.png");
