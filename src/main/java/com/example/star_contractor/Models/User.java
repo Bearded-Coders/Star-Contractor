@@ -25,6 +25,8 @@ public class User{
     private Short avgRating;
     @Column(nullable = false)
     private Boolean verified;
+    @Column(nullable = false)
+    private Boolean admin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<Jobs> myJobs;
     @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -55,7 +57,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -64,6 +66,7 @@ public class User{
         this.profilePic = profilePic;
         this.avgRating = avgRating;
         this.verified = verified;
+        this.admin = admin;
         this.myJobs = myJobs;
         this.ratings = ratings;
         this.friends = friends;
@@ -71,7 +74,7 @@ public class User{
         this.comments = comments;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -79,6 +82,7 @@ public class User{
         this.profilePic = profilePic;
         this.avgRating = avgRating;
         this.verified = verified;
+        this.admin = admin;
         this.myJobs = myJobs;
         this.ratings = ratings;
         this.friends = friends;
@@ -100,7 +104,7 @@ public class User{
         myJobs = copy.myJobs;
         ratings = copy.ratings;
         appliedJobs = copy.appliedJobs;
-        comments = copy.comments;
+        admin = copy.admin;
     }
 
 //    getters and setters
@@ -216,6 +220,14 @@ public class User{
 
     public void setVerified(Boolean verified) {
         this.verified = verified;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 
     @Override
