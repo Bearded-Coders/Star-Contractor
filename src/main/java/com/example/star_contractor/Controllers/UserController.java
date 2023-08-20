@@ -31,6 +31,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     private Map<String, Instant> tokenCreationTimes = new HashMap<>();
+    private Map<String, Instant> emailVerifyTokenCreationTimes = new HashMap<>();
 
 
     public UserController(UserRepository userDao, EmailService emailService) {
@@ -155,14 +156,18 @@ public class UserController {
             user.setProfilePic("/assets/img/default_profile_pic.png");
 
             userDao.save(user);
-            String body = "http://localhost:8080/emailverify/" + token + "/" + user.getUsername();
-            System.out.println(user.getEmail());
+//            String body = "http://localhost:8080/emailverify/" + token + "/" + user.getUsername();
+//            System.out.println(user.getEmail());
             // Add user info to the page
             User returningUser = userDao.findByEmail(user.getEmail());
             model.addAttribute("user", returningUser);
-            // Then redirect to the profile page
+            // Generate unique email verification token
+            String emailVerifyToken = generateUniqueToken();
 
-            emailService.emailVerify(user.getEmail(), "Verify Email", body);
+            String emailVerifyLink = "http://localhost:8080/emailverify/" + emailVerifyToken + "/" + user.getUsername();
+
+            // Send verification email
+            emailService.emailVerify(user.getEmail(), "Verify Email", emailVerifyLink);
 
             return "redirect:/login";
         } catch (Exception e) {
@@ -172,6 +177,7 @@ public class UserController {
 
     @GetMapping("/emailverify/{token}/{username}")
     public String emailVerify(@PathVariable String token, @PathVariable String username, Model model) {
+        // Token is valid, proceed with verification
         User user = userDao.findByUsername(username);
         model.addAttribute("user", user);
 
@@ -180,6 +186,15 @@ public class UserController {
 
         return "users/login"; // Replace with the actual name of your confirmation page
     }
+
+    // Utility method to generate unique tokens
+    private String generateUniqueToken() {
+        SecureRandom random = new SecureRandom();
+        byte[] tokenBytes = new byte[32];
+        random.nextBytes(tokenBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
+    }
+
 
     // Remove account
     @PostMapping("/profile/delete")
