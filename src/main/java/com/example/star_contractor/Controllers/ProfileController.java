@@ -64,6 +64,9 @@ public class ProfileController {
         boolean hasSentFriendRequest = currentUser.getSentFriendRequests().stream()
                 .anyMatch(request -> request.getReceiver().getId().equals(id));
 
+        boolean hasRecievedFriendRequest = currentUser.getReceivedFriendRequests().stream()
+                        .anyMatch(request -> request.getSender().getId().equals(id));
+
 
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
@@ -72,6 +75,7 @@ public class ProfileController {
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
         model.addAttribute("hasSentFriendRequest", hasSentFriendRequest);
+        model.addAttribute("hasReceivedRequest", hasRecievedFriendRequest);
         model.addAttribute("friends", friends); // Friends List
         model.addAttribute("pendingFriendRequests", pendingFriendRequests); // Pending friend request's
         model.addAttribute("sentFriendRequests", sentFriendRequests); // Sent friend request's
@@ -82,7 +86,8 @@ public class ProfileController {
             System.out.println(friend.getUsername());
         }
 
-        System.out.println("***************" + hasSentFriendRequest + "***************");
+        System.out.println("*************** Has been sent: " + hasSentFriendRequest + "***************");
+        System.out.println("******************* Has been received: " + hasRecievedFriendRequest + "***************");
 
         if(user.getId().equals(id)) {
             // If the profile belongs to the user, we display the "profile" page
