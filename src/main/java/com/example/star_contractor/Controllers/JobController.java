@@ -130,6 +130,7 @@ public class JobController {
         }
     }
 
+    // Jobs filter method
     @GetMapping("/jobs/filter")
     public String filterJobs(
             @RequestParam String filter, @RequestParam(name = "page", defaultValue = "0") int page,
@@ -175,16 +176,19 @@ public class JobController {
 
         List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
 
-        List<Comment> comments = commentDao.findCommentsByJob(singleJob); // Fix the method call to findCommentsByJob
+        List<Comment> comments = commentDao.findCommentsByJob(singleJob);
 
+        // This is for troubleshooting
         List<User> applicantsList = singleJob.getApplicantList();
         System.out.println("Non Accepted List:");
         applicantsList.forEach(app -> System.out.println(("ID: " + app.getId() + " Username: " + app.getUsername())));
-
+        // This is for troubleshooting
         List<User> acceptedList = singleJob.getAcceptedList();
         System.out.println("Accepted Applicants:");
         acceptedList.forEach(applicants -> System.out.println("ID: " + applicants.getId() + ", Username: " + applicants.getUsername()));
 
+        // Only passing the first five applicants to the applicants list
+        List<User> firstFiveApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 5));
 
         String userUrl = "/profile/" + user.getId();
 
@@ -192,8 +196,9 @@ public class JobController {
         model.addAttribute("category", categories);
         model.addAttribute("user", user);
         model.addAttribute("userUrl", userUrl);
-        model.addAttribute("comments", comments); // Pass the comments list to the model
+        model.addAttribute("comments", comments);
         model.addAttribute("acceptedList", acceptedList);
+        model.addAttribute("firstFiveApplicants", firstFiveApplicants);
         return "index/jobdetails";
     }
 
@@ -210,27 +215,8 @@ public class JobController {
         return "index/myjobs";
     }
 
-    @PostMapping("/jobs/{jobId}/accept/{applicantId}")
-    public String acceptApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
-        try {
-            User applicant = userDao.getUserById(applicantId);
-            Jobs currentJob = jobsRepository.getJobById(jobId);
 
-            currentJob.removeApplicant(applicant);
-            currentJob.addAcceptedUser(applicant);
-            applicant.getAppliedJobs().remove(currentJob);
-            applicant.getAcceptedJobs().add(currentJob);
-
-            jobsRepository.save(currentJob);
-
-            return "redirect:/jobs/" + jobId;
-        } catch (Exception e) {
-            return e.toString();
-        }
-    }
-
-//    @PostMapping("/jobs/{jobId}/deny/{applicantId}")
-
+//   ****************** JOB COMMENTS *****************
     // Comment on a job
     @PostMapping("/jobs/{id}/comment")
     public String addComment(@PathVariable Integer id, @RequestParam("commentContent") String commentContent) {
@@ -281,7 +267,7 @@ public class JobController {
         }
     }
 
-
+//   ******************** JOB CREATION/DELETION/EDIT/DELETE *****************
     // Goto Job Creation Form
     @GetMapping("/jobs/createjob")
     public String jobCreation(Model model, Principal principal) {
@@ -304,8 +290,6 @@ public class JobController {
             return "index/errors/exception"; // Exception occurred error page
         }
     }
-
-
 
     // Create a Job
     @PostMapping("/jobs/createjob")
@@ -332,7 +316,6 @@ public class JobController {
             return "index/errors/exception";
         }
     }
-
 
     // Display the job editor
     @GetMapping("/jobs/editjob/{id}")
@@ -419,6 +402,8 @@ public class JobController {
         }
     }
 
+
+//    ************** APPLY/LEAVE/ACCEPT/DENY APPLICANTS ***************
     // Apply for job
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
@@ -452,24 +437,54 @@ public class JobController {
             // Fetch the User object corresponding to the usersId
             User applicant = userDao.getUserById(usersId);
 
-            System.out.println(applicant.getId());
-            // Add the single applicant to the list
-
-            System.out.println("Applicant List Before Removal: " + existingJob.getApplicantList());
             existingJob.getApplicantList().remove(applicant);
             applicant.getAppliedJobs().remove(existingJob); // Added this to remove the exiting job from the applicant, it was forcing the applicant to remain on the job
 
-
-            // Save the updated job in the repository (not shown in your code, but you need to do this)
+            // Save the job once changes are made
             jobsRepository.save(existingJob);
-
-            System.out.println("Applicant List After Removal: " + existingJob.getApplicantList());
-            System.out.println("******************* Removed applicant from Job successfully ***********************");
 
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e.toString());
             return "index/errors/exception";
+        }
+    }
+
+    // Accept applicant
+    @PostMapping("/jobs/{jobId}/accept/{applicantId}")
+    public String acceptApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
+        try {
+            User applicant = userDao.getUserById(applicantId);
+            Jobs currentJob = jobsRepository.getJobById(jobId);
+
+            currentJob.removeApplicant(applicant);
+            currentJob.addAcceptedUser(applicant);
+            applicant.getAppliedJobs().remove(currentJob);
+            applicant.getAcceptedJobs().add(currentJob);
+
+            jobsRepository.save(currentJob);
+
+            return "redirect:/jobs/" + jobId;
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
+
+    // Deny applicant
+    @PostMapping("/jobs/{jobId}/deny/{applicantId}")
+    public String denyApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
+        try {
+            User applicant = userDao.getUserById(applicantId);
+            Jobs currentJob = jobsRepository.getJobById(jobId);
+
+            currentJob.removeApplicant(applicant);
+            applicant.getAppliedJobs().remove(currentJob);
+
+            jobsRepository.save(currentJob);
+
+            return "redirect:/jobs/" + jobId;
+        } catch (Exception e) {
+            return e.toString();
         }
     }
 }

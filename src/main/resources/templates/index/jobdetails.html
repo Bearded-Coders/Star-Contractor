@@ -97,27 +97,23 @@
 
             <!--    Middle Section of page-->
             <div class="middle-section">
-                <!--    Applicant List for non creator-->
-                <div class="applicant-list" th:if="${singleJob.creatorId.getId() != user.id}">
-                    <h2><u>Applicants List</u></h2>
-                    <div th:each="applicant : ${singleJob.applicantList}">
-                        <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
-                    </div>
-                </div>
                 <!--   Applicant List for creator-->
                 <div class="applicant-list" th:if="${singleJob.creatorId.getId() == user.id}">
                     <h2><u>Applicants List</u></h2>
-                    <div class="creators-list" th:each="applicant : ${singleJob.applicantList}">
+                    <div class="creators-list" th:each="applicant : ${firstFiveApplicants}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
-                        <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
-                            <button class="btn" type="submit">Accept</button>
-                        </form>
-                        <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${singleJob.id})}" method="post">
-                            <button class="btn" type="submit">Deny</button>
-                        </form>
+                        <div class="btn-div">
+                            <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
+                                <button class="btn" type="submit">Accept</button>
+                            </form>
+                            <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${singleJob.id})}" method="post">
+                                <button class="btn" type="submit">Deny</button>
+                            </form>
+                        </div>
                     </div>
+                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 5}" th:href="@{/jobs/{id}/applicants}">See all applicants &#8594;</a>
                 </div>
-
+<!--                List of job participants-->
                 <div class="accepted-list">
                     <h2><u>Participant List</u></h2>
                     <div th:each="accepted : ${acceptedList}">
