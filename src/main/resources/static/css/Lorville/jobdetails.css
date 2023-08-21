@@ -180,7 +180,7 @@ body {
 .middle-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     margin-top: 20px;
     color: gold;
@@ -188,8 +188,45 @@ body {
 }
 
 .applicant-list {
-    min-height: 10vh;
-    margin-bottom: 3em;
+    min-height: 24vh;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+/* Track (the area where the scrollbar is shown) */
+.applicant-list::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+/* Thumb (the draggable portion of the scrollbar) */
+.applicant-list::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the thumb */
+    border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+.accepted-list {
+    text-align: center;
+}
+
+.applicant-list h2 {
+    text-align: center;
+}
+
+.accepted-list div a {
+    color: gold;
+}
+.accepted-list div a:hover {
+    color: white;
+}
+
+
+.creators-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .applicant-list a {

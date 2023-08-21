@@ -177,6 +177,15 @@ public class JobController {
 
         List<Comment> comments = commentDao.findCommentsByJob(singleJob); // Fix the method call to findCommentsByJob
 
+        List<User> applicantsList = singleJob.getApplicantList();
+        System.out.println("Non Accepted List:");
+        applicantsList.forEach(app -> System.out.println(("ID: " + app.getId() + " Username: " + app.getUsername())));
+
+        List<User> acceptedList = singleJob.getAcceptedList();
+        System.out.println("Accepted Applicants:");
+        acceptedList.forEach(applicants -> System.out.println("ID: " + applicants.getId() + ", Username: " + applicants.getUsername()));
+
+
         String userUrl = "/profile/" + user.getId();
 
         model.addAttribute("singleJob", singleJob);
@@ -184,13 +193,13 @@ public class JobController {
         model.addAttribute("user", user);
         model.addAttribute("userUrl", userUrl);
         model.addAttribute("comments", comments); // Pass the comments list to the model
+        model.addAttribute("acceptedList", acceptedList);
         return "index/jobdetails";
     }
 
     @GetMapping("/jobs/{id}/myjobs")
     public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 
         List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
 //        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
@@ -201,21 +210,26 @@ public class JobController {
         return "index/myjobs";
     }
 
-//    @GetMapping("/jobs/{id}/appliedjobs")
-//    public String getAppliedJobs(@PathVariable Integer id, Model model) throws Exception {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//
-////        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
-//        List<Jobs> appliedJobs = jobsRepository.findJobsByApplicantListContains(user);
-//
-////        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
-//
-//        model.addAttribute("appliedJobs", appliedJobs);
-////        model.addAttribute("category", categories);
-//        model.addAttribute("user", user);
-//        return "index/myjobs";
-//    }
+    @PostMapping("/jobs/{jobId}/accept/{applicantId}")
+    public String acceptApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
+        try {
+            User applicant = userDao.getUserById(applicantId);
+            Jobs currentJob = jobsRepository.getJobById(jobId);
+
+            currentJob.removeApplicant(applicant);
+            currentJob.addAcceptedUser(applicant);
+            applicant.getAppliedJobs().remove(currentJob);
+            applicant.getAcceptedJobs().add(currentJob);
+
+            jobsRepository.save(currentJob);
+
+            return "redirect:/jobs/" + jobId;
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
+
+//    @PostMapping("/jobs/{jobId}/deny/{applicantId}")
 
     // Comment on a job
     @PostMapping("/jobs/{id}/comment")

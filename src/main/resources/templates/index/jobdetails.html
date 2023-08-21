@@ -97,17 +97,37 @@
 
             <!--    Middle Section of page-->
             <div class="middle-section">
-                <!--    Applicant List-->
-                <div class="applicant-list">
+                <!--    Applicant List for non creator-->
+                <div class="applicant-list" th:if="${singleJob.creatorId.getId() != user.id}">
                     <h2><u>Applicants List</u></h2>
                     <div th:each="applicant : ${singleJob.applicantList}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                     </div>
                 </div>
+                <!--   Applicant List for creator-->
+                <div class="applicant-list" th:if="${singleJob.creatorId.getId() == user.id}">
+                    <h2><u>Applicants List</u></h2>
+                    <div class="creators-list" th:each="applicant : ${singleJob.applicantList}">
+                        <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
+                        <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
+                            <button class="btn" type="submit">Accept</button>
+                        </form>
+                        <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${singleJob.id})}" method="post">
+                            <button class="btn" type="submit">Deny</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="accepted-list">
+                    <h2><u>Participant List</u></h2>
+                    <div th:each="accepted : ${acceptedList}">
+                        <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
+                    </div>
+                </div>
+
                 <!--        Start Date-->
                 <div>
                     <h6 th:text="'Start Date: ' +${singleJob.getStartDate()}"></h6>
-                    <h6 th:text="${singleJob.getCreatorId().id}"></h6>
                 </div>
             </div>
 
