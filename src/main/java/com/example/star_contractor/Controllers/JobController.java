@@ -171,7 +171,9 @@ public class JobController {
     // Go to Job Details page
     @GetMapping("/jobs/{id}")
     public String getJob(@PathVariable Integer id, Model model) throws Exception {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.getUserById(currentUser.getId());
+
         Jobs singleJob = jobsRepository.getJobById(id);
 
         List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
@@ -197,14 +199,17 @@ public class JobController {
         model.addAttribute("user", user);
         model.addAttribute("userUrl", userUrl);
         model.addAttribute("comments", comments);
+        model.addAttribute("applicantsList", applicantsList);
         model.addAttribute("acceptedList", acceptedList);
         model.addAttribute("firstFiveApplicants", firstFiveApplicants);
         return "index/jobdetails";
     }
 
+    // Get a users jobs
     @GetMapping("/jobs/{id}/myjobs")
     public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.getUserById(currentUser.getId());
 
         List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
 //        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
@@ -213,6 +218,29 @@ public class JobController {
 //        model.addAttribute("category", categories);
         model.addAttribute("user", user);
         return "index/myjobs";
+    }
+
+    // Get the job applicants page
+    @GetMapping("/jobs/{id}/applicants")
+    public String getJobApplicants(@PathVariable Integer id, Model model) throws Exception {
+
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Jobs currentJob = jobsRepository.getJobById(id);
+
+            List<User> applicantsList = currentJob.getApplicantList();
+
+            String userUrl = "/profile/" + user.getId();
+
+            model.addAttribute("userUrl", userUrl);
+            model.addAttribute("singleJob", currentJob);
+            model.addAttribute("user", user);
+            model.addAttribute("applicantsList", applicantsList);
+
+            return "index/applicants";
+        } catch (Exception e) {
+            return e.toString();
+        }
     }
 
 

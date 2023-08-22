@@ -104,14 +104,14 @@
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                         <div class="btn-div">
                             <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
-                                <button class="btn" type="submit">Accept</button>
+                                <button class="btn accept-deny" type="submit">Accept</button>
                             </form>
                             <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${singleJob.id})}" method="post">
-                                <button class="btn" type="submit">Deny</button>
+                                <button class="btn accept-deny" type="submit">Deny</button>
                             </form>
                         </div>
                     </div>
-                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 5}" th:href="@{/jobs/{id}/applicants}">See all applicants &#8594;</a>
+                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 5}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">See all applicants &#8594;</a>
                 </div>
 <!--                List of job participants-->
                 <div class="accepted-list">
@@ -129,14 +129,14 @@
 
             <!-- Apply/Leave Job buttons -->
             <div th:unless="${singleJob.creatorId.getId() == user.id}">
-                <div th:if="${#lists.contains(singleJob.applicantList.![id], user.id)}">
+                <div th:if="${#lists.contains(singleJob.applicantList.![id], user.id) || #lists.contains(singleJob.acceptedList.![id], user.id)}">
                     <form class="leave-button" th:action="@{/jobs/remove/{id}(id=${singleJob.id})}" method="POST">
                         <input id="userIdRemove" name="userIdRemove" type="hidden" th:value="${user.id}">
                         <button class="leave-button">Leave Job</button>
                     </form>
                 </div>
-                <div th:unless="${#lists.contains(singleJob.applicantList.![id], user.id)}">
-                    <form class="apply-button" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
+                <div th:unless="${applicantsList.contains(user) || acceptedList.contains(user)}">
+                <form class="apply-button" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
                         <input id="userId" name="userId" type="hidden" th:value="${user.id}">
                         <button class="apply-button">Apply</button>
                     </form>

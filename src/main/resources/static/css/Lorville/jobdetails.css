@@ -190,21 +190,21 @@ body {
 .applicant-list {
     min-height: 24vh;
     width: 20vw;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Track (the area where the scrollbar is shown) */
-.applicant-list::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
+.applicant-list a {
+    color: gold;
 }
 
-/* Thumb (the draggable portion of the scrollbar) */
-.applicant-list::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color of the thumb */
-    border-radius: 5px; /* Rounded corners for the thumb */
+.applicant-list a:hover {
+    color: white;
 }
 
 .accepted-list {
     text-align: center;
+    min-height: 24vh;
 }
 
 .applicant-list h2 {
@@ -231,10 +231,19 @@ body {
     display: flex;
     flex-direction: row;
 }
+.btn-div form {
+    margin-right: 5px;
+}
 
-/*.creators-list a {*/
-/* margin-right: 1em;*/
-/*}*/
+.accept-deny {
+    border: 1px solid gold;
+}
+
+.accept-deny:hover {
+    background-color: gold;
+    border: 1px solid white;
+}
+
 .apply-button,
 .leave-button {
     padding: 10px 20px;
