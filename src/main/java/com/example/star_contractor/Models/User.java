@@ -29,8 +29,11 @@ public class User{
     private Boolean admin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creatorId")
     private List<Jobs> myJobs;
-    @OneToMany(mappedBy = "ratedUserId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Rating> ratings;
+    @OneToMany(mappedBy = "ratedHost", cascade = CascadeType.ALL)
+    private List<HostRating> hostRatings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ratedApplicant", cascade = CascadeType.ALL)
+    private List<ApplicantRating> applicantRatings = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_friends",
@@ -57,7 +60,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -68,13 +71,14 @@ public class User{
         this.verified = verified;
         this.admin = admin;
         this.myJobs = myJobs;
-        this.ratings = ratings;
+        this.hostRatings = hostRatings;
+        this.applicantRatings = applicantRatings;
         this.friends = friends;
         this.appliedJobs = appliedJobs;
         this.comments = comments;
     }
 
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -84,7 +88,8 @@ public class User{
         this.verified = verified;
         this.admin = admin;
         this.myJobs = myJobs;
-        this.ratings = ratings;
+        this.hostRatings = hostRatings;
+        this.applicantRatings = applicantRatings;
         this.friends = friends;
         this.appliedJobs = appliedJobs;
         this.comments = comments;
@@ -102,7 +107,8 @@ public class User{
         avgRating = copy.avgRating;
         verified = copy.verified;
         myJobs = copy.myJobs;
-        ratings = copy.ratings;
+        applicantRatings = copy.applicantRatings;
+        hostRatings = copy.hostRatings;
         appliedJobs = copy.appliedJobs;
         admin = copy.admin;
     }
@@ -174,12 +180,20 @@ public class User{
         this.myJobs = myJobs;
     }
 
-    public List<Rating> getRatings() {
-        return ratings;
+    public List<HostRating> getHostRatings() {
+        return hostRatings;
     }
 
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+    public void setHostRatings(List<HostRating> hostRatings) {
+        this.hostRatings = hostRatings;
+    }
+
+    public List<ApplicantRating> getApplicantRatings() {
+        return applicantRatings;
+    }
+
+    public void setApplicantRatings(List<ApplicantRating> applicantRatings) {
+        this.applicantRatings = applicantRatings;
     }
 
     public List<User> getFriends() {
