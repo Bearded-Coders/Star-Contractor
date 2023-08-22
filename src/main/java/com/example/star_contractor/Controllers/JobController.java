@@ -190,7 +190,7 @@ public class JobController {
         acceptedList.forEach(applicants -> System.out.println("ID: " + applicants.getId() + ", Username: " + applicants.getUsername()));
 
         // Only passing the first five applicants to the applicants list
-        List<User> firstFiveApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 5));
+        List<User> firstFourApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 4));
 
         String userUrl = "/profile/" + user.getId();
 
@@ -201,7 +201,7 @@ public class JobController {
         model.addAttribute("comments", comments);
         model.addAttribute("applicantsList", applicantsList);
         model.addAttribute("acceptedList", acceptedList);
-        model.addAttribute("firstFiveApplicants", firstFiveApplicants);
+        model.addAttribute("firstFourApplicants", firstFourApplicants);
         return "index/jobdetails";
     }
 

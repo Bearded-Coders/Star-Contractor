@@ -21,10 +21,6 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
 
     Page<Jobs> findByDescriptionContainingIgnoreCase(String filter, Pageable pageable);
 
-    default void saveWithApplicantAndAccepted(Jobs job) {
-        save(job);
-    }
-
     @Query("SELECT DISTINCT j FROM Jobs j JOIN j.categories c WHERE " +
             "(:illegal IS NULL OR c.illegal = :illegal) " +
             "AND (:mining IS NULL OR c.mining = :mining) " +

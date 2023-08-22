@@ -100,7 +100,8 @@
                 <!--   Applicant List for creator-->
                 <div class="applicant-list" th:if="${singleJob.creatorId.getId() == user.id}">
                     <h2><u>Applicants List</u></h2>
-                    <div class="creators-list" th:each="applicant : ${firstFiveApplicants}">
+                    <h6 class="text-light text-center" th:text="'You have ' + ${#lists.size(applicantsList)} + ' applicants'"></h6>
+                    <div class="creators-list" th:each="applicant : ${firstFourApplicants}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                         <div class="btn-div">
                             <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
@@ -111,11 +112,11 @@
                             </form>
                         </div>
                     </div>
-                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 5}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">See all applicants &#8594;</a>
+                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 3}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">Manage applicants &#8594;</a>
                 </div>
 <!--                List of job participants-->
                 <div class="accepted-list">
-                    <h2><u>Participant's List</u></h2>
+                    <h2><u>Hired Contractors</u></h2>
                     <div th:each="accepted : ${acceptedList}">
                         <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
                     </div>
@@ -209,6 +210,11 @@
             <div class="applied-remark" th:if="${applicantsList.contains(user)}">
                 <i class="fa-solid fa-square-check checkmark"></i>
                 <h6>You've applied for this job</h6>
+            </div>
+            <!--Show this if the user has been accepted to the job-->
+            <div class="applied-remark" th:if="${acceptedList.contains(user)}">
+                <i class="fa-solid fa-square-check checkmark"></i>
+                <h6>Congratulations! You've been hired for this job!</h6>
             </div>
         </div>
 

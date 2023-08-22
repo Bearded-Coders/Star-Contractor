@@ -237,6 +237,7 @@ body {
 
 .accept-deny {
     border: 1px solid gold;
+    padding: 4px;
 }
 
 .accept-deny:hover {
