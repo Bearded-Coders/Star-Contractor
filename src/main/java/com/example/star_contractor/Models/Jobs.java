@@ -52,13 +52,11 @@ public class Jobs implements Serializable {
     @Column
     private Boolean outcome;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "applicants_users",
-//            joinColumns = {@JoinColumn(name = "job_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "applicants_id")})
-//    private List<User> applicantList;
-    @ManyToMany(mappedBy = "appliedJobs", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "appliedJobs")
     private List<User> applicantList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "acceptedJobs")
+    private List<User> acceptedList = new ArrayList<>();
 
     @OneToMany(mappedBy = "jobId", cascade = CascadeType.ALL)
     private List<Categories> categories = new ArrayList<>();
@@ -71,7 +69,7 @@ public class Jobs implements Serializable {
     }
 
 
-    public Jobs(Integer id, String creatorEmail, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<Categories> categories, List<Comment> comments) {
+    public Jobs(Integer id, String creatorEmail, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<User> acceptedList, List<Categories> categories, List<Comment> comments) {
         this.id = id;
         this.creatorEmail = creatorEmail;
         this.title = title;
@@ -86,6 +84,7 @@ public class Jobs implements Serializable {
         this.creatorId = creatorId;
         this.outcome = outcome;
         this.applicantList = applicantList;
+        this.acceptedList = acceptedList;
         this.categories = categories;
         this.comments = comments;
     }
@@ -194,6 +193,10 @@ public class Jobs implements Serializable {
         this.applicantList = applicantList;
     }
 
+    public List<User> getAcceptedList(){return acceptedList;}
+
+    public void setAcceptedList(List<User> acceptedList){this.acceptedList = acceptedList;}
+
     public List<Categories> getCategories() {
         return categories;
     }
@@ -216,6 +219,18 @@ public class Jobs implements Serializable {
 
     public void setCreatorEmail(String creatorEmail) {
         this.creatorEmail = creatorEmail;
+    }
+
+    public void addApplicant(User applicant) {
+        applicantList.add(applicant);
+    }
+
+    public void removeApplicant(User applicant) {
+        applicantList.remove(applicant);
+    }
+
+    public void addAcceptedUser(User user) {
+        acceptedList.add(user);
     }
 
     //    @Override
