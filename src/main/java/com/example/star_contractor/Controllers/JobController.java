@@ -465,8 +465,17 @@ public class JobController {
             // Fetch the User object corresponding to the usersId
             User applicant = userDao.getUserById(usersId);
 
-            existingJob.getApplicantList().remove(applicant);
-            applicant.getAppliedJobs().remove(existingJob); // Added this to remove the exiting job from the applicant, it was forcing the applicant to remain on the job
+            // Remove from applicant list if not accepted yet
+            if(existingJob.getApplicantList().contains(applicant)) {
+                existingJob.getApplicantList().remove(applicant);
+                applicant.getAppliedJobs().remove(existingJob);
+            }
+
+            // Remove from accepted list if they've been accepted
+            if(existingJob.getAcceptedList().contains(applicant)) {
+                existingJob.getAcceptedList().remove(applicant);
+                applicant.getAcceptedJobs().remove(existingJob);
+            }
 
             // Save the job once changes are made
             jobsRepository.save(existingJob);

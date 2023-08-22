@@ -415,6 +415,20 @@ body {
     border-radius: 50%;
 }
 
+.applied-remark {
+    display: flex;
+    color: green;
+    margin-top: 1em;
+}
+
+.applied-remark h6 {
+    margin-left: 3px;
+}
+
+.checkmark {
+    color: green !important;
+}
+
 .comments {
     min-width: 350px;
     display: flex;

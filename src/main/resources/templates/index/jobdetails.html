@@ -115,7 +115,7 @@
                 </div>
 <!--                List of job participants-->
                 <div class="accepted-list">
-                    <h2><u>Participant List</u></h2>
+                    <h2><u>Participant's List</u></h2>
                     <div th:each="accepted : ${acceptedList}">
                         <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
                     </div>
@@ -168,7 +168,7 @@
                 <a class="categories-item" th:if="${cat.salvage}" th:href="@{/jobs?salvage=true}">#Salvage</a>
                 <a class="categories-item" th:if="${cat.trading}" th:href="@{/jobs?trading=true}">#Trading</a>
 
-                <!--                EDIT JOB BUTTONS-->
+                <!--                EDIT JOB BUTTONS                -->
                 <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}" class="nav-item dropdown change-btn">
                     <a class="nav-link dropdown-toggle orison-btnChange" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
@@ -181,6 +181,7 @@
                         <button class="dropdown-item" onclick="showCompleteJobForm()">Complete Job</button>
                     </div>
 
+                    <!--     Completion Modal       -->
                     <div id="completeJobModal" class="modal">
                         <!-- Modal content -->
                         <div class="modal-content">
@@ -203,6 +204,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!--Show this if the user has applied to this job-->
+            <div class="applied-remark" th:if="${applicantsList.contains(user)}">
+                <i class="fa-solid fa-square-check checkmark"></i>
+                <h6>You've applied for this job</h6>
             </div>
         </div>
 
