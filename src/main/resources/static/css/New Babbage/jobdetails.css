@@ -205,21 +205,60 @@ body {
 }
 
 .applicant-list {
-    min-height: 10vh;
-    margin-bottom: 3em;
-    color: #26b3f7;
+    min-height: 24vh;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
 }
 
 .applicant-list a {
-    display: block;
-    margin-bottom: 8px;
-    text-decoration: none;
     color: #26b3f7;
-    font-family: 'Cairo', sans-serif;
 }
 
 .applicant-list a:hover {
     color: white;
+}
+
+.accepted-list {
+    text-align: center;
+    min-height: 24vh;
+}
+
+.applicant-list h2 {
+    text-align: center;
+}
+
+.accepted-list div a {
+    color: #26b3f7;
+}
+.accepted-list div a:hover {
+    color: white;
+}
+
+.creators-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.btn-div {
+    display: flex;
+    flex-direction: row;
+}
+.btn-div form {
+    margin-right: 5px;
+}
+
+.accept-deny {
+    border: 1px solid #26b3f7;
+    padding: 4px;
+}
+
+.accept-deny:hover {
+    background-color: #26b3f7;
+    border: 1px solid white;
 }
 
 .apply-button,
@@ -397,6 +436,20 @@ body {
     height: 45px;
     width: 45px;
     border-radius: 50%;
+}
+
+.applied-remark {
+    display: flex;
+    color: green;
+    margin-top: 1em;
+}
+
+.applied-remark h6 {
+    margin-left: 3px;
+}
+
+.checkmark {
+    color: green !important;
 }
 
 .comments {

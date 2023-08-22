@@ -205,17 +205,77 @@ body {
 }
 
 .applicant-list {
-    min-height: 10vh;
-    margin-bottom: 3em;
-    color: black;
+    min-height: 24vh;
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
 }
 
 .applicant-list a {
-    display: block;
-    margin-bottom: 8px;
-    text-decoration: none;
+    color: blue;
+}
+
+.applicant-list a:hover {
     color: black;
-    font-family: 'Cairo', sans-serif;
+}
+
+.accepted-list {
+    text-align: center;
+    min-height: 24vh;
+}
+
+.applicant-list h2 {
+    text-align: center;
+}
+
+.applicant-list h6 {
+    color: black;
+}
+
+.applicant-amount {
+    color: black !important;
+}
+
+.manage {
+    color: black !important;
+}
+
+.manage:hover {
+    color: blue !important;
+}
+
+.accepted-list div a {
+    color: blue;
+}
+.accepted-list div a:hover {
+    color: black;
+}
+
+.creators-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.btn-div {
+    display: flex;
+    flex-direction: row;
+}
+.btn-div form {
+    margin-right: 5px;
+}
+
+.accept-deny {
+    border: 1px solid blue;
+    padding: 4px;
+}
+
+.accept-deny:hover {
+    background-color: blue;
+    border: 1px solid black;
+    color: white;
 }
 
 .apply-button,
@@ -248,6 +308,14 @@ body {
 
 .card-footer h6 {
     color: black; /* White Footer Info Text */
+}
+
+.card-footer a {
+    color: blue;
+}
+
+.card-footer a:hover {
+    color: black;
 }
 
 .job-button-group {
@@ -392,6 +460,20 @@ body {
     height: 45px;
     width: 45px;
     border-radius: 50%;
+}
+
+.applied-remark {
+    display: flex;
+    color: green;
+    margin-top: 1em;
+}
+
+.applied-remark h6 {
+    margin-left: 3px;
+}
+
+.checkmark {
+    color: green !important;
 }
 
 .comments {
