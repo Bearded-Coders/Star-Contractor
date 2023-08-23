@@ -222,20 +222,24 @@ public class JobController {
 
     // Get the job applicants page
     @GetMapping("/jobs/{id}/applicants")
-    public String getJobApplicants(@PathVariable Integer id, Model model) throws Exception {
+    public String getJobApplicants(@PathVariable Integer id, @RequestParam(name = "page", defaultValue = "0") int page, Model model) throws Exception {
 
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            int pageSize = 10;
+            Pageable pageable = PageRequest.of(page, pageSize);
+
             Jobs currentJob = jobsRepository.getJobById(id);
 
-            List<User> applicantsList = currentJob.getApplicantList();
+            Page<User> applicantsPage = userDao.findApplicantsByJobId(id, pageable);
 
             String userUrl = "/profile/" + user.getId();
 
             model.addAttribute("userUrl", userUrl);
             model.addAttribute("singleJob", currentJob);
             model.addAttribute("user", user);
-            model.addAttribute("applicantsList", applicantsList);
+            model.addAttribute("applicantsPage", applicantsPage);
 
             return "index/applicants";
         } catch (Exception e) {

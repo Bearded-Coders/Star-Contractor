@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
+body {
+    background: linear-gradient(to bottom right, #570707, white, #570707);
+    height: 100%;
+    min-height: 100vh; /* To ensure the gradient covers the viewport */
+    width: 100%;
+    background-attachment: fixed; /* Keep the background fixed */
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #ffffff; /* White Text Color */
+}
+
+/*NAVBAR*/
+.navbar {
+    background-color: #570707;
+    color: white;
+    border-bottom: 2px solid white;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #570707;
+    border: 2px solid white;
+    left: auto;
+    right: 0;
+    transform: translateX(15%);
+    transform-origin: right top;
+}
+
+.nav-link,
+.dropdown-item {
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: black;
+    text-shadow: 1px 1px white;
+}
+
+.dropdown-item:hover {
+    color: black;
+}
+
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+
+.picture-nav {
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+}
+
+.navbar-nav {
+    max-width: 50%;
+}
+
+.fa-lines-leaning {
+    color: white;
+}
+
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    background-color: #222222;
+}
+
+.user-info-card {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    background-color: #444444;
+    border: 1px solid gold;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    color: gold;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.accept-deny {
+    border: 2px solid gold;
+    padding: 4px;
+    color: gold;
+    background-color: black;
+}
+
+.accept-deny:hover {
+    border: 2px solid white;
+    background-color: gold;
+    color: black;
+}
+
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
+}
