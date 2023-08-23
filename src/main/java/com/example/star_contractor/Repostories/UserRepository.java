@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String username);
 
     User getUserById(Long usersId);
+
+    // Grab all the users with appliedJob Id's match the argument of jobId
     @Query("SELECT u FROM User u JOIN u.appliedJobs a WHERE a.id = :jobId")
     Page<User> findApplicantsByJobId(@Param("jobId") Integer jobId, Pageable pageable);
 

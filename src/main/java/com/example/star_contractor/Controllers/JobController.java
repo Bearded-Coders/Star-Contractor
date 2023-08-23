@@ -227,13 +227,15 @@ public class JobController {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            int pageSize = 10;
+            // Pagination for the applicants list
+            int pageSize = 10; // Only 10 applicants per page
             Pageable pageable = PageRequest.of(page, pageSize);
-
-            Jobs currentJob = jobsRepository.getJobById(id);
-
             Page<User> applicantsPage = userDao.findApplicantsByJobId(id, pageable);
 
+            // Keep this for the page title and to check if the user was the creator of the job
+            Jobs currentJob = jobsRepository.getJobById(id);
+
+            // Link for the user to navigate to their profile page
             String userUrl = "/profile/" + user.getId();
 
             model.addAttribute("userUrl", userUrl);

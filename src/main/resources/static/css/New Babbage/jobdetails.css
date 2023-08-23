@@ -8,7 +8,7 @@ body {
     background-attachment: fixed; /* Keep the background fixed */
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: Arial, sans-serif;
+    font-family: Orbitron, sans-serif;
     color: #ffffff; /* White Text Color */
 }
 
@@ -167,7 +167,7 @@ body {
     background-color: #222222; /* Blue Category Background */
     color: #26b3f7; /* White Category Text */
     text-decoration: none;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .change-btn {
@@ -184,14 +184,14 @@ body {
     font-size: 18px;
     margin-bottom: 20px;
     color: #ffffff; /* White Creator Info Text */
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .job-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .middle-section {
@@ -201,7 +201,7 @@ body {
     flex-wrap: wrap;
     margin-top: 20px;
     color: #26b3f7;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .applicant-list {
@@ -272,7 +272,7 @@ body {
     font-size: 16px;
     text-align: center;
     transition: background-color 0.2s;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .apply-button:hover,
@@ -287,7 +287,7 @@ body {
     justify-content: space-around;
     flex-wrap: wrap;
     margin-top: 20px;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .card-footer h6 {
@@ -304,7 +304,7 @@ body {
 .job-button-group div button {
     background-color: #222222;
     color: gold;
-    font-family: 'Cairo', sans-serif;
+    font-family: Orbitron, sans-serif;
 }
 
 .job-button-group div button:hover,
