@@ -233,6 +233,10 @@ public class Jobs implements Serializable {
         acceptedList.add(user);
     }
 
+    public void removeAcceptedUser(User user) {
+        acceptedList.remove(user);
+    }
+
     //    @Override
 //    public String toString() {
 //        return "Jobs{" +

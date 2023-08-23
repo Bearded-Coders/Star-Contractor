@@ -222,6 +222,9 @@ body {
 .accepted-list {
     text-align: center;
     min-height: 24vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .applicant-list h2 {

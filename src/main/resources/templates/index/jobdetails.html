@@ -112,14 +112,24 @@
                             </form>
                         </div>
                     </div>
-                    <a class="text-light text-center manage" th:if="${#lists.size(singleJob.getApplicantList()) >= 3}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">Manage applicants &#8594;</a>
+                    <a class="manage text-center"
+                       th:if="${#lists.size(singleJob.getApplicantList()) >= 3}"
+                       th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}"
+                        >Manage applicants &#8594;
+                    </a>
                 </div>
-<!--                List of job participants-->
+
+<!--                List of job Hired Contractors-->
                 <div class="accepted-list">
                     <h2><u>Hired Contractors</u></h2>
                     <div th:each="accepted : ${acceptedList}">
                         <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
                     </div>
+                    <a class="manage"
+                       th:if="${#lists.size(singleJob.getAcceptedList()) >= 1 && singleJob.getCreatorId().getId() == user.getId()}"
+                        th:href="@{/jobs/{id}/accepted(id=${singleJob.id})}"
+                        >Manage Contractors &#8594;
+                    </a>
                 </div>
 
                 <!--        Start Date-->

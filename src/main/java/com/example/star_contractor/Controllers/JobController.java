@@ -249,6 +249,27 @@ public class JobController {
         }
     }
 
+    // Get the hired contractors page
+    @GetMapping("/jobs/{id}/accepted")
+    public String getHiredContractors(@PathVariable Integer id, Model model) throws Exception {
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            Jobs currentJob = jobsRepository.getJobById(id);
+            List<User> acceptedList = currentJob.getAcceptedList();
+
+            String userUrl = "/profile/" + user.getId(); // Link to the users profile
+
+            model.addAttribute("singleJob", currentJob);
+            model.addAttribute("acceptedList", acceptedList);
+            model.addAttribute("user", user);
+            model.addAttribute("userUrl", userUrl);
+
+            return "index/accepted";
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
 
 //   ****************** JOB COMMENTS *****************
     // Comment on a job
@@ -516,12 +537,20 @@ public class JobController {
     // Deny applicant
     @PostMapping("/jobs/{jobId}/deny/{applicantId}")
     public String denyApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
+        // We turned this into a multi functional route to remove applicants and accepted users
         try {
             User applicant = userDao.getUserById(applicantId);
             Jobs currentJob = jobsRepository.getJobById(jobId);
 
-            currentJob.removeApplicant(applicant);
-            applicant.getAppliedJobs().remove(currentJob);
+            if(currentJob.getApplicantList().contains(applicant)){
+                currentJob.removeApplicant(applicant);
+                applicant.getAppliedJobs().remove(currentJob);
+            }
+
+            if(currentJob.getAcceptedList().contains(applicant)){
+                currentJob.removeAcceptedUser(applicant);
+                applicant.getAcceptedJobs().remove(currentJob);
+            }
 
             jobsRepository.save(currentJob);
 
