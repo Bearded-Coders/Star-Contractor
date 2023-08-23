@@ -222,20 +222,26 @@ public class JobController {
 
     // Get the job applicants page
     @GetMapping("/jobs/{id}/applicants")
-    public String getJobApplicants(@PathVariable Integer id, Model model) throws Exception {
+    public String getJobApplicants(@PathVariable Integer id, @RequestParam(name = "page", defaultValue = "0") int page, Model model) throws Exception {
 
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            // Pagination for the applicants list
+            int pageSize = 10; // Only 10 applicants per page
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<User> applicantsPage = userDao.findApplicantsByJobId(id, pageable);
+
+            // Keep this for the page title and to check if the user was the creator of the job
             Jobs currentJob = jobsRepository.getJobById(id);
 
-            List<User> applicantsList = currentJob.getApplicantList();
-
+            // Link for the user to navigate to their profile page
             String userUrl = "/profile/" + user.getId();
 
             model.addAttribute("userUrl", userUrl);
             model.addAttribute("singleJob", currentJob);
             model.addAttribute("user", user);
-            model.addAttribute("applicantsList", applicantsList);
+            model.addAttribute("applicantsPage", applicantsPage);
 
             return "index/applicants";
         } catch (Exception e) {

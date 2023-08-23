@@ -100,7 +100,7 @@
                 <!--   Applicant List for creator-->
                 <div class="applicant-list" th:if="${singleJob.creatorId.getId() == user.id}">
                     <h2><u>Applicants List</u></h2>
-                    <h6 class="text-light text-center" th:text="'You have ' + ${#lists.size(applicantsList)} + ' applicants'"></h6>
+                    <h6 class="text-light text-center applicant-amount" th:text="'You have ' + ${#lists.size(applicantsList)} + ' applicants'"></h6>
                     <div class="creators-list" th:each="applicant : ${firstFourApplicants}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                         <div class="btn-div">
@@ -112,7 +112,7 @@
                             </form>
                         </div>
                     </div>
-                    <a class="text-light text-center" th:if="${#lists.size(singleJob.getApplicantList()) >= 3}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">Manage applicants &#8594;</a>
+                    <a class="text-light text-center manage" th:if="${#lists.size(singleJob.getApplicantList()) >= 3}" th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}">Manage applicants &#8594;</a>
                 </div>
 <!--                List of job participants-->
                 <div class="accepted-list">

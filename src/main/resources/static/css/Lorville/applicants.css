@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, gold, black, gold);
+    height: 100%;
+    min-height: 100vh; /* To ensure the gradient covers the viewport */
+    width: 100%;
+    background-attachment: fixed; /* Keep the background fixed */
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/*LORVILLE NAVBAR*/
+.dropdown-menu {
+    background-color: #222222;
+    border: 1px solid gold;
+    left: auto;
+    right: 0;
+    transform: translateX(15%);
+    transform-origin: right top;
+}
+
+.navbar {
+    background-color: #222222;
+    color: gold;
+    border-bottom:2px solid gold;
+    text-decoration: none;
+}
+
+.nav-item,
+.nav-link,
+.dropdown-item {
+    color: gold;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+}
+
+.img-dropdown {
+    display: flex;
+    margin-right: 1em;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+
+.picture-nav {
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+}
+
+.navbar-nav {
+    max-width: 50%;
+}
+
+.fa-lines-leaning {
+    color: white;
+}
+
+
+/*Main page content*/
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    width: 60vw;
+    background-color: #222222;
+    box-shadow: 2px 2px gold;
+    border-radius: 10px;
+}
+
+.section-wrapper h2 {
+    color: gold;
+}
+
+.user-info-card {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    background-color: #444444;
+    border: 2px solid gold;
+    border-radius: 1em;
+    margin: 5px;
+}
+
+.user-info {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    color: gold;
+    margin: 5px;
+    align-items: center;
+}
+
+.user img {
+    border-radius: 1em;
+    height: 60px;
+    margin-right: 2px;
+}
+
+.username {
+    color: gold;
+    margin-left: 2px;
+}
+
+.username:hover {
+    color: white;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 2px;
+}
+
+.accept-deny {
+    border: 1px solid gold;
+    padding: 4px;
+    color: gold;
+    background-color: black;
+}
+
+.accept-deny:hover {
+    border: 1px solid white;
+    background-color: gold;
+    color: black;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.pagination ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 3px;
+}
+
+.pagination .page-link:hover {
+    background-color: #ddd;
+}
+
+.pagination .active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.pagination .active .page-link:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/*Media queries*/
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .picture-nav {
+        max-width: 5%;
+    }
+}
