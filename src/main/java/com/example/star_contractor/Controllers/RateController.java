@@ -36,6 +36,7 @@ public class RateController {
             @RequestParam Integer jobId,
             Model model) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getUserById(user.getId());
 
         Jobs ratedJob = jobDao.getJobById(jobId);
 
@@ -45,12 +46,23 @@ public class RateController {
         }
         System.out.println("Users who have rated the host of this job: " + ratedUsers);
 
+        Boolean hasRated = ratedUsers.contains(user.getUsername());
+        boolean jobContainsUser = ratedJob.getAcceptedList().contains(currentUser);
+
         if(ratedUsers.contains(user.getUsername())) {
             System.out.println("User has already rated this job!!!");
         }
 
+        if (jobContainsUser) {
+            System.out.println("User is apart of the job");
+        } else {
+            System.out.println("User is not apart of this job");
+        }
+
         model.addAttribute("userId", userId);
         model.addAttribute("jobId", jobId);
+        model.addAttribute("hasRated", hasRated);
+        model.addAttribute("jobContainsUser", jobContainsUser);
 
         return "index/hostrating";
     }
@@ -75,15 +87,9 @@ public class RateController {
             }
             System.out.println("Users who have rated the host of this job: " + ratedUsers);
 
-            if (ratingUser == null || ratedJob == null) {
+            if (ratingUser == null) {
                 return "index/errors/exception";
             }
-
-            if (ratedUsers.contains(ratingUser.getUsername())) {
-                System.out.println("*********************** User already rated on this job **************************");
-                return "redirect:/jobs";
-            }
-
 
 
             // Create and save the host rating

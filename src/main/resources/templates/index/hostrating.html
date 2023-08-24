@@ -5,6 +5,15 @@
     <title>Rate Page</title>
 </head>
 <body>
+
+<!--This is what we show if he user has already rated the creator-->
+<div th:if="${hasRated}">
+  <h1>You have already rated the user on this job</h1>
+  <a th:href="@{/jobs}">Return to Job Board</a>
+</div>
+
+<!--this is what we show if the user has not rated the creator-->
+<div th:if="!${hasRated}">
   <form th:action="@{/rate-host}" method="post">
     <input type="hidden" name="userId" th:value="${userId}" />
     <input type="hidden" name="jobId" th:value="${jobId}" />
@@ -14,5 +23,7 @@
 
     <button type="submit">Submit Rating</button>
   </form>
+</div>
+
 </body>
 </html>
