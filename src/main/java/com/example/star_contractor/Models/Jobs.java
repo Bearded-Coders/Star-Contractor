@@ -60,16 +60,26 @@ public class Jobs implements Serializable {
 
     @OneToMany(mappedBy = "jobId", cascade = CascadeType.ALL)
     private List<Categories> categories = new ArrayList<>();
+
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "jobId")
+    private List<HostRating> ratedHosts;
+
+    @OneToMany(mappedBy = "jobId")
+    private List<HostRating> ratingUsers;
+
+    @OneToMany(mappedBy = "jobId")
+    private List<ApplicantRating> ratedApplicant;
+
+    @OneToMany(mappedBy = "jobId")
+    private List<ApplicantRating> ratingUser;
 
     public Jobs() {
-
     }
 
-
-    public Jobs(Integer id, String creatorEmail, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<User> acceptedList, List<Categories> categories, List<Comment> comments) {
+    public Jobs(Integer id, String creatorEmail, String title, String description, String startDate, LocalDateTime createdDate, String threat, Short paymentPercent, String jobStatus, String startLocation, Long distance, User creatorId, Boolean outcome, List<User> applicantList, List<User> acceptedList, List<Categories> categories, List<Comment> comments, List<HostRating> ratedHosts, List<HostRating> ratingUsers, List<ApplicantRating> ratedApplicant, List<ApplicantRating> ratingUser) {
         this.id = id;
         this.creatorEmail = creatorEmail;
         this.title = title;
@@ -87,6 +97,10 @@ public class Jobs implements Serializable {
         this.acceptedList = acceptedList;
         this.categories = categories;
         this.comments = comments;
+        this.ratedHosts = ratedHosts;
+        this.ratingUsers = ratingUsers;
+        this.ratedApplicant = ratedApplicant;
+        this.ratingUser = ratingUser;
     }
 
     public Integer getId() {
@@ -235,6 +249,38 @@ public class Jobs implements Serializable {
 
     public void removeAcceptedUser(User user) {
         acceptedList.remove(user);
+    }
+
+    public List<HostRating> getRatedHosts() {
+        return ratedHosts;
+    }
+
+    public void setRatedHosts(List<HostRating> ratedHosts) {
+        this.ratedHosts = ratedHosts;
+    }
+
+    public List<HostRating> getRatingUsers() {
+        return ratingUsers;
+    }
+
+    public void setRatingUsers(List<HostRating> ratingUsers) {
+        this.ratingUsers = ratingUsers;
+    }
+
+    public List<ApplicantRating> getRatedApplicant() {
+        return ratedApplicant;
+    }
+
+    public void setRatedApplicant(List<ApplicantRating> ratedApplicant) {
+        this.ratedApplicant = ratedApplicant;
+    }
+
+    public List<ApplicantRating> getRatingUser() {
+        return ratingUser;
+    }
+
+    public void setRatingUser(List<ApplicantRating> ratingUser) {
+        this.ratingUser = ratingUser;
     }
 
     //    @Override

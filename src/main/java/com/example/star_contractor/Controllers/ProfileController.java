@@ -6,6 +6,7 @@ import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.FriendRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import com.example.star_contractor.Services.RatingService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,13 +26,16 @@ public class ProfileController {
     private final JobRepository jobDao;
     private final FriendRepository friendDao;
 
+    private final RatingService ratingService;
+
     @Value("${filestack.api.key}")
     private String filestackapi;
 
-    public ProfileController(UserRepository userDao, JobRepository jobDao, FriendRepository friendDao) {
+    public ProfileController(UserRepository userDao, JobRepository jobDao, FriendRepository friendDao, RatingService ratingService) {
         this.userDao = userDao;
         this.jobDao = jobDao;
         this.friendDao = friendDao;
+        this.ratingService = ratingService;
     }
 
     // Get user profile
@@ -67,10 +71,12 @@ public class ProfileController {
         boolean hasRecievedFriendRequest = currentUser.getReceivedFriendRequests().stream()
                         .anyMatch(request -> request.getSender().getId().equals(id));
 
+        Short avgRating = ratingService.calculateHostRating(userProfile.getId());
 
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
         model.addAttribute("user", currentUser);
+        model.addAttribute("avgRating", avgRating);
         model.addAttribute("userUrl", userUrl);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
