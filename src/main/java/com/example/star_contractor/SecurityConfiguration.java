@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/jobs/remove/{id}", "/jobs/apply/{id}", "/jobs/{id}", "/jobs/editjob/{id}", "/jobs/delete/{id}", "/jobs/complete/{id}", "/webjars/font-awesome/6.4.0/css/all.css", "/webjars/font-awesome/6.4.0/webfonts/fa-solid-900.ttf", "/webjars/font-awesome/6.4.0/webfonts/fa-solid-900.woff2").authenticated()
                         .requestMatchers("/profile/edit/{userId}", "/profile/edits/{userId}", "/profile/remove/{id}", "/profile/add/{id}", "/profile/accept-friend-request/{requestId}", "/profile/deny-friend-request/{requestId}").authenticated()
                         .requestMatchers( "/jobs/{jobId}/accept/{applicantId}", "/jobs/{jobId}/deny/{applicantId}", "/jobs/{id}/applicants", "/jobs/{id}/accepted").authenticated()
+                        .requestMatchers("/rate-host", "/rate-host-form").authenticated()
                         .requestMatchers("/profile/{id}")
                         .authenticated()
 

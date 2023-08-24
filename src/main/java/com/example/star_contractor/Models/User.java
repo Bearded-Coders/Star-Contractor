@@ -67,7 +67,6 @@ public class User{
     public User() {
     }
 
-
     public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
 //     public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Jobs> acceptedJobs, List<Comment> comments) {
         this.id = id;

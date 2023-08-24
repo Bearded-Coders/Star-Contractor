@@ -49,9 +49,7 @@ public class Categories implements Serializable {
     @JoinColumn(name = "jobId", referencedColumnName = "id")
     private Jobs jobId;
 
-
     public Categories() {
-
     }
 
     public Categories(Integer id, Boolean illegal, Boolean mining, Boolean combat, Boolean salvage, Boolean trading, Boolean exploring, Boolean bounty_hunting, Boolean delivery, Boolean pvp, Boolean pve, Boolean rolePlay, Jobs jobId) {

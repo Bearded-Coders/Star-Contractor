@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Rate Page</title>
 </head>
 <body>
+  <form th:action="@{/rate-host}" method="post">
+    <input type="hidden" name="userId" th:value="${userId}" />
+    <input type="hidden" name="jobId" th:value="${jobId}" />
 
-<div>
-  <form>
-    <select>
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
+    <label for="ratingValue">Rating:</label>
+    <input id="ratingValue" type="number" name="ratingValue" required />
+
+    <button type="submit">Submit Rating</button>
   </form>
-</div>
-
 </body>
 </html>

@@ -116,7 +116,7 @@
                 <!--        Starting Area-->
                 <h1 th:text="'Home: ' + ${userProfileLink.startingArea}"></h1>
                 <!--            AVG Rating-->
-                <h3 th:text="'Rating: ' + ${userProfileLink.getAvgRating()}"></h3>
+                <h3 th:text="'Rating: ' + ${avgRating}"></h3>
                 <!--            Amount of jobs completed-->
                 <h3 th:text="${#lists.size(myJobs.?[jobStatus == 'Complete']) + #lists.size(appliedJobs.?[jobStatus == 'Complete'])} + ' Jobs completed'"></h3>
             </div>
