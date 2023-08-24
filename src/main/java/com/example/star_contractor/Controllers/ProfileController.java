@@ -71,7 +71,7 @@ public class ProfileController {
         boolean hasRecievedFriendRequest = currentUser.getReceivedFriendRequests().stream()
                         .anyMatch(request -> request.getSender().getId().equals(id));
 
-        Short avgRating = ratingService.calculateAverageRating(userProfile.getId());
+        Short avgRating = ratingService.calculateHostRating(userProfile.getId());
 
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);

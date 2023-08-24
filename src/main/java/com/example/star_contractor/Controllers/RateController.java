@@ -36,22 +36,24 @@ public class RateController {
             @RequestParam Integer jobId,
             Model model) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = userDao.getUserById(user.getId());
 
-        Jobs ratedJob = jobDao.getJobById(jobId);
+        boolean hasRated = ratingService.hasRated(jobId, user);
 
-        List<String> ratedUsers = new ArrayList<>();
-        for (HostRating rating : ratedJob.getRatingUsers()) {
-            ratedUsers.add(rating.getRatingUser().getUsername());
+        boolean jobContainsUser = ratingService.jobContainsUser(jobId, user);
+
+        if (hasRated) {
+            System.out.println("*************** user has already rated *************");
+        } else {
+            System.out.println("************* User has not rated creator yet ****************");
         }
-        System.out.println("Users who have rated the host of this job: " + ratedUsers);
 
-        Boolean hasRated = ratedUsers.contains(user.getUsername());
-        boolean jobContainsUser = ratedJob.getAcceptedList().contains(currentUser);
-
-        if(ratedUsers.contains(user.getUsername())) {
-            System.out.println("User has already rated this job!!!");
+        if (jobContainsUser) {
+            System.out.println("************** User is apart of the job ******************");
+        } else {
+            System.out.println("************** User is not apart of this job ******************");
         }
+
+
 
         if (jobContainsUser) {
             System.out.println("User is apart of the job");

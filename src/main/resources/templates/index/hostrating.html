@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Rate Page</title>
 </head>
-<body>
-
+<!--Only Show the body element if the user is apart of the accepted job-->
+<body th:if="${jobContainsUser}">
 <!--This is what we show if he user has already rated the creator-->
 <div th:if="${hasRated}">
   <h1>You have already rated the user on this job</h1>
@@ -24,6 +24,10 @@
     <button type="submit">Submit Rating</button>
   </form>
 </div>
+</body>
 
+<!--Otherwise we show this one-->
+<body>
+  <h1>You are not apart of this JOB, get out there and apply!</h1>
 </body>
 </html>

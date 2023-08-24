@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 @Entity
 @JsonIgnoreProperties
 public class ApplicantRating implements Serializable {
@@ -18,18 +17,29 @@ public class ApplicantRating implements Serializable {
     @ManyToOne
     private User ratedApplicant;
 
+    @ManyToOne
+    private User ratingUser;
+    @ManyToOne
+    @JoinColumn(name = "jobId", referencedColumnName = "id")
+    private Jobs jobId;
+
+
     public ApplicantRating() {
     }
 
-    public ApplicantRating(Integer id, Short rating, User ratedApplicant) {
+    public ApplicantRating(Integer id, Short rating, User ratedApplicant, User ratingUser, Jobs jobId) {
         this.id = id;
         this.rating = rating;
         this.ratedApplicant = ratedApplicant;
+        this.ratingUser = ratingUser;
+        this.jobId = jobId;
     }
 
-    public ApplicantRating(Short rating, User ratedApplicant) {
+    public ApplicantRating(Short rating, User ratedApplicant, User ratingUser, Jobs jobId) {
         this.rating = rating;
         this.ratedApplicant = ratedApplicant;
+        this.ratingUser = ratingUser;
+        this.jobId = jobId;
     }
 
     public Integer getId() {
@@ -47,11 +57,28 @@ public class ApplicantRating implements Serializable {
     public void setRating(Short rating) {
         this.rating = rating;
     }
+
     public User getRatedApplicant() {
         return ratedApplicant;
     }
 
     public void setRatedApplicant(User ratedApplicant) {
         this.ratedApplicant = ratedApplicant;
+    }
+
+    public User getRatingUser() {
+        return ratingUser;
+    }
+
+    public void setRatingUser(User ratingUser) {
+        this.ratingUser = ratingUser;
+    }
+
+    public Jobs getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Jobs jobId) {
+        this.jobId = jobId;
     }
 }
