@@ -9,6 +9,7 @@ import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.EmailService;
+import com.example.star_contractor.Services.JobsService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
 public class JobController {
 
+    private final JobsService jobsService;
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
     private final UserRepository userDao;
@@ -34,12 +36,13 @@ public class JobController {
     private final EmailService emailService;
     User user = null;
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService, JobsService jobsService) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
         this.emailService = emailService;
+        this.jobsService = jobsService;
     }
 
 

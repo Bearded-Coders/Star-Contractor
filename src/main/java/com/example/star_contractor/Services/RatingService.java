@@ -38,19 +38,24 @@ public class RatingService {
 
         short totalRating = 0;
         for (HostRating hostRating : user.getHostRatings()) {
-            totalRating += hostRating.getRating();
+            totalRating += hostRating.getRating()/user.getHostRatings().size();
         }
-
-//        Short avgRating = (short) (totalRating/user.getHostRatings().size());
-//
-//        user.setAvgRating(avgRating);
 
         return totalRating; // Return the calculated average rating
     }
 
-    public void createHostRating(HostRating hostRating) {
-        // You can implement further validation and business logic here
-          ratingDao.save(hostRating);
+    public void createHostRating(Long userId, Integer jobId, Short ratingValue) throws Exception {
+            User ratingUser = userDao.getUserById(userId);;
+            Jobs ratedJob = jobDao.getJobById(jobId);
+
+            // Create the new rating
+            HostRating hostRating = new HostRating();
+            hostRating.setRating(ratingValue);
+            hostRating.setRatingUser(ratingUser);
+            hostRating.setRatedHost(ratedJob.getCreatorId());
+            hostRating.setJobId(ratedJob);
+
+            ratingDao.save(hostRating);
     }
 
     public boolean hasRated(Integer jobId, User user) throws Exception {
@@ -70,10 +75,4 @@ public class RatingService {
         return false;
     }
 
-    public boolean jobContainsUser(Integer jobId, User user) throws Exception {
-        Jobs ratedJob = jobDao.getJobById(jobId);
-        User currentUser = userDao.getUserById(user.getId());
-
-        return ratedJob.getAcceptedList().contains(currentUser);
-    }
 }
