@@ -41,10 +41,6 @@ public class RatingService {
             totalRating += hostRating.getRating();
         }
 
-//        Short avgRating = (short) (totalRating/user.getHostRatings().size());
-//
-//        user.setAvgRating(avgRating);
-
         return totalRating; // Return the calculated average rating
     }
 
