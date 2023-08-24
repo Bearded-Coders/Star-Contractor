@@ -6,6 +6,7 @@ import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.RatingService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,20 @@ public class RateController {
     public String showRateHostForm(
             @RequestParam Long userId,
             @RequestParam Integer jobId,
-            Model model) {
+            Model model) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Jobs ratedJob = jobDao.getJobById(jobId);
+
+        List<String> ratedUsers = new ArrayList<>();
+        for (HostRating rating : ratedJob.getRatingUsers()) {
+            ratedUsers.add(rating.getRatingUser().getUsername());
+        }
+        System.out.println("Users who have rated the host of this job: " + ratedUsers);
+
+        if(ratedUsers.contains(user.getUsername())) {
+            System.out.println("User has already rated this job!!!");
+        }
 
         model.addAttribute("userId", userId);
         model.addAttribute("jobId", jobId);
@@ -54,21 +68,23 @@ public class RateController {
             User ratedUser = jobDao.getJobById(jobId).getCreatorId();
             User rated = userDao.getUserById(ratedUser.getId());
 
-            if (ratingUser == null || ratedJob == null) {
-                return "index/errors/exception";
-            }
-
-            if (ratedJob.getRatingUsers().contains(ratingUser)) {
-                System.out.println("*********************** User already rated on this job **************************");
-                return "index/jobposts";
-            }
-
             // Print the list of users who have rated the host of this job
             List<String> ratedUsers = new ArrayList<>();
             for (HostRating rating : ratedJob.getRatingUsers()) {
                 ratedUsers.add(rating.getRatingUser().getUsername());
             }
             System.out.println("Users who have rated the host of this job: " + ratedUsers);
+
+            if (ratingUser == null || ratedJob == null) {
+                return "index/errors/exception";
+            }
+
+            if (ratedUsers.contains(ratingUser.getUsername())) {
+                System.out.println("*********************** User already rated on this job **************************");
+                return "redirect:/jobs";
+            }
+
+
 
             // Create and save the host rating
             HostRating hostRating = new HostRating();
