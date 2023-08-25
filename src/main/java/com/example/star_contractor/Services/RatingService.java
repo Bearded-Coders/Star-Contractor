@@ -109,17 +109,19 @@ public class RatingService {
 
         return false;
     }
-    public boolean hasRatedApplicant(Integer jobId, User user) throws Exception {
+    public boolean hasRatedApplicant(Integer jobId, User user, User applicantToRate) throws Exception {
         Jobs ratedJob = jobDao.getJobById(jobId);
         User currentUser = userDao.getUserById(user.getId());
 
         for (ApplicantRating applicantRating : ratedJob.getRatingUser()) {
-            if (applicantRating.getRatingUser().equals(currentUser)) {
-                System.out.println("User has already rated the applicant on this job!!!");
+            if (applicantRating.getRatingUser().equals(currentUser) &&
+                    applicantRating.getRatedApplicant().equals(applicantToRate)) {
+                System.out.println("User has already rated this applicant on this job!!!");
                 return true;
             }
         }
 
+        // If the loop completes without finding a matching rating, the user hasn't rated this applicant on this job yet.
         return false;
     }
 

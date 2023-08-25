@@ -1,5 +1,6 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
@@ -56,20 +57,24 @@ public class RateController {
     public String showRateApplicantForm(
             @RequestParam Long userId,
             @RequestParam Integer jobId,
+            @RequestParam Long applicantId,
             Model model) throws Exception {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            boolean hasRated = ratingService.hasRated(jobId, user);
+            User applicant = userDao.getUserById(applicantId);
+            Jobs job = jobDao.getJobById(jobId);
+            boolean hasRatedApplicant = ratingService.hasRatedApplicant(jobId, user, applicant);
 
             boolean jobContainsUser = jobsService.jobContainsUser(jobId, user);
 
             model.addAttribute("userId", userId);
             model.addAttribute("jobId", jobId);
-            model.addAttribute("hasRated", hasRated);
+            model.addAttribute("job", job);
+            model.addAttribute("applicantId", applicantId);
+            model.addAttribute("hasRatedApplicant", hasRatedApplicant);
             model.addAttribute("jobContainsUser", jobContainsUser);
 
-            return "index/hostrating";
+            return "index/userrating";
         } catch (Exception e) {
             return e.toString();
         }
@@ -77,8 +82,8 @@ public class RateController {
     @PostMapping("/rate-applicant")
     public String rateApplicant(
             @RequestParam Long userId,
-            @RequestParam Long applicantId,
             @RequestParam Integer jobId,
+            @RequestParam Long applicantId,
             @RequestParam Short ratingValue) throws Exception {
 
         try {
