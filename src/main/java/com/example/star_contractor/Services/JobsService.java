@@ -1,30 +1,94 @@
 package com.example.star_contractor.Services;
 
+import com.example.star_contractor.DTOS.JobDetailsDTO;
+import com.example.star_contractor.Models.Categories;
+import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class JobsService {
+    private final CommentService commentService;
+    private final CategoryService categoryService;
     private final UserRepository userDao;
     private final JobRepository jobDao;
     private final CategoriesRepository catDao;
     private final CommentRepository commentDao;
 
-    public  JobsService(UserRepository userDao,
+    public JobsService(UserRepository userDao,
                         JobRepository jobDao,
                         CommentRepository commentDao,
-                        CategoriesRepository catDao) {
+                        CategoriesRepository catDao,
+                        CommentService commentService,
+                        CategoryService categoryService) {
         this.jobDao = jobDao;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
+        this.categoryService = categoryService;
+        this.commentService = commentService;
     }
 
+    // Find all jobs
+    public Page<Jobs> findAllJobs(Pageable pageable) {
+        return jobDao.findAll(pageable);
+    }
+
+    public Jobs findJobById(Integer id) throws Exception {
+        return jobDao.getJobById(id);
+    }
+
+    // Job Details DTO, this returns the entire job with the specified parameters
+    public JobDetailsDTO getJobDetails(Integer jobId, User currentUser) throws Exception {
+        JobDetailsDTO jobDetails = new JobDetailsDTO(); // Create new JobDetailsDTO
+
+        Jobs singleJob = this.findJobById(jobId); // Get the job by using the method in this service
+        List<Categories> categories = categoryService.findCategoriesForJob(singleJob); // Get the categories tied to the job
+        List<Comment> comments = commentService.findCommentsForJob(singleJob); // Get the commments tied to the job
+
+        List<User> applicantsList = singleJob.getApplicantList(); // Get the applicant list
+        List<User> acceptedList = singleJob.getAcceptedList(); // Get the accepted list
+        List<User> firstFourApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 4)); // Get the first 4 applicants
+
+        jobDetails.setSingleJob(singleJob); // Set Entire Job object
+        jobDetails.setCategories(categories); // Set the Categories tied to the job
+        jobDetails.setComments(comments); // Set the Comments tied to the job
+        jobDetails.setUser(currentUser); // Set the logged in user for conditionals
+        jobDetails.setApplicantsList(applicantsList); // Set the Applicants list tied to the job
+        jobDetails.setAcceptedList(acceptedList); // Set the Accepted/Hired list tied to the job
+        jobDetails.setFirstFourApplicants(firstFourApplicants); // Set th List of only the first 4 applicants tied to the job
+
+        return jobDetails; // Return the entire DTO
+    }
+
+    // Find jobs by category
+    public Page<Jobs> findJobsByCategory(Boolean illegal,
+                                         Boolean mining,
+                                         Boolean combat,
+                                         Boolean salvage,
+                                         Boolean trading,
+                                         Boolean exploring,
+                                         Boolean bountyHunting,
+                                         Boolean delivery,
+                                         Boolean pvp,
+                                         Boolean pve,
+                                         Boolean rolePlay,
+                                         Pageable pageable) {
+        return jobDao.findPaginatedJobsByCategoryTags(illegal, mining, combat, salvage, trading, exploring, bountyHunting, delivery, pvp, pve, rolePlay, pageable);
+    }
+
+    public Page<Jobs> findByDescription(String filter, Pageable pageable) {
+        return jobDao.findByDescriptionContainingIgnoreCase(filter,pageable);
+    }
 
     // Check if the user has been accepted to the job
     public boolean jobContainsUser(Integer jobId, User user) throws Exception {

@@ -7,7 +7,7 @@
     <!-- External CSS stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link sec:authorize="isAuthenticated()" rel="stylesheet" type="text/css" th:href="'/css/' + ${user.startingArea} + '/jobdetails.css'">
+    <link sec:authorize="isAuthenticated()" rel="stylesheet" type="text/css" th:href="'/css/' + ${jobDetails.user.startingArea} + '/jobdetails.css'">
     <link sec:authorize="isAnonymous()" rel="stylesheet" type="text/css" href="/css/default/jobdetails.css">
 <!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />-->
     <link rel="stylesheet" type="text/css" href="/webjars/font-awesome/6.4.0/css/all.css" />
@@ -23,7 +23,7 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <title th:text="${singleJob.getTitle()}"></title>
+    <title th:text="${jobDetails.getSingleJob().getTitle()}"></title>
 </head>
 <body>
 
@@ -49,7 +49,7 @@
                     Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a th:if="${user?.getId() != null}" class="dropdown-item" th:href="@{/jobs/createjob}">Create Job</a>
+                    <a th:if="${jobDetails.getUser().getId() != null}" class="dropdown-item" th:href="@{/jobs/createjob}">Create Job</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -65,9 +65,9 @@
             </li>
             <li class="logout dropdown img-dropdown" sec:authorize="isAuthenticated()">
                 <!--                Proifle picture dropdown menu-->
-                <img class="picture-nav dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${user.getProfilePic()}" alt="profile picture">
+                <img class="picture-nav dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:src="${jobDetails.getUser().getProfilePic()}" alt="profile picture">
                 <div class="dropdown-menu dropdown-menu-bottom" aria-labelledby="dropdownMenu2">
-                    <a class="dropdown-item" th:href="@{${userUrl}}">Profile</a>
+                    <a class="dropdown-item" th:href="@{/profile/{id}(id=${jobDetails.getUser().getId()})}">Profile</a>
                     <a class="dropdown-item" th:href="@{/}">Settings</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" th:href="@{/logout}">Logout</a>
@@ -85,36 +85,36 @@
         <div class="job-card">
             <!--    Job Title-->
             <div class="card-head">
-                <h1 class="job-title" th:text="${singleJob.getTitle()}"></h1>
-                <h4 class="gold-text" th:text="'Pay Split: ' + ${singleJob.getPaymentPercent()} + '%'"></h4>
+                <h1 class="job-title" th:text="${jobDetails.getSingleJob().getTitle()}"></h1>
+                <h4 class="gold-text" th:text="'Pay Split: ' + ${jobDetails.getSingleJob().getPaymentPercent()} + '%'"></h4>
             </div>
 
 
             <!--    Job Description-->
             <div class="job-description">
-                <h6 th:text="${singleJob.getDescription()}"></h6>
+                <h6 th:text="${jobDetails.getSingleJob().getDescription()}"></h6>
             </div>
 
             <!--    Middle Section of page-->
             <div class="middle-section">
                 <!--   Applicant List for creator-->
-                <div class="applicant-list" th:if="${singleJob.creatorId.getId() == user.id}">
+                <div class="applicant-list" th:if="${jobDetails.getSingleJob().getCreatorId().id == jobDetails.getUser().getId()}">
                     <h2><u>Applicants List</u></h2>
-                    <h6 class="text-light text-center applicant-amount" th:text="'You have ' + ${#lists.size(applicantsList)} + ' applicants'"></h6>
-                    <div class="creators-list" th:each="applicant : ${firstFourApplicants}">
+                    <h6 class="text-light text-center applicant-amount" th:text="'You have ' + ${#lists.size(jobDetails.getApplicantsList())} + ' applicants'"></h6>
+                    <div class="creators-list" th:each="applicant : ${jobDetails.getFirstFourApplicants()}">
                         <a th:href="@{/profile/{id}(id=${applicant.id})}" th:text="${applicant.username}"></a>
                         <div class="btn-div">
-                            <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
+                            <form th:action="@{/jobs/{jobId}/accept/{applicantId}(jobId=${jobDetails.singleJob.getId()},applicantId=${applicant.getId()})}" method="post">
                                 <button class="btn accept-deny" type="submit">Accept</button>
                             </form>
-                            <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${singleJob.id})}" method="post">
+                            <form th:action="@{/jobs/{jobId}/deny/{applicantId}(applicantId=${applicant.id}, jobId=${jobDetails.singleJob.id})}" method="post">
                                 <button class="btn accept-deny" type="submit">Deny</button>
                             </form>
                         </div>
                     </div>
                     <a class="manage text-center"
-                       th:if="${#lists.size(singleJob.getApplicantList()) >= 3}"
-                       th:href="@{/jobs/{id}/applicants(id=${singleJob.id})}"
+                       th:if="${#lists.size(jobDetails.singleJob.getApplicantList()) >= 3}"
+                       th:href="@{/jobs/{id}/applicants(id=${jobDetails.singleJob.id})}"
                         >Manage applicants &#8594;
                     </a>
                 </div>
@@ -122,34 +122,34 @@
 <!--                List of job Hired Contractors-->
                 <div class="accepted-list">
                     <h2><u>Hired Contractors</u></h2>
-                    <div th:each="accepted : ${acceptedList}">
+                    <div th:each="accepted : ${jobDetails.acceptedList}">
                         <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
                         <a th:if="${user.id != accepted.id}" th:href="@{/rate-applicant-form(userId=${user.getId()}, jobId=${singleJob.getId()}, applicantId=${accepted.id})}">Rate User</a>
                     </div>
                     <a class="manage"
-                       th:if="${#lists.size(singleJob.getAcceptedList()) >= 1 && singleJob.getCreatorId().getId() == user.getId()}"
-                        th:href="@{/jobs/{id}/accepted(id=${singleJob.id})}"
+                       th:if="${#lists.size(jobDetails.singleJob.getAcceptedList()) >= 1 && jobDetails.singleJob.getCreatorId().getId() == jobDetails.user.getId()}"
+                        th:href="@{/jobs/{id}/accepted(id=${jobDetails.singleJob.id})}"
                         >Manage Contractors &#8594;
                     </a>
                 </div>
 
                 <!--        Start Date-->
                 <div>
-                    <h6 th:text="'Start Date: ' +${singleJob.getStartDate()}"></h6>
+                    <h6 th:text="'Start Date: ' +${jobDetails.singleJob.getStartDate()}"></h6>
                 </div>
             </div>
 
             <!-- Apply/Leave Job buttons -->
-            <div th:unless="${singleJob.creatorId.getId() == user.id}">
-                <div th:if="${#lists.contains(singleJob.applicantList.![id], user.id) || #lists.contains(singleJob.acceptedList.![id], user.id)}">
-                    <form class="leave-button" th:action="@{/jobs/remove/{id}(id=${singleJob.id})}" method="POST">
-                        <input id="userIdRemove" name="userIdRemove" type="hidden" th:value="${user.id}">
+            <div th:unless="${jobDetails.singleJob.creatorId.getId() == jobDetails.user.id}">
+                <div th:if="${#lists.contains(jobDetails.singleJob.applicantList.![id], jobDetails.user.id) || #lists.contains(jobDetails.singleJob.acceptedList.![id], jobDetails.user.id)}">
+                    <form class="leave-button" th:action="@{/jobs/remove/{id}(id=${jobDetails.singleJob.id})}" method="POST">
+                        <input id="userIdRemove" name="userIdRemove" type="hidden" th:value="${jobDetails.user.id}">
                         <button class="leave-button">Leave Job</button>
                     </form>
                 </div>
-                <div th:unless="${applicantsList.contains(user) || acceptedList.contains(user)}">
-                <form class="apply-button" th:action="@{/jobs/apply/{id}(id=${singleJob.id})}" method="POST">
-                        <input id="userId" name="userId" type="hidden" th:value="${user.id}">
+                <div th:unless="${jobDetails.applicantsList.contains(jobDetails.user) || jobDetails.acceptedList.contains(jobDetails.user)}">
+                <form class="apply-button" th:action="@{/jobs/apply/{id}(id=${jobDetails.singleJob.id})}" method="POST">
+                        <input id="userId" name="userId" type="hidden" th:value="${jobDetails.user.id}">
                         <button class="apply-button">Apply</button>
                     </form>
                 </div>
@@ -157,17 +157,17 @@
 
             <!--    Creator tag-->
             <div class="card-footer">
-                <h6 th:if="${singleJob.getCreatedDate() != null}"
-                    th:text="'Posted on: ' + ${#temporals.format(singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(singleJob.getCreatedDate(), 'h:mm a')}">
+                <h6 th:if="${jobDetails.singleJob.getCreatedDate() != null}"
+                    th:text="'Posted on: ' + ${#temporals.format(jobDetails.singleJob.getCreatedDate(), 'MM-dd-yyyy')} + ' @ ' + ${#temporals.format(jobDetails.singleJob.getCreatedDate(), 'h:mm a')}">
                 </h6>
-                <a class="job-creator" th:href="@{/profile/{id}(id=${singleJob.getCreatorId().id})}" th:text="'Posted By: ' + ${singleJob.getCreatorId().getUsername()}"></a>
-                <h6 th:if="${singleJob.getCreatorId().getAvgRating() != null}"
-                    th:text="'Creators Rating: ' + ${singleJob.getCreatorId().getAvgRating()}">
+                <a class="job-creator" th:href="@{/profile/{id}(id=${jobDetails.singleJob.getCreatorId().id})}" th:text="'Posted By: ' + ${jobDetails.singleJob.getCreatorId().getUsername()}"></a>
+                <h6 th:if="${jobDetails.singleJob.getCreatorId().getAvgRating() != null}"
+                    th:text="'Creators Rating: ' + ${jobDetails.singleJob.getCreatorId().getAvgRating()}">
                 </h6>
             </div>
 
             <!--    Categories-->
-            <div class="categories" th:each="cat : ${category}">
+            <div class="categories" th:each="cat : ${jobDetails.categories}">
                 <a class="categories-item" th:if="${cat.bounty_hunting}" th:href="@{/jobs?bountyHunting=true}">#Bounty Hunting</a>
                 <a class="categories-item" th:if="${cat.combat}" th:href="@{/jobs?combat=true}">#Combat</a>
                 <a class="categories-item" th:if="${cat.delivery}" th:href="@{/jobs?delivery=true}">#Delivery</a>
@@ -181,14 +181,14 @@
                 <a class="categories-item" th:if="${cat.trading}" th:href="@{/jobs?trading=true}">#Trading</a>
 
                 <!--                EDIT JOB BUTTONS                -->
-                <div th:if="*{singleJob.getCreatorId()?.getId() == user?.getId()}" class="nav-item dropdown change-btn">
+                <div th:if="*{jobDetails.singleJob.getCreatorId()?.getId() == jobDetails.user?.getId()}" class="nav-item dropdown change-btn">
                     <a class="nav-link dropdown-toggle orison-btnChange" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Make changes
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{/jobs/editjob/{id}(id=*{singleJob.getId()})}">Edit Job</a>
-                        <button class="dropdown-item" th:attr="onclick=${'deleteJob('''+singleJob.getId()+''')'}">Remove Job</button>
+                        <a class="dropdown-item" th:href="@{/jobs/editjob/{id}(id=*{jobDetails.singleJob.getId()})}">Edit Job</a>
+                        <button class="dropdown-item" th:attr="onclick=${'deleteJob('''+jobDetails.singleJob.getId()+''')'}">Remove Job</button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item" onclick="showCompleteJobForm()">Complete Job</button>
                     </div>
@@ -199,7 +199,7 @@
                         <div class="modal-content">
                             <span class="close" onclick="closeCompleteJobForm()">&times;</span>
                             <h2>Complete Job</h2>
-                            <form id="completeJobForm" th:object="${singleJob}" th:action="@{/jobs/complete/{id}(id=${singleJob.id})}"
+                            <form id="completeJobForm" th:object="${jobDetails.singleJob}" th:action="@{/jobs/complete/{id}(id=${jobDetails.singleJob.id})}"
                                   method="post" onsubmit="return validateForm();">
                                 <label for="status">Is this Job complete</label>
                                 <select id="status" th:field="*{jobStatus}">
@@ -218,12 +218,12 @@
                 </div>
             </div>
             <!--Show this if the user has applied to this job-->
-            <div class="applied-remark" th:if="${applicantsList.contains(user)}">
+            <div class="applied-remark" th:if="${jobDetails.applicantsList.contains(jobDetails.user)}">
                 <i class="fa-solid fa-square-check checkmark"></i>
                 <h6>You've applied for this job</h6>
             </div>
             <!--Show this if the user has been accepted to the job-->
-            <div class="applied-remark" th:if="${acceptedList.contains(user)}">
+            <div class="applied-remark" th:if="${jobDetails.acceptedList.contains(jobDetails.user)}">
                 <i class="fa-solid fa-square-check checkmark"></i>
                 <h6>Congratulations! You've been hired for this job!</h6>
             </div>
@@ -231,15 +231,15 @@
 
         <!--        Comment section-->
         <div class="comments">
-            <div th:each="comment : ${comments}">
+            <div th:each="comment : ${jobDetails.comments}">
                 <div class="comment-section">
                     <div class="d-flex justify-content-between">
                         <div>
                             <img class="profile-thumbnail" th:src="${comment.user.profilePic}">
                             <p th:text="*{comment.user.username}"></p>
                         </div>
-                        <form th:if="${comment.getUser()?.getId() == user.getId() }"
-                              th:action="@{/jobs/{jobId}/comment/{commentId}/delete(jobId=${singleJob.id}, commentId=${comment.id})}"
+                        <form th:if="${comment.getUser()?.getId() == jobDetails.user.getId() }"
+                              th:action="@{/jobs/{jobId}/comment/{commentId}/delete(jobId=${jobDetails.singleJob.id}, commentId=${comment.id})}"
                               method="post">
                             <button type="submit" class="btn btn-link text-dark font-icon">
                                 <i class="fa-solid fa-trash text-dark font-icon"></i>
@@ -251,14 +251,14 @@
 <!--                    <h6 th:text="*{comment.getDate}"></h6>-->
                 </div>
             </div>
-            <form class="comment-form" th:action="@{/jobs/{id}/comment(id=${singleJob.id})}" method="post">
+            <form class="comment-form" th:action="@{/jobs/{id}/comment(id=${jobDetails.singleJob.id})}" method="post">
                 <input name="commentContent" type="text" placeholder="Leave a Comment">
                 <button type="submit">Submit Comment</button>
             </form>
         </div>
     </section>
     <div>
-        <a th:href="@{/rate-host-form(userId=${user.getId()}, jobId=${singleJob.getId()})}">Rate Host</a>
+        <a th:href="@{/rate-host-form(userId=${jobDetails.user.getId()}, jobId=${jobDetails.singleJob.getId()})}">Rate Host</a>
     </div>
 </div>
 

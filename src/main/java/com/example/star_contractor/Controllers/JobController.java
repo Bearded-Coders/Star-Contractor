@@ -1,5 +1,6 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
@@ -8,9 +9,11 @@ import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
+import com.example.star_contractor.Services.CategoryService;
 import com.example.star_contractor.Services.EmailService;
 import com.example.star_contractor.Services.JobsService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +30,8 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
 public class JobController {
-
+    @Autowired
+    private CategoryService categoryService;
     private final JobsService jobsService;
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
@@ -79,14 +83,11 @@ public class JobController {
             || exploring != null || bountyHunting != null || delivery != null || pve != null
             || pvp != null || rolePlay != null) {
 
-                // Search jobs by provided categories
-                  jobs = jobsRepository.findPaginatedJobsByCategoryTags(
-                        illegal, mining, combat, salvage, trading, exploring,
-                        bountyHunting, delivery, pvp, pve, rolePlay, pageable);
- 
-                // Loop through the jobs to fetch categories for each job
+                jobs = jobsService.findJobsByCategory(illegal,mining,combat,salvage,trading,exploring,bountyHunting,delivery,pvp,pve,rolePlay,pageable);
+
+                // Loop through the jobs to fetch categories using CategoryService
                 for (Jobs job : jobs) {
-                    List<Categories> categories = catDao.findCategoriesByJobId(job);
+                    List<Categories> categories = categoryService.findCategoriesForJob(job);
                     categoriesList.add(categories);
                 }
 
@@ -103,13 +104,12 @@ public class JobController {
                 model.addAttribute("job", jobs);
 
             } else {
-
                 // Otherwise we use findAll
-                 jobs = jobsRepository.findAll(pageable);
+                 jobs = jobsService.findAllJobs(pageable);
 
-                // Loop through the jobs to fetch categories for each job
+                // Loop through the jobs to fetch categories using CategoryService
                 for (Jobs job : jobs) {
-                    List<Categories> categories = catDao.findCategoriesByJobId(job);
+                    List<Categories> categories = categoryService.findCategoriesForJob(job);
                     categoriesList.add(categories);
                 }
 
@@ -141,15 +141,16 @@ public class JobController {
             Principal principal) {
         try {
             int pageSize = 10; // Number of jobs per page
+            Pageable pageable = PageRequest.of(page, pageSize);
 
             // Create a list to store categories for each job
             List<List<Categories>> categoriesList = new ArrayList<>();
 
-            Pageable pageable = PageRequest.of(page, pageSize);
-            Page<Jobs> jobs = jobsRepository.findByDescriptionContainingIgnoreCase(filter, pageable);;
+            Page<Jobs> jobs = jobsService.findByDescription(filter, pageable);
 
+            // Loop through the jobs to fetch categories using CategoryService
             for (Jobs job : jobs) {
-                List<Categories> categories = catDao.findCategoriesByJobId(job);
+                List<Categories> categories = categoryService.findCategoriesForJob(job);
                 categoriesList.add(categories);
             }
 
@@ -164,6 +165,7 @@ public class JobController {
             }
 
             model.addAttribute("job", jobs);
+            model.addAttribute("categoriesList", categoriesList);
 
             return "index/jobposts";
         } catch (Exception e) {
@@ -173,40 +175,21 @@ public class JobController {
 
     // Go to Job Details page
     @GetMapping("/jobs/{id}")
-    public String getJob(@PathVariable Integer id, Model model) throws Exception {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDao.getUserById(currentUser.getId());
+        public String getJobDetails(@PathVariable Integer id, Model model) {
+            try {
+                User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                User user = userDao.getUserById(currentUser.getId());
 
-        Jobs singleJob = jobsRepository.getJobById(id);
+                JobDetailsDTO jobDetails = jobsService.getJobDetails(id, user);
 
-        List<Categories> categories = catDao.findCategoriesByJobId(singleJob);
+                model.addAttribute("jobDetails", jobDetails);
 
-        List<Comment> comments = commentDao.findCommentsByJob(singleJob);
+                return "index/jobdetails";
+            } catch (Exception e) {
+                return "index/errors/exception";
+            }
+        }
 
-        // This is for troubleshooting
-        List<User> applicantsList = singleJob.getApplicantList();
-        System.out.println("Non Accepted List:");
-        applicantsList.forEach(app -> System.out.println(("ID: " + app.getId() + " Username: " + app.getUsername())));
-        // This is for troubleshooting
-        List<User> acceptedList = singleJob.getAcceptedList();
-        System.out.println("Accepted Applicants:");
-        acceptedList.forEach(applicants -> System.out.println("ID: " + applicants.getId() + ", Username: " + applicants.getUsername()));
-
-        // Only passing the first five applicants to the applicants list
-        List<User> firstFourApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 4));
-
-        String userUrl = "/profile/" + user.getId();
-
-        model.addAttribute("singleJob", singleJob);
-        model.addAttribute("category", categories);
-        model.addAttribute("user", user);
-        model.addAttribute("userUrl", userUrl);
-        model.addAttribute("comments", comments);
-        model.addAttribute("applicantsList", applicantsList);
-        model.addAttribute("acceptedList", acceptedList);
-        model.addAttribute("firstFourApplicants", firstFourApplicants);
-        return "index/jobdetails";
-    }
 
     // Get a users jobs
     @GetMapping("/jobs/{id}/myjobs")
