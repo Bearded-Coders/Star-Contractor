@@ -251,8 +251,8 @@
 <!--                    <h6 th:text="*{comment.getDate}"></h6>-->
                 </div>
             </div>
-            <form class="comment-form" th:action="@{/jobs/{id}/comment(id=${jobDetails.singleJob.id})}" method="post">
-                <input name="commentContent" type="text" placeholder="Leave a Comment">
+            <form class="comment-form" th:action="@{/jobs/{id}/add-comment(id=${jobDetails.singleJob.id})}" method="post">
+                <input name="content" type="text" placeholder="Leave a Comment">
                 <button type="submit">Submit Comment</button>
             </form>
         </div>

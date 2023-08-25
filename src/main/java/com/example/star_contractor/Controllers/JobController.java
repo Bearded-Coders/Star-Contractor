@@ -1,17 +1,15 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.DTOS.CommentDTO;
 import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
-import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
-import com.example.star_contractor.Services.CategoryService;
-import com.example.star_contractor.Services.EmailService;
-import com.example.star_contractor.Services.JobsService;
+import com.example.star_contractor.Services.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,21 +30,30 @@ import java.util.List;
 public class JobController {
     @Autowired
     private CategoryService categoryService;
-    private final JobsService jobsService;
+    @Autowired
+    private JobsService jobsService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private UserService userService;
+
+
+
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
     private final UserRepository userDao;
     private final CommentRepository commentDao;
-    private final EmailService emailService;
+
+
     User user = null;
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService, JobsService jobsService) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
-        this.emailService = emailService;
-        this.jobsService = jobsService;
     }
 
 
@@ -178,7 +185,7 @@ public class JobController {
         public String getJobDetails(@PathVariable Integer id, Model model) {
             try {
                 User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                User user = userDao.getUserById(currentUser.getId());
+                User user = userService.getUserById(currentUser.getId());
 
                 JobDetailsDTO jobDetails = jobsService.getJobDetails(id, user);
 
@@ -195,9 +202,9 @@ public class JobController {
     @GetMapping("/jobs/{id}/myjobs")
     public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDao.getUserById(currentUser.getId());
+        User user = userService.getUserById(currentUser.getId());
 
-        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
+        List<Jobs> myJobs = jobsService.getUsersJobs(user);
 //        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
 
         model.addAttribute("myJobs", myJobs);
@@ -241,7 +248,7 @@ public class JobController {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            Jobs currentJob = jobsRepository.getJobById(id);
+            Jobs currentJob = jobsService.findJobById(id);
             List<User> acceptedList = currentJob.getAcceptedList();
 
             String userUrl = "/profile/" + user.getId(); // Link to the users profile
@@ -259,49 +266,22 @@ public class JobController {
 
 //   ****************** JOB COMMENTS *****************
     // Comment on a job
-    @PostMapping("/jobs/{id}/comment")
-    public String addComment(@PathVariable Integer id, @RequestParam("commentContent") String commentContent) {
+    @PostMapping("/jobs/{id}/add-comment")
+    public String addComment(@PathVariable Integer id, @ModelAttribute CommentDTO commentDTO) {
         try {
-            // Get the currently authenticated user
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            // Find the job by its ID
-            Jobs singleJob = jobsRepository.getJobById(id);
-
-            // Create a new comment object
-            Comment comment = new Comment();
-            comment.setJob(singleJob); // Associate the comment with the job
-            comment.setUser(user);     // Associate the comment with the user
-            comment.setContent(commentContent); // Set the comment content from the form
-
-            // Save the comment to the database using your CommentRepository
-            commentDao.save(comment);
-
-            // Redirect back to the job details page
+            commentDTO.setJobId(id);
+            commentService.addComment(commentDTO);
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
-            return "index/errors/exception"; // Exception occurred error page
+            return "index/errors/exception";
         }
     }
 
     // Delete a comment
     @PostMapping("/jobs/{jobId}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable Integer jobId, @PathVariable Long commentId) {
+    public String deleteComment(@PathVariable Long jobId, @PathVariable Long commentId) {
         try {
-            // Get the currently authenticated user
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            // Find the comment by its ID
-            Comment comment = commentDao.findById(commentId);
-
-            // Check if the comment exists and if it belongs to the currently authenticated user
-            if (comment != null && comment.getUser().getId().equals(user.getId())) {
-                commentDao.delete(comment);
-            } else {
-                return "redirect:/jobs/" + jobId;
-            }
-
-            // Redirect back to the job details page after successful deletion
+            commentService.deleteComment(commentId);
             return "redirect:/jobs/" + jobId;
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page

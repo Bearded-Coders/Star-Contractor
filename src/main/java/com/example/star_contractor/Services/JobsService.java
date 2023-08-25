@@ -43,6 +43,7 @@ public class JobsService {
         return jobDao.findAll(pageable);
     }
 
+    // Get a job by it's id
     public Jobs findJobById(Integer id) throws Exception {
         return jobDao.getJobById(id);
     }
@@ -70,7 +71,7 @@ public class JobsService {
         return jobDetails; // Return the entire DTO
     }
 
-    // Find jobs by category
+    // Find jobs by category tags
     public Page<Jobs> findJobsByCategory(Boolean illegal,
                                          Boolean mining,
                                          Boolean combat,
@@ -86,8 +87,14 @@ public class JobsService {
         return jobDao.findPaginatedJobsByCategoryTags(illegal, mining, combat, salvage, trading, exploring, bountyHunting, delivery, pvp, pve, rolePlay, pageable);
     }
 
+    // Find jobs by the user typed filter and paginate it
     public Page<Jobs> findByDescription(String filter, Pageable pageable) {
         return jobDao.findByDescriptionContainingIgnoreCase(filter,pageable);
+    }
+
+    // Retrieve a specific user's list of job's
+    public List<Jobs> getUsersJobs(User user) {
+        return jobDao.findJobsByCreatorId(user);
     }
 
     // Check if the user has been accepted to the job
