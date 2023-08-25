@@ -47,26 +47,27 @@ public class JobsService {
         return jobDao.getJobById(id);
     }
 
+    // Job Details DTO, this returns the entire job with the specified parameters
     public JobDetailsDTO getJobDetails(Integer jobId, User currentUser) throws Exception {
-        JobDetailsDTO jobDetails = new JobDetailsDTO();
+        JobDetailsDTO jobDetails = new JobDetailsDTO(); // Create new JobDetailsDTO
 
-        Jobs singleJob = this.findJobById(jobId);
-        List<Categories> categories = categoryService.findCategoriesForJob(singleJob);
-        List<Comment> comments = commentService.findCommentsForJob(singleJob);
+        Jobs singleJob = this.findJobById(jobId); // Get the job by using the method in this service
+        List<Categories> categories = categoryService.findCategoriesForJob(singleJob); // Get the categories tied to the job
+        List<Comment> comments = commentService.findCommentsForJob(singleJob); // Get the commments tied to the job
 
-        List<User> applicantsList = singleJob.getApplicantList();
-        List<User> acceptedList = singleJob.getAcceptedList();
-        List<User> firstFourApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 4));
+        List<User> applicantsList = singleJob.getApplicantList(); // Get the applicant list
+        List<User> acceptedList = singleJob.getAcceptedList(); // Get the accepted list
+        List<User> firstFourApplicants = applicantsList.subList(0, Math.min(applicantsList.size(), 4)); // Get the first 4 applicants
 
-        jobDetails.setSingleJob(singleJob);
-        jobDetails.setCategories(categories);
-        jobDetails.setComments(comments);
-        jobDetails.setUser(currentUser);
-        jobDetails.setApplicantsList(applicantsList);
-        jobDetails.setAcceptedList(acceptedList);
-        jobDetails.setFirstFourApplicants(firstFourApplicants);
+        jobDetails.setSingleJob(singleJob); // Set Entire Job object
+        jobDetails.setCategories(categories); // Set the Categories tied to the job
+        jobDetails.setComments(comments); // Set the Comments tied to the job
+        jobDetails.setUser(currentUser); // Set the logged in user for conditionals
+        jobDetails.setApplicantsList(applicantsList); // Set the Applicants list tied to the job
+        jobDetails.setAcceptedList(acceptedList); // Set the Accepted/Hired list tied to the job
+        jobDetails.setFirstFourApplicants(firstFourApplicants); // Set th List of only the first 4 applicants tied to the job
 
-        return jobDetails;
+        return jobDetails; // Return the entire DTO
     }
 
     // Find jobs by category

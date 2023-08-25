@@ -17,7 +17,6 @@ public class JobDetailsDTO {
     private List<User> firstFourApplicants;
 
     // Getters and setters
-
     public Jobs getSingleJob() {
         return singleJob;
     }
