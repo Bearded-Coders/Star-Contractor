@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Rate Page</title>
 </head>
-<body>
-<div>
-    <form th:action="@{/UserRating}" method="POST">
-        <select>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
+<!--Only Show the body element if the user is apart of the accepted job-->
+<body th:if="${jobContainsUser}">
+<!--This is what we show if he user has already rated the creator-->
+<div th:if="${hasRated}">
+    <h1>You have already rated the user on this job</h1>
+    <a th:href="@{/jobs}">Return to Job Board</a>
+</div>
+
+<!--this is what we show if the user has not rated the creator-->
+<div th:if="!${hasRated}">
+    <form th:action="@{/rate-host}" method="post">
+        <input type="hidden" name="userId" th:value="${userId}" />
+        <input type="hidden" name="jobId" th:value="${jobId}" />
+
+        <label for="ratingValue">Rating:</label>
+        <input id="ratingValue" type="number" name="ratingValue" required />
+
+        <button type="submit">Submit Rating</button>
     </form>
 </div>
+</body>
+
+<!--Otherwise we show this one-->
+<body>
+<h1>You are not apart of this JOB, get out there and apply!</h1>
 </body>
 </html>

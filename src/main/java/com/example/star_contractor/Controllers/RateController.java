@@ -74,6 +74,23 @@ public class RateController {
             return e.toString();
         }
     }
+    @PostMapping("/rate-applicant")
+    public String rateApplicant(
+            @RequestParam Long userId,
+            @RequestParam Long applicantId,
+            @RequestParam Integer jobId,
+            @RequestParam Short ratingValue) throws Exception {
+
+        try {
+            ratingService.createApplicantRating(userId, applicantId, jobId, ratingValue);
+
+            System.out.println("User was rated");
+
+            return "redirect:/jobs/" + jobId;
+        } catch (Exception e) {
+            return e.toString();
+        }
+    }
     @PostMapping("/rate-host")
     public String rateHost(
             @RequestParam Long userId,
