@@ -23,6 +23,8 @@ public class User{
     private String profilePic;
     @Column()
     private Short avgRating;
+    @Column()
+    private Short avgApplicantRating;
     @Column(nullable = false)
     private Boolean verified;
     @Column(nullable = false)
@@ -67,8 +69,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
-//     public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Jobs> acceptedJobs, List<Comment> comments) {
+    public User(Long id, String username, String password, String email, String startingArea, String profilePic, Short avgRating, Short avgApplicantRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Jobs> acceptedJobs, List<Comment> comments) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -76,6 +77,7 @@ public class User{
         this.startingArea = startingArea;
         this.profilePic = profilePic;
         this.avgRating = avgRating;
+        this.avgApplicantRating = avgApplicantRating;
         this.verified = verified;
         this.admin = admin;
         this.myJobs = myJobs;
@@ -87,23 +89,22 @@ public class User{
         this.comments = comments;
     }
 
-
-    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Comment> comments) {
-//     public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<Rating> ratings, List<User> friends, List<Jobs> appliedJobs, List<Jobs> acceptedJobs, List<Comment> comments) {
+    public User(String username, String password, String email, String startingArea, String profilePic, Short avgRating, Short avgApplicantRating, Boolean verified, Boolean admin, List<Jobs> myJobs, List<HostRating> hostRatings, List<ApplicantRating> applicantRatings, List<User> friends, List<Jobs> appliedJobs, List<Jobs> acceptedJobs, List<Comment> comments) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.startingArea = startingArea;
         this.profilePic = profilePic;
         this.avgRating = avgRating;
+        this.avgApplicantRating = avgApplicantRating;//--
         this.verified = verified;
         this.admin = admin;
         this.myJobs = myJobs;
         this.hostRatings = hostRatings;
         this.applicantRatings = applicantRatings;
-        this.friends = friends;
+        this.friends = friends;//--
         this.appliedJobs = appliedJobs;
-        this.acceptedJobs = acceptedJobs;
+        this.acceptedJobs = acceptedJobs;//--
         this.comments = comments;
     }
 
@@ -117,11 +118,14 @@ public class User{
         startingArea = copy.startingArea;
         profilePic = copy.profilePic;
         avgRating = copy.avgRating;
+        avgApplicantRating = copy.avgApplicantRating;
         verified = copy.verified;
         myJobs = copy.myJobs;
         applicantRatings = copy.applicantRatings;
+        friends = copy.friends;
         hostRatings = copy.hostRatings;
         appliedJobs = copy.appliedJobs;
+        acceptedJobs = copy.acceptedJobs;
         admin = copy.admin;
     }
 
@@ -258,6 +262,14 @@ public class User{
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public Short getAvgApplicantRating() {
+        return avgApplicantRating;
+    }
+
+    public void setAvgApplicantRating(Short avgApplicantRating) {
+        this.avgApplicantRating = avgApplicantRating;
     }
 
     @Override

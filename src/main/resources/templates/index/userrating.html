@@ -28,7 +28,7 @@
 </body>
 
 <!--Otherwise we show this one-->
-<body>
+<body th:unless="${jobContainsUser || job.creatorId.id == userId}">
 <h1>You are not apart of this JOB, get out there and apply!</h1>
 </body>
 </html>
