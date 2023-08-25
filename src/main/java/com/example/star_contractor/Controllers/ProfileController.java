@@ -72,11 +72,13 @@ public class ProfileController {
                         .anyMatch(request -> request.getSender().getId().equals(id));
 
         Short avgRating = ratingService.calculateHostRating(userProfile.getId());
+        Short avgApplicantRating = ratingService.calculateApplicantRating(userProfile.getId());
 
         model.addAttribute("userProfileLink", userProfile);
         model.addAttribute("myJobs", userJobs);
         model.addAttribute("user", currentUser);
         model.addAttribute("avgRating", avgRating);
+        model.addAttribute("avgApplicantRating", avgApplicantRating);
         model.addAttribute("userUrl", userUrl);
         model.addAttribute("appliedJobs", appliedJobs);
         model.addAttribute("filestackapi", filestackapi);
