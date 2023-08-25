@@ -5,18 +5,19 @@
     <title>Rate Page</title>
 </head>
 <!--Only Show the body element if the user is apart of the accepted job-->
-<body th:if="${jobContainsUser}">
+<body th:if="${jobContainsUser || job.creatorId.id == userId}">
 <!--This is what we show if he user has already rated the creator-->
-<div th:if="${hasRated}">
+<div th:if="${hasRatedApplicant}">
     <h1>You have already rated the user on this job</h1>
     <a th:href="@{/jobs}">Return to Job Board</a>
 </div>
 
 <!--this is what we show if the user has not rated the creator-->
-<div th:if="!${hasRated}">
-    <form th:action="@{/rate-host}" method="post">
+<div th:if="!${hasRatedApplicant}">
+    <form th:action="@{/rate-applicant}" method="post">
         <input type="hidden" name="userId" th:value="${userId}" />
         <input type="hidden" name="jobId" th:value="${jobId}" />
+        <input type="hidden" name="applicantId" th:value="${applicantId}" />
 
         <label for="ratingValue">Rating:</label>
         <input id="ratingValue" type="number" name="ratingValue" required />
