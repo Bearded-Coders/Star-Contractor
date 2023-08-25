@@ -124,7 +124,7 @@
                     <h2><u>Hired Contractors</u></h2>
                     <div th:each="accepted : ${jobDetails.acceptedList}">
                         <a th:href="@{/profile/{id}(id=${accepted.id})}" th:text="${accepted.getUsername()}"></a>
-                        <a th:if="${user.id != accepted.id}" th:href="@{/rate-applicant-form(userId=${user.getId()}, jobId=${singleJob.getId()}, applicantId=${accepted.id})}">Rate User</a>
+                        <a th:if="${jobDetails.user.id != accepted.id}" th:href="@{/rate-applicant-form(userId=${jobDetails.user.getId()}, jobId=${jobDetails.singleJob.getId()}, applicantId=${accepted.id})}">Rate User</a>
                     </div>
                     <a class="manage"
                        th:if="${#lists.size(jobDetails.singleJob.getAcceptedList()) >= 1 && jobDetails.singleJob.getCreatorId().getId() == jobDetails.user.getId()}"
