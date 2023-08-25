@@ -1,6 +1,7 @@
 package com.example.star_contractor.Controllers;
 
 import com.example.star_contractor.DTOS.CommentDTO;
+import com.example.star_contractor.DTOS.CreateJobDTO;
 import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Jobs;
@@ -21,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,11 +269,11 @@ public class JobController {
     @PostMapping("/jobs/{id}/add-comment")
     public String addComment(@PathVariable Integer id, @ModelAttribute CommentDTO commentDTO) {
         try {
-            commentDTO.setJobId(id);
-            commentService.addComment(commentDTO);
-            return "redirect:/jobs/" + id;
+            commentDTO.setJobId(id); // Set the commentDTO's job id to the passed Integer
+            commentService.addComment(commentDTO); // Use the comment service to add a comment
+            return "redirect:/jobs/" + id; // Redirect to the original job
         } catch (Exception e) {
-            return "index/errors/exception";
+            return "index/errors/exception"; // Exception occurred error page
         }
     }
 
@@ -281,8 +281,8 @@ public class JobController {
     @PostMapping("/jobs/{jobId}/comment/{commentId}/delete")
     public String deleteComment(@PathVariable Long jobId, @PathVariable Long commentId) {
         try {
-            commentService.deleteComment(commentId);
-            return "redirect:/jobs/" + jobId;
+            commentService.deleteComment(commentId); // Use the comment service to delete comment
+            return "redirect:/jobs/" + jobId; // Redirect to the original job
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
@@ -293,19 +293,14 @@ public class JobController {
     @GetMapping("/jobs/createjob")
     public String jobCreation(Model model, Principal principal) {
         try {
-            Jobs job = new Jobs();
-            Categories category = new Categories();
-
             if (principal != null) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                job.setCreatorId(user);
                 model.addAttribute("user", user);
                 String userUrl = "/profile/" + user.getId();
                 model.addAttribute("userUrl", userUrl);
             }
 
-            model.addAttribute("category", category);
-            model.addAttribute("job", job);
+            model.addAttribute("createJobDTO", new CreateJobDTO());
             return "index/createjob";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
@@ -314,29 +309,20 @@ public class JobController {
 
     // Create a Job
     @PostMapping("/jobs/createjob")
-    public String addJob(@ModelAttribute Jobs job, @ModelAttribute Categories categories) {
+    public String addJob(@ModelAttribute CreateJobDTO createJobDTO) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            job.setCreatedDate(LocalDateTime.now());
-            job.setCreatorEmail(user.getEmail());
-
-            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
-            categories.setJobId(job);
-            catDao.save(categories);
-            job.setJobStatus("Active");
-            jobsRepository.save(job);
-
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // Get the logged in user
+            jobsService.createJob(createJobDTO, user); // Use the service to create the job
+//            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
 //            This code will email the creator of a job.
 //            emailService.prepareAndSend(job, "Job Creation", body);
-
-
-            return "redirect:/jobs";
+            return "redirect:/jobs"; // Redirect to the job board
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception and show an error page
             return "index/errors/exception";
         }
     }
+
 
     // Display the job editor
     @GetMapping("/jobs/editjob/{id}")

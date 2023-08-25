@@ -73,7 +73,7 @@
 
 <!--    JOB CREATION FORM-->
 <div class="container-center">
-    <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${job}">
+    <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${createJobDTO}">
         <!--        title-->
         <label for="title">Title</label>
         <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
@@ -82,10 +82,10 @@
         <label for="description">Description</label>
         <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
         <label for="datepicker">Start Date</label>
-        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(job.startDate, 'yyyy-MM-dd')}" placeholder="mm/dd/yyyy">
+        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(createJobDTO.startDate, 'yyyy-MM-dd')}" placeholder="mm/dd/yyyy">
 
         <!--            <input type="hidden" th:field="*{createdDate}">-->
-        <input type="hidden" th:field="*{createdDate}" th:value="${#temporals.format(job.createdDate, 'yyyy-MM-ddTHH:mm:ss.SSS')}">
+        <input type="hidden" th:field="*{createdDate}" th:value="${#temporals.format(createJobDTO.createdDate, 'yyyy-MM-ddTHH:mm:ss.SSS')}">
 
         <!--        Threat Level-->
         <label for="threat">Threat Level</label>
@@ -100,7 +100,7 @@
         <label for="paymentPercent">Payment Percent</label>
         <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
         <!--        Job Status-->
-        <input type="hidden" th:field="*{jobStatus}">
+        <input type="hidden" th:field="*{jobStatus}" th:value="Active">
         <!--        Starting location-->
         <label for="location">Starting Location</label>
         <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
@@ -108,11 +108,11 @@
         <label for="distance">Distance to travel</label>
         <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
         <!--        this will change to authorization later-->
-        <input type="hidden" th:field="*{creatorId.id}">
+        <input type="hidden" th:field="*{creatorId}" th:value="${user.getId()}">
 
         <!--        Job category tags-->
         <label>Categories</label>
-        <div class="categories" th:object="${category}">
+        <div class="categories" th:object="${createJobDTO}">
             <div class="cat-group">
                 <input id="bounty" type="checkbox" th:field="*{bounty_hunting}" />
                 <label for="bounty">Bounties</label>
@@ -157,7 +157,7 @@
                 <input id="rolePlay" type="checkbox" th:field="*{rolePlay}" />
                 <label for="rolePlay">RolePlay</label>
             </div>
-            <input name="jobId" type="hidden" th:field="*{jobId.id}" />
+            <input name="jobId" type="hidden" th:field="*{id}" />
         </div>
 
         <!--        Submit button-->

@@ -1,5 +1,6 @@
 package com.example.star_contractor.Services;
 
+import com.example.star_contractor.DTOS.CreateJobDTO;
 import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Comment;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,7 +45,7 @@ public class JobsService {
         return jobDao.findAll(pageable);
     }
 
-    // Get a job by it's id
+    // Find a job by id
     public Jobs findJobById(Integer id) throws Exception {
         return jobDao.getJobById(id);
     }
@@ -103,5 +105,38 @@ public class JobsService {
         User currentUser = userDao.getUserById(user.getId());
 
         return ratedJob.getAcceptedList().contains(currentUser);
+    }
+
+    public void createJob(CreateJobDTO createJobDTO, User user) {
+        Jobs job = new Jobs();
+        job.setTitle(createJobDTO.getTitle());
+        job.setDescription(createJobDTO.getDescription());
+        job.setCreatedDate(LocalDateTime.now());
+        job.setStartDate(createJobDTO.getStartDate());
+        job.setThreat(createJobDTO.getThreat());
+        job.setPaymentPercent(createJobDTO.getPaymentPercent());
+        job.setJobStatus(createJobDTO.getJobStatus());
+        job.setCreatorId(createJobDTO.getCreatorId());
+        job.setCreatorEmail(user.getEmail());
+        job.setStartLocation(createJobDTO.getStartLocation());
+        job.setDistance(createJobDTO.getDistance());
+
+        jobDao.save(job);
+
+        // Set the category fields
+        Categories categories = new Categories();
+        categories.setJobId(job);
+        categories.setBounty_hunting(createJobDTO.isBounty_hunting());
+        categories.setIllegal(createJobDTO.isIllegal());
+        categories.setMining(createJobDTO.isMining());
+        categories.setCombat(createJobDTO.isCombat());
+        categories.setSalvage(createJobDTO.isSalvage());
+        categories.setTrading(createJobDTO.isTrading());
+        categories.setExploring(createJobDTO.isExploring());
+        categories.setDelivery(createJobDTO.isDelivery());
+        categories.setPvp(createJobDTO.isPvp());
+        categories.setPve(createJobDTO.isPve());
+        categories.setRolePlay(createJobDTO.isRolePlay());
+        catDao.save(categories);
     }
 }
