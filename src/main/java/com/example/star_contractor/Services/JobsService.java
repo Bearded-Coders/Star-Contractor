@@ -9,7 +9,6 @@ import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,23 +17,25 @@ import java.util.List;
 
 @Service
 public class JobsService {
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private CategoryService categoryService;
+    private final CommentService commentService;
+    private final CategoryService categoryService;
     private final UserRepository userDao;
     private final JobRepository jobDao;
     private final CategoriesRepository catDao;
     private final CommentRepository commentDao;
 
-    public  JobsService(UserRepository userDao,
+    public JobsService(UserRepository userDao,
                         JobRepository jobDao,
                         CommentRepository commentDao,
-                        CategoriesRepository catDao) {
+                        CategoriesRepository catDao,
+                        CommentService commentService,
+                        CategoryService categoryService) {
         this.jobDao = jobDao;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
+        this.categoryService = categoryService;
+        this.commentService = commentService;
     }
 
     // Find all jobs
