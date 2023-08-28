@@ -392,23 +392,16 @@ public class JobController {
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-            User applicant = userDao.getUserById(usersId);
+            Jobs existingJob = jobsService.findJobById(id);
+            User applicant = userService.getUserById(usersId);
 
-            existingJob.getApplicantList().add(applicant); // Add the applicant to the job
-            applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
+            jobsService.applyToJob(existingJob, applicant);
 
-            // Save the updated entities in the repository
-            jobsRepository.save(existingJob);
-            userDao.save(applicant);
-
-            System.out.println("APPLIED TO JOB");
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e.toString());
             return "index/errors/exception";
         }
-
     }
 
     // Remove applicant from job
@@ -421,20 +414,7 @@ public class JobController {
             // Fetch the User object corresponding to the usersId
             User applicant = userDao.getUserById(usersId);
 
-            // Remove from applicant list if not accepted yet
-            if(existingJob.getApplicantList().contains(applicant)) {
-                existingJob.getApplicantList().remove(applicant);
-                applicant.getAppliedJobs().remove(existingJob);
-            }
-
-            // Remove from accepted list if they've been accepted
-            if(existingJob.getAcceptedList().contains(applicant)) {
-                existingJob.getAcceptedList().remove(applicant);
-                applicant.getAcceptedJobs().remove(existingJob);
-            }
-
-            // Save the job once changes are made
-            jobsRepository.save(existingJob);
+            jobsService.removeApplicantFromJob(existingJob, applicant);
 
             return "redirect:/jobs/" + id;
         } catch (Exception e) {

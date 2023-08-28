@@ -177,8 +177,37 @@ public class JobsService {
         jobDao.save(existingJob); // Save it to the DB
     }
 
+    // Delete Job
     public void deleteJob(Integer id) {
         jobDao.deleteById(id);
+    }
+
+    // Apply to job
+    public void applyToJob(Jobs existingJob, User applicant) {
+        existingJob.getApplicantList().add(applicant); // Add the applicant to the job
+        applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
+
+        // Save the updated entities in the repository
+        jobDao.save(existingJob);
+        userDao.save(applicant);
+    }
+
+    // Remove applicant from job
+    public void removeApplicantFromJob(Jobs existingJob, User applicant) {
+        // Remove from applicant list if not accepted yet
+        if(existingJob.getApplicantList().contains(applicant)) {
+            existingJob.getApplicantList().remove(applicant);
+            applicant.getAppliedJobs().remove(existingJob);
+        }
+
+        // Remove from accepted list if they've been accepted
+        if(existingJob.getAcceptedList().contains(applicant)) {
+            existingJob.getAcceptedList().remove(applicant);
+            applicant.getAcceptedJobs().remove(existingJob);
+        }
+
+        // Save the job once changes are made
+        jobDao.save(existingJob);
     }
 }
 
