@@ -27,11 +27,11 @@ public class JobsService {
     private final CommentRepository commentDao;
 
     public JobsService(UserRepository userDao,
-                        JobRepository jobDao,
-                        CommentRepository commentDao,
-                        CategoriesRepository catDao,
-                        CommentService commentService,
-                        CategoryService categoryService) {
+                       JobRepository jobDao,
+                       CommentRepository commentDao,
+                       CategoriesRepository catDao,
+                       CommentService commentService,
+                       CategoryService categoryService) {
         this.jobDao = jobDao;
         this.catDao = catDao;
         this.userDao = userDao;
@@ -91,7 +91,7 @@ public class JobsService {
 
     // Find jobs by the user typed filter and paginate it
     public Page<Jobs> findByDescription(String filter, Pageable pageable) {
-        return jobDao.findByDescriptionContainingIgnoreCase(filter,pageable);
+        return jobDao.findByDescriptionContainingIgnoreCase(filter, pageable);
     }
 
     // Retrieve a specific user's list of job's
@@ -107,6 +107,7 @@ public class JobsService {
         return ratedJob.getAcceptedList().contains(currentUser);
     }
 
+    // Create a Job
     public void createJob(CreateJobDTO createJobDTO, User user) {
         Jobs job = new Jobs();
         job.setCreatorId(user);
@@ -141,4 +142,32 @@ public class JobsService {
         categories.setRolePlay(createJobDTO.isRolePlay());
         catDao.save(categories);
     }
+
+    // Edit a Job
+    public void editJob(Integer id, Jobs updatedJob) throws Exception {
+        Jobs existingJob = jobDao.getJobById(id);
+
+        if (existingJob != null) {
+            existingJob.setTitle(updatedJob.getTitle());
+            existingJob.setDescription(updatedJob.getDescription());
+            existingJob.setThreat(updatedJob.getThreat());
+            existingJob.setPaymentPercent(updatedJob.getPaymentPercent());
+            existingJob.setJobStatus(updatedJob.getJobStatus());
+            existingJob.setStartLocation(updatedJob.getStartLocation());
+            existingJob.setDistance(updatedJob.getDistance());
+            existingJob.setCreatedDate(existingJob.getCreatedDate());
+            existingJob.setStartDate(updatedJob.getStartDate());
+
+            if (existingJob.getOutcome() != null) {
+                existingJob.setOutcome(updatedJob.getOutcome());
+            }
+
+            if(existingJob.getJobStatus().equals("")) {
+                existingJob.setJobStatus("Active");
+            }
+
+            jobDao.save(existingJob); // Save the updated job
+        }
+    }
 }
+

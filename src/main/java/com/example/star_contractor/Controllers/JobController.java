@@ -329,7 +329,7 @@ public class JobController {
     // Display the job editor
     @GetMapping("/jobs/editjob/{id}")
     public String updateJob(@PathVariable Integer id, Model model, Principal principal) throws Exception {
-        Jobs singleJob = jobsRepository.getJobById(id);
+        Jobs singleJob = jobsService.findJobById(id);
 
         if (principal != null) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -346,27 +346,9 @@ public class JobController {
     @PostMapping ("/jobs/editjob/{id}")
     public String updateJob(@PathVariable Integer id, @ModelAttribute Jobs updatedJob) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-            if (existingJob != null) {
-                existingJob.setTitle(updatedJob.getTitle());
-                existingJob.setDescription(updatedJob.getDescription());
-                existingJob.setThreat(updatedJob.getThreat());
-                existingJob.setPaymentPercent(updatedJob.getPaymentPercent());
-                existingJob.setJobStatus(updatedJob.getJobStatus());
-                existingJob.setStartLocation(updatedJob.getStartLocation());
-                existingJob.setDistance(updatedJob.getDistance());
-                existingJob.setCreatedDate(existingJob.getCreatedDate());
-                existingJob.setStartDate(updatedJob.getStartDate());
+                jobsService.editJob(id, updatedJob);
 
-                if(existingJob.getOutcome() != null) {
-                    existingJob.setOutcome(updatedJob.getOutcome());
-                }
-
-                jobsRepository.save(existingJob); // Save the updated job
-                return "redirect:/jobs" + id; // Redirect to the jobs page
-            } else {
-                return "index/errors/jobnotfound"; // Job not found error page
-            }
+                return "redirect:/jobs/" + id; // Redirect to the jobs page
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
