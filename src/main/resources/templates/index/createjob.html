@@ -100,7 +100,7 @@
         <label for="paymentPercent">Payment Percent</label>
         <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
         <!--        Job Status-->
-        <input type="hidden" th:field="*{jobStatus}" th:value="Active">
+        <input type="hidden" th:field="*{jobStatus}" value="Active">
         <!--        Starting location-->
         <label for="location">Starting Location</label>
         <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
@@ -108,7 +108,7 @@
         <label for="distance">Distance to travel</label>
         <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
         <!--        this will change to authorization later-->
-        <input type="hidden" th:field="*{creatorId}" th:value="${user.getId()}">
+        <input type="hidden" th:field="*{creatorId}">
 
         <!--        Job category tags-->
         <label>Categories</label>
@@ -157,7 +157,7 @@
                 <input id="rolePlay" type="checkbox" th:field="*{rolePlay}" />
                 <label for="rolePlay">RolePlay</label>
             </div>
-            <input name="jobId" type="hidden" th:field="*{id}" />
+            <input name="jobId" type="hidden" th:field="*{creatorId}" />
         </div>
 
         <!--        Submit button-->

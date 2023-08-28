@@ -109,14 +109,16 @@ public class JobsService {
 
     public void createJob(CreateJobDTO createJobDTO, User user) {
         Jobs job = new Jobs();
+        job.setCreatorId(user);
         job.setTitle(createJobDTO.getTitle());
         job.setDescription(createJobDTO.getDescription());
         job.setCreatedDate(LocalDateTime.now());
         job.setStartDate(createJobDTO.getStartDate());
+        job.setJobStatus(createJobDTO.getJobStatus());
         job.setThreat(createJobDTO.getThreat());
         job.setPaymentPercent(createJobDTO.getPaymentPercent());
         job.setJobStatus(createJobDTO.getJobStatus());
-        job.setCreatorId(createJobDTO.getCreatorId());
+        job.setCreatorId(user);
         job.setCreatorEmail(user.getEmail());
         job.setStartLocation(createJobDTO.getStartLocation());
         job.setDistance(createJobDTO.getDistance());

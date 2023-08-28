@@ -301,6 +301,7 @@ public class JobController {
             }
 
             model.addAttribute("createJobDTO", new CreateJobDTO());
+
             return "index/createjob";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
@@ -312,6 +313,7 @@ public class JobController {
     public String addJob(@ModelAttribute CreateJobDTO createJobDTO) {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // Get the logged in user
+            createJobDTO.setJobStatus("Active");
             jobsService.createJob(createJobDTO, user); // Use the service to create the job
 //            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
 //            This code will email the creator of a job.
