@@ -1,17 +1,16 @@
 package com.example.star_contractor.Controllers;
 
+import com.example.star_contractor.DTOS.CommentDTO;
+import com.example.star_contractor.DTOS.CreateJobDTO;
 import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
-import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.CommentRepository;
 import com.example.star_contractor.Repostories.JobRepository;
 import com.example.star_contractor.Repostories.UserRepository;
-import com.example.star_contractor.Services.CategoryService;
-import com.example.star_contractor.Services.EmailService;
-import com.example.star_contractor.Services.JobsService;
+import com.example.star_contractor.Services.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,21 +30,30 @@ import java.util.List;
 public class JobController {
     @Autowired
     private CategoryService categoryService;
-    private final JobsService jobsService;
+    @Autowired
+    private JobsService jobsService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private UserService userService;
+
+
+
     private final JobRepository jobsRepository;
     private final CategoriesRepository catDao;
     private final UserRepository userDao;
     private final CommentRepository commentDao;
-    private final EmailService emailService;
+
+
     User user = null;
 
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao, EmailService emailService, JobsService jobsService) {
+    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao) {
         this.jobsRepository = jobsRepository;
         this.catDao = catDao;
         this.userDao = userDao;
         this.commentDao = commentDao;
-        this.emailService = emailService;
-        this.jobsService = jobsService;
     }
 
 
@@ -178,11 +185,13 @@ public class JobController {
         public String getJobDetails(@PathVariable Integer id, Model model) {
             try {
                 User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                User user = userDao.getUserById(currentUser.getId());
+                User user = userService.getUserById(currentUser.getId());
 
+                Jobs singleJob = jobsService.findJobById(id);
                 JobDetailsDTO jobDetails = jobsService.getJobDetails(id, user);
 
                 model.addAttribute("jobDetails", jobDetails);
+                model.addAttribute("singleJob", singleJob);
 
                 return "index/jobdetails";
             } catch (Exception e) {
@@ -195,9 +204,9 @@ public class JobController {
     @GetMapping("/jobs/{id}/myjobs")
     public String getMyJobs(@PathVariable Integer id, Model model) throws Exception {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userDao.getUserById(currentUser.getId());
+        User user = userService.getUserById(currentUser.getId());
 
-        List<Jobs> myJobs = jobsRepository.findJobsByCreatorId(user);
+        List<Jobs> myJobs = jobsService.getUsersJobs(user);
 //        List<Categories> categories = catDao.findCategoriesByJobId(myJobs);
 
         model.addAttribute("myJobs", myJobs);
@@ -241,7 +250,7 @@ public class JobController {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            Jobs currentJob = jobsRepository.getJobById(id);
+            Jobs currentJob = jobsService.findJobById(id);
             List<User> acceptedList = currentJob.getAcceptedList();
 
             String userUrl = "/profile/" + user.getId(); // Link to the users profile
@@ -259,26 +268,12 @@ public class JobController {
 
 //   ****************** JOB COMMENTS *****************
     // Comment on a job
-    @PostMapping("/jobs/{id}/comment")
-    public String addComment(@PathVariable Integer id, @RequestParam("commentContent") String commentContent) {
+    @PostMapping("/jobs/{id}/add-comment")
+    public String addComment(@PathVariable Integer id, @ModelAttribute CommentDTO commentDTO) {
         try {
-            // Get the currently authenticated user
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            // Find the job by its ID
-            Jobs singleJob = jobsRepository.getJobById(id);
-
-            // Create a new comment object
-            Comment comment = new Comment();
-            comment.setJob(singleJob); // Associate the comment with the job
-            comment.setUser(user);     // Associate the comment with the user
-            comment.setContent(commentContent); // Set the comment content from the form
-
-            // Save the comment to the database using your CommentRepository
-            commentDao.save(comment);
-
-            // Redirect back to the job details page
-            return "redirect:/jobs/" + id;
+            commentDTO.setJobId(id); // Set the commentDTO's job id to the passed Integer
+            commentService.addComment(commentDTO); // Use the comment service to add a comment
+            return "redirect:/jobs/" + id; // Redirect to the original job
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
@@ -286,23 +281,10 @@ public class JobController {
 
     // Delete a comment
     @PostMapping("/jobs/{jobId}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable Integer jobId, @PathVariable Long commentId) {
+    public String deleteComment(@PathVariable Long jobId, @PathVariable Long commentId) {
         try {
-            // Get the currently authenticated user
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            // Find the comment by its ID
-            Comment comment = commentDao.findById(commentId);
-
-            // Check if the comment exists and if it belongs to the currently authenticated user
-            if (comment != null && comment.getUser().getId().equals(user.getId())) {
-                commentDao.delete(comment);
-            } else {
-                return "redirect:/jobs/" + jobId;
-            }
-
-            // Redirect back to the job details page after successful deletion
-            return "redirect:/jobs/" + jobId;
+            commentService.deleteComment(commentId); // Use the comment service to delete comment
+            return "redirect:/jobs/" + jobId; // Redirect to the original job
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
@@ -313,19 +295,15 @@ public class JobController {
     @GetMapping("/jobs/createjob")
     public String jobCreation(Model model, Principal principal) {
         try {
-            Jobs job = new Jobs();
-            Categories category = new Categories();
-
             if (principal != null) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                job.setCreatorId(user);
                 model.addAttribute("user", user);
                 String userUrl = "/profile/" + user.getId();
                 model.addAttribute("userUrl", userUrl);
             }
 
-            model.addAttribute("category", category);
-            model.addAttribute("job", job);
+            model.addAttribute("createJobDTO", new CreateJobDTO());
+
             return "index/createjob";
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
@@ -334,34 +312,26 @@ public class JobController {
 
     // Create a Job
     @PostMapping("/jobs/createjob")
-    public String addJob(@ModelAttribute Jobs job, @ModelAttribute Categories categories) {
+    public String addJob(@ModelAttribute CreateJobDTO createJobDTO) {
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            job.setCreatedDate(LocalDateTime.now());
-            job.setCreatorEmail(user.getEmail());
-
-            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
-            categories.setJobId(job);
-            catDao.save(categories);
-            job.setJobStatus("Active");
-            jobsRepository.save(job);
-
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // Get the logged in user
+            createJobDTO.setJobStatus("Active");
+            jobsService.createJob(createJobDTO, user); // Use the service to create the job
+//            String body = "your created a Job with name '" + job.getTitle() + "' and a description of '" + job.getDescription() + "'.";
 //            This code will email the creator of a job.
 //            emailService.prepareAndSend(job, "Job Creation", body);
-
-
-            return "redirect:/jobs";
+            return "redirect:/jobs"; // Redirect to the job board
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception and show an error page
             return "index/errors/exception";
         }
     }
 
+
     // Display the job editor
     @GetMapping("/jobs/editjob/{id}")
     public String updateJob(@PathVariable Integer id, Model model, Principal principal) throws Exception {
-        Jobs singleJob = jobsRepository.getJobById(id);
+        Jobs singleJob = jobsService.findJobById(id);
 
         if (principal != null) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -378,27 +348,9 @@ public class JobController {
     @PostMapping ("/jobs/editjob/{id}")
     public String updateJob(@PathVariable Integer id, @ModelAttribute Jobs updatedJob) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-            if (existingJob != null) {
-                existingJob.setTitle(updatedJob.getTitle());
-                existingJob.setDescription(updatedJob.getDescription());
-                existingJob.setThreat(updatedJob.getThreat());
-                existingJob.setPaymentPercent(updatedJob.getPaymentPercent());
-                existingJob.setJobStatus(updatedJob.getJobStatus());
-                existingJob.setStartLocation(updatedJob.getStartLocation());
-                existingJob.setDistance(updatedJob.getDistance());
-                existingJob.setCreatedDate(existingJob.getCreatedDate());
-                existingJob.setStartDate(updatedJob.getStartDate());
+                jobsService.editJob(id, updatedJob);
 
-                if(existingJob.getOutcome() != null) {
-                    existingJob.setOutcome(updatedJob.getOutcome());
-                }
-
-                jobsRepository.save(existingJob); // Save the updated job
-                return "redirect:/jobs" + id; // Redirect to the jobs page
-            } else {
-                return "index/errors/jobnotfound"; // Job not found error page
-            }
+                return "redirect:/jobs/" + id; // Redirect to the jobs page
         } catch (Exception e) {
             return "index/errors/exception"; // Exception occurred error page
         }
@@ -408,25 +360,17 @@ public class JobController {
     @PostMapping("/jobs/complete/{id}")
     public String completeJob(@PathVariable Integer id, @ModelAttribute Jobs completeJob) {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
+            Jobs existingJob = jobsService.findJobById(id);
             if (existingJob != null) {
-                existingJob.setJobStatus(completeJob.getJobStatus());
-                existingJob.setOutcome(completeJob.getOutcome());
-
-                jobsRepository.save(existingJob);
-
+                jobsService.completeJob(existingJob,completeJob);
                 System.out.println("************" + completeJob.getJobStatus() + "************");
                 System.out.println("************" + completeJob.getOutcome() + "************");
-
-                return "redirect:/jobs";
-
-            } else {
-                System.out.println(new Exception().toString());
-                return String.valueOf(new Exception());
             }
+
+            return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e);
-            return e.toString();
+            return "index/errors/exception"; // Exception occurred error page
         }
     }
 
@@ -434,8 +378,7 @@ public class JobController {
     @PostMapping("/jobs/delete/{id}")
     public String deleteJob(@PathVariable Integer id) {
         try {
-            jobsRepository.deleteById(id);
-            System.out.println("************** Removed Job! **************");
+            jobsService.deleteJob(id);
             return "redirect:/jobs";
         } catch (Exception e) {
             System.out.println(e + "****** error deleting ******");
@@ -449,23 +392,16 @@ public class JobController {
     @PostMapping("/jobs/apply/{id}")
     public String applyJob(@PathVariable Integer id, @RequestParam(name = "userId") Long usersId) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-            User applicant = userDao.getUserById(usersId);
+            Jobs existingJob = jobsService.findJobById(id);
+            User applicant = userService.getUserById(usersId);
 
-            existingJob.getApplicantList().add(applicant); // Add the applicant to the job
-            applicant.getAppliedJobs().add(existingJob); // Add the job to the user's appliedJobs list
+            jobsService.applyToJob(existingJob, applicant);
 
-            // Save the updated entities in the repository
-            jobsRepository.save(existingJob);
-            userDao.save(applicant);
-
-            System.out.println("APPLIED TO JOB");
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e.toString());
             return "index/errors/exception";
         }
-
     }
 
     // Remove applicant from job
@@ -473,26 +409,7 @@ public class JobController {
     @PostMapping("/jobs/remove/{id}")
     public String removeJob(@PathVariable Integer id, @RequestParam(name = "userIdRemove") Long usersId) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-
-            // Fetch the User object corresponding to the usersId
-            User applicant = userDao.getUserById(usersId);
-
-            // Remove from applicant list if not accepted yet
-            if(existingJob.getApplicantList().contains(applicant)) {
-                existingJob.getApplicantList().remove(applicant);
-                applicant.getAppliedJobs().remove(existingJob);
-            }
-
-            // Remove from accepted list if they've been accepted
-            if(existingJob.getAcceptedList().contains(applicant)) {
-                existingJob.getAcceptedList().remove(applicant);
-                applicant.getAcceptedJobs().remove(existingJob);
-            }
-
-            // Save the job once changes are made
-            jobsRepository.save(existingJob);
-
+            jobsService.removeApplicantFromJob(id, usersId); // Use the job service to remove the user
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -504,16 +421,7 @@ public class JobController {
     @PostMapping("/jobs/{jobId}/accept/{applicantId}")
     public String acceptApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
         try {
-            User applicant = userDao.getUserById(applicantId);
-            Jobs currentJob = jobsRepository.getJobById(jobId);
-
-            currentJob.removeApplicant(applicant);
-            currentJob.addAcceptedUser(applicant);
-            applicant.getAppliedJobs().remove(currentJob);
-            applicant.getAcceptedJobs().add(currentJob);
-
-            jobsRepository.save(currentJob);
-
+            jobsService.acceptApplicantToJob(jobId, applicantId); // Use the job
             return "redirect:/jobs/" + jobId;
         } catch (Exception e) {
             return e.toString();
@@ -525,21 +433,7 @@ public class JobController {
     public String denyApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
         // We turned this into a multi functional route to remove applicants and accepted users
         try {
-            User applicant = userDao.getUserById(applicantId);
-            Jobs currentJob = jobsRepository.getJobById(jobId);
-
-            if(currentJob.getApplicantList().contains(applicant)){
-                currentJob.removeApplicant(applicant);
-                applicant.getAppliedJobs().remove(currentJob);
-            }
-
-            if(currentJob.getAcceptedList().contains(applicant)){
-                currentJob.removeAcceptedUser(applicant);
-                applicant.getAcceptedJobs().remove(currentJob);
-            }
-
-            jobsRepository.save(currentJob);
-
+            jobsService.denyApplicantToJob(jobId, applicantId);
             return "redirect:/jobs/" + jobId;
         } catch (Exception e) {
             return e.toString();

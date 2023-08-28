@@ -12,7 +12,7 @@ import java.security.Principal;
 public class HomeController {
 
     @GetMapping("/")
-    public String goHome(Model model, Principal principal) {
+    public String getModels(Model model, Principal principal) {
 
         User user = null;
         if (principal != null) {

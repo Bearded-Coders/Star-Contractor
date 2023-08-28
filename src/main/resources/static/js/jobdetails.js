@@ -121,7 +121,7 @@ const validateForm = () => {
         return false; // Prevent form submission
     } else {
         showCompleteAlertWithDelay();
-        return false; // Prevent form submission for now
+        return false;
     }
 }
 
@@ -142,6 +142,7 @@ const showCompleteAlertWithDelay = () => {
         document.getElementById("completeJobForm").submit();
     }, 4000);
 }
+
 
 
 

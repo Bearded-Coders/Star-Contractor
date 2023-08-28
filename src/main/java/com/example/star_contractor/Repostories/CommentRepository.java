@@ -1,6 +1,5 @@
 package com.example.star_contractor.Repostories;
 
-import com.example.star_contractor.Models.User;
 import com.example.star_contractor.Models.Comment;
 import com.example.star_contractor.Models.Jobs;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +11,8 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findCommentsByJob(Jobs job);
     Comment findById(Long Id);
+
+    // Add a comment
+//    Comment addComment(CommentDTO commentDTO);
 
 }
