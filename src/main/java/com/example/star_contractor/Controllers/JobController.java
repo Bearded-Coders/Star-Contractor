@@ -409,13 +409,7 @@ public class JobController {
     @PostMapping("/jobs/remove/{id}")
     public String removeJob(@PathVariable Integer id, @RequestParam(name = "userIdRemove") Long usersId) throws Exception {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
-
-            // Fetch the User object corresponding to the usersId
-            User applicant = userDao.getUserById(usersId);
-
-            jobsService.removeApplicantFromJob(existingJob, applicant);
-
+            jobsService.removeApplicantFromJob(id, usersId); // Use the job service to remove the user
             return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e.toString());

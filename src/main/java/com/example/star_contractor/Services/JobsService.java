@@ -193,7 +193,10 @@ public class JobsService {
     }
 
     // Remove applicant from job
-    public void removeApplicantFromJob(Jobs existingJob, User applicant) {
+    public void removeApplicantFromJob(Integer id, Long usersId) throws Exception {
+        Jobs existingJob = this.findJobById(id); // Retrieve the job
+        User applicant = userDao.getUserById(usersId); // Retrieve the user
+
         // Remove from applicant list if not accepted yet
         if(existingJob.getApplicantList().contains(applicant)) {
             existingJob.getApplicantList().remove(applicant);
