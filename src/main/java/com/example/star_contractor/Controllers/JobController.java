@@ -6,10 +6,6 @@ import com.example.star_contractor.DTOS.JobDetailsDTO;
 import com.example.star_contractor.Models.Categories;
 import com.example.star_contractor.Models.Jobs;
 import com.example.star_contractor.Models.User;
-import com.example.star_contractor.Repostories.CategoriesRepository;
-import com.example.star_contractor.Repostories.CommentRepository;
-import com.example.star_contractor.Repostories.JobRepository;
-import com.example.star_contractor.Repostories.UserRepository;
 import com.example.star_contractor.Services.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,23 +35,7 @@ public class JobController {
     @Autowired
     private UserService userService;
 
-
-
-    private final JobRepository jobsRepository;
-    private final CategoriesRepository catDao;
-    private final UserRepository userDao;
-    private final CommentRepository commentDao;
-
-
     User user = null;
-
-    public JobController(JobRepository jobsRepository, CategoriesRepository catDao, UserRepository userDao, CommentRepository commentDao) {
-        this.jobsRepository = jobsRepository;
-        this.catDao = catDao;
-        this.userDao = userDao;
-        this.commentDao = commentDao;
-    }
-
 
     // View all Jobs
     @GetMapping("/jobs")
