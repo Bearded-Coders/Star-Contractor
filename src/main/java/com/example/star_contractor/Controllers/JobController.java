@@ -378,8 +378,7 @@ public class JobController {
     @PostMapping("/jobs/delete/{id}")
     public String deleteJob(@PathVariable Integer id) {
         try {
-            jobsRepository.deleteById(id);
-            System.out.println("************** Removed Job! **************");
+            jobsService.deleteJob(id);
             return "redirect:/jobs";
         } catch (Exception e) {
             System.out.println(e + "****** error deleting ******");

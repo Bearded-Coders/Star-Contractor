@@ -172,10 +172,13 @@ public class JobsService {
 
     // Complete Job
     public void completeJob(Jobs existingJob, Jobs completeJob) throws Exception {
-//        Jobs existingJob = this.findJobById(id);
-        existingJob.setJobStatus(completeJob.getJobStatus());
-        existingJob.setOutcome(completeJob.getOutcome());
-        jobDao.save(existingJob);
+        existingJob.setJobStatus(completeJob.getJobStatus()); // Set the status
+        existingJob.setOutcome(completeJob.getOutcome()); // Set the outcome
+        jobDao.save(existingJob); // Save it to the DB
+    }
+
+    public void deleteJob(Integer id) {
+        jobDao.deleteById(id);
     }
 }
 

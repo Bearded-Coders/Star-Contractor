@@ -76,13 +76,13 @@
     <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${createJobDTO}">
         <!--        title-->
         <label for="title">Title</label>
-        <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties">
+        <input type="text" name="title" id="title" th:field="*{title}" placeholder="Bounties" required>
 <!--        <input type="hidden" name="creatorEmail" id="creatorEmail" th:value="${user.getEmail()}" th:field="*{creatorEmail}">-->
         <!--        Description-->
         <label for="description">Description</label>
-        <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's"></textarea>
+        <textarea id="description" th:field="*{description}" placeholder="Grouping up for ERT's" required></textarea>
         <label for="datepicker">Start Date</label>
-        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(createJobDTO.startDate, 'yyyy-MM-dd')}" placeholder="mm/dd/yyyy">
+        <input type="text" id="datepicker" th:field="*{startDate}" th:value="${#dates.format(createJobDTO.startDate, 'yyyy-MM-dd')}" placeholder="mm/dd/yyyy" required>
 
         <!--            <input type="hidden" th:field="*{createdDate}">-->
         <input type="hidden" th:field="*{createdDate}" th:value="${#temporals.format(createJobDTO.createdDate, 'yyyy-MM-ddTHH:mm:ss.SSS')}">
@@ -98,15 +98,15 @@
         </select>
         <!--        Payment Percent-->
         <label for="paymentPercent">Payment Percent</label>
-        <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%">
+        <input id="paymentPercent" type="number" min="1" max="100" th:field="*{paymentPercent}" placeholder="20%" required>
         <!--        Job Status-->
         <input type="hidden" th:field="*{jobStatus}" value="Active">
         <!--        Starting location-->
         <label for="location">Starting Location</label>
-        <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location">
+        <input id="location" type="text" th:field="*{startLocation}" placeholder="starting location" required>
         <!--        Distance to mission-->
         <label for="distance">Distance to travel</label>
-        <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km">
+        <input id="distance" type="text" th:field="*{distance}" placeholder="40 m/km" required>
         <!--        this will change to authorization later-->
         <input type="hidden" th:field="*{creatorId}">
 
