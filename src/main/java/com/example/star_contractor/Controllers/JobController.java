@@ -225,10 +225,10 @@ public class JobController {
             // Pagination for the applicants list
             int pageSize = 10; // Only 10 applicants per page
             Pageable pageable = PageRequest.of(page, pageSize);
-            Page<User> applicantsPage = userDao.findApplicantsByJobId(id, pageable);
+            Page<User> applicantsPage = userService.getJobApplicants(id, pageable);
 
             // Keep this for the page title and to check if the user was the creator of the job
-            Jobs currentJob = jobsRepository.getJobById(id);
+            Jobs currentJob = jobsService.findJobById(id);
 
             // Link for the user to navigate to their profile page
             String userUrl = "/profile/" + user.getId();
