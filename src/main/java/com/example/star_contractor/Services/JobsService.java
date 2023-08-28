@@ -169,5 +169,13 @@ public class JobsService {
             jobDao.save(existingJob); // Save the updated job
         }
     }
+
+    // Complete Job
+    public void completeJob(Jobs existingJob, Jobs completeJob) throws Exception {
+//        Jobs existingJob = this.findJobById(id);
+        existingJob.setJobStatus(completeJob.getJobStatus());
+        existingJob.setOutcome(completeJob.getOutcome());
+        jobDao.save(existingJob);
+    }
 }
 

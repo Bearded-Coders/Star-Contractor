@@ -187,9 +187,11 @@ public class JobController {
                 User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 User user = userService.getUserById(currentUser.getId());
 
+                Jobs singleJob = jobsService.findJobById(id);
                 JobDetailsDTO jobDetails = jobsService.getJobDetails(id, user);
 
                 model.addAttribute("jobDetails", jobDetails);
+                model.addAttribute("singleJob", singleJob);
 
                 return "index/jobdetails";
             } catch (Exception e) {
@@ -358,25 +360,17 @@ public class JobController {
     @PostMapping("/jobs/complete/{id}")
     public String completeJob(@PathVariable Integer id, @ModelAttribute Jobs completeJob) {
         try {
-            Jobs existingJob = jobsRepository.getJobById(id);
+            Jobs existingJob = jobsService.findJobById(id);
             if (existingJob != null) {
-                existingJob.setJobStatus(completeJob.getJobStatus());
-                existingJob.setOutcome(completeJob.getOutcome());
-
-                jobsRepository.save(existingJob);
-
+                jobsService.completeJob(existingJob,completeJob);
                 System.out.println("************" + completeJob.getJobStatus() + "************");
                 System.out.println("************" + completeJob.getOutcome() + "************");
-
-                return "redirect:/jobs";
-
-            } else {
-                System.out.println(new Exception().toString());
-                return String.valueOf(new Exception());
             }
+
+            return "redirect:/jobs/" + id;
         } catch (Exception e) {
             System.out.println(e);
-            return e.toString();
+            return "index/errors/exception"; // Exception occurred error page
         }
     }
 

@@ -199,7 +199,7 @@
                         <div class="modal-content">
                             <span class="close" onclick="closeCompleteJobForm()">&times;</span>
                             <h2>Complete Job</h2>
-                            <form id="completeJobForm" th:object="${jobDetails.singleJob}" th:action="@{/jobs/complete/{id}(id=${jobDetails.singleJob.id})}"
+                            <form id="completeJobForm" th:object="${singleJob}" th:action="@{/jobs/complete/{id}(id=${singleJob.id})}"
                                   method="post" onsubmit="return validateForm();">
                                 <label for="status">Is this Job complete</label>
                                 <select id="status" th:field="*{jobStatus}">
@@ -217,11 +217,13 @@
                     </div>
                 </div>
             </div>
+
             <!--Show this if the user has applied to this job-->
             <div class="applied-remark" th:if="${jobDetails.applicantsList.contains(jobDetails.user)}">
                 <i class="fa-solid fa-square-check checkmark"></i>
                 <h6>You've applied for this job</h6>
             </div>
+
             <!--Show this if the user has been accepted to the job-->
             <div class="applied-remark" th:if="${jobDetails.acceptedList.contains(jobDetails.user)}">
                 <i class="fa-solid fa-square-check checkmark"></i>
