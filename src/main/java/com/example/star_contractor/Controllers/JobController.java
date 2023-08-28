@@ -421,16 +421,7 @@ public class JobController {
     @PostMapping("/jobs/{jobId}/accept/{applicantId}")
     public String acceptApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
         try {
-            User applicant = userDao.getUserById(applicantId);
-            Jobs currentJob = jobsRepository.getJobById(jobId);
-
-            currentJob.removeApplicant(applicant);
-            currentJob.addAcceptedUser(applicant);
-            applicant.getAppliedJobs().remove(currentJob);
-            applicant.getAcceptedJobs().add(currentJob);
-
-            jobsRepository.save(currentJob);
-
+            jobsService.acceptApplicantToJob(jobId, applicantId); // Use the job
             return "redirect:/jobs/" + jobId;
         } catch (Exception e) {
             return e.toString();
@@ -442,21 +433,7 @@ public class JobController {
     public String denyApplicant(@PathVariable Integer jobId, @PathVariable Long applicantId) {
         // We turned this into a multi functional route to remove applicants and accepted users
         try {
-            User applicant = userDao.getUserById(applicantId);
-            Jobs currentJob = jobsRepository.getJobById(jobId);
-
-            if(currentJob.getApplicantList().contains(applicant)){
-                currentJob.removeApplicant(applicant);
-                applicant.getAppliedJobs().remove(currentJob);
-            }
-
-            if(currentJob.getAcceptedList().contains(applicant)){
-                currentJob.removeAcceptedUser(applicant);
-                applicant.getAcceptedJobs().remove(currentJob);
-            }
-
-            jobsRepository.save(currentJob);
-
+            jobsService.denyApplicantToJob(jobId, applicantId);
             return "redirect:/jobs/" + jobId;
         } catch (Exception e) {
             return e.toString();

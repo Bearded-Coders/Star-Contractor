@@ -212,5 +212,36 @@ public class JobsService {
         // Save the job once changes are made
         jobDao.save(existingJob);
     }
+
+    // Accept applicant to job
+    public void acceptApplicantToJob(Integer jobId, Long applicantId) throws Exception {
+        User applicant = userDao.getUserById(applicantId);
+        Jobs currentJob = jobDao.getJobById(jobId);
+
+        currentJob.removeApplicant(applicant);
+        currentJob.addAcceptedUser(applicant);
+        applicant.getAppliedJobs().remove(currentJob);
+        applicant.getAcceptedJobs().add(currentJob);
+
+        jobDao.save(currentJob);
+    }
+
+    // Deny Applicant to job
+    public void denyApplicantToJob(Integer jobId, Long applicantId) throws Exception {
+        User applicant = userDao.getUserById(applicantId);
+        Jobs currentJob = jobDao.getJobById(jobId);
+
+        if(currentJob.getApplicantList().contains(applicant)){
+            currentJob.removeApplicant(applicant);
+            applicant.getAppliedJobs().remove(currentJob);
+        }
+
+        if(currentJob.getAcceptedList().contains(applicant)){
+            currentJob.removeAcceptedUser(applicant);
+            applicant.getAcceptedJobs().remove(currentJob);
+        }
+
+        jobDao.save(currentJob);
+    }
 }
 
