@@ -31,7 +31,7 @@ public class JobController {
     @Autowired
     private CommentService commentService;
     @Autowired
-    private EmailService emailService;
+    private EmailService emailService; // We will add this back in later
     @Autowired
     private UserService userService;
 
@@ -277,6 +277,9 @@ public class JobController {
         try {
             if (principal != null) {
                 User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                List<Jobs> userJobs = userService.getUsersActiveJobs(user);
+
+                model.addAttribute("usersActiveJobs", userJobs);
                 model.addAttribute("user", user);
                 String userUrl = "/profile/" + user.getId();
                 model.addAttribute("userUrl", userUrl);
