@@ -72,7 +72,7 @@
 
 
 <!--    JOB CREATION FORM-->
-<div class="container-center">
+<div class="container-center" th:if="${#lists.size(usersActiveJobs) <= 5}">
     <form class="jobform" th:action="@{/jobs/createjob}" method="POST" th:object="${createJobDTO}">
         <!--        title-->
         <label for="title">Title</label>
@@ -163,6 +163,11 @@
         <!--        Submit button-->
         <input class="text-dark" type="submit" value="Submit">
     </form>
+</div>
+
+<!--Show this if the user has more than 6 active jobs-->
+<div th:if="${#lists.size(usersActiveJobs) > 5}" class="to-many">
+    <h1>Finish your jobs before you start any more</h1>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

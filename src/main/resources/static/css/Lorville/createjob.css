@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Space+Mono&display=swap');
+body {
+    background: linear-gradient(to bottom right, black, gold);
+}
 
 /*LORVILLE NAVBAR*/
 .dropdown-menu {
@@ -47,28 +50,8 @@
     color: white;
 }
 
-@media screen and (max-width: 992px) {
-    .collapse.show {
-        display: flex;
-        flex-direction: column;
-    }
-    .navbar-nav {
-        max-width: 100%;
-    }
-    .img-dropdown {
-        align-items: flex-start;
-    }
-    .profile-picture {
-        max-width: 5%;
-    }
-}
-
 .navbar-collapse {
     justify-content: space-between;
-}
-
-body {
-    background: linear-gradient(to bottom right, black, gold);
 }
 
 .container-center {
@@ -142,4 +125,34 @@ body {
 
 .jobform input[type="submit"]:hover {
     background-color: #d4af37;
+}
+
+.to-many {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    background-color: #222222;
+    border: 2px solid gold;
+    border-radius: 1em;
+    min-width: 40vw;
+    min-height: 30vh;
+    color: gold;
+    font-family: Orbitron, sans-serif;
+}
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .collapse.show {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-nav {
+        max-width: 100%;
+    }
+    .img-dropdown {
+        align-items: flex-start;
+    }
+    .profile-picture {
+        max-width: 5%;
+    }
 }
