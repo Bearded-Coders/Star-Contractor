@@ -283,6 +283,7 @@ public class Jobs implements Serializable {
         this.ratingUser = ratingUser;
     }
 
+
     //    @Override
 //    public String toString() {
 //        return "Jobs{" +

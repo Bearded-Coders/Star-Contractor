@@ -18,7 +18,6 @@ public interface JobRepository extends JpaRepository<Jobs, Integer> {
 //    Jobs getJobsByCreatorId(Integer id) throws Exception;
     List<Jobs> findJobsByCreatorId(User creatorId);
     List<Jobs> findJobsByApplicantListContains(User user);
-
     Page<Jobs> findByDescriptionContainingIgnoreCase(String filter, Pageable pageable);
 
     @Query("SELECT DISTINCT j FROM Jobs j JOIN j.categories c WHERE " +

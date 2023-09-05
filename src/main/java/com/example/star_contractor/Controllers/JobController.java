@@ -343,9 +343,10 @@ public class JobController {
     @PostMapping("/jobs/complete/{id}")
     public String completeJob(@PathVariable Integer id, @ModelAttribute Jobs completeJob) {
         try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Jobs existingJob = jobsService.findJobById(id);
             if (existingJob != null) {
-                jobsService.completeJob(existingJob,completeJob);
+                jobsService.completeJob(existingJob,completeJob,user);
                 System.out.println("************" + completeJob.getJobStatus() + "************");
                 System.out.println("************" + completeJob.getOutcome() + "************");
             }

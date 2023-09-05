@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Orbitron:wght@500&family=Space+Mono&display=swap');
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 .signup-form {
     display: flex;
     flex-direction: column;
@@ -62,15 +70,6 @@
     background-color: #001F3F; /* Darker green color - adjust as desired */
 }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-
 .background-image {
     position: fixed;
     right: 0;
@@ -79,3 +78,7 @@ body {
     min-height: 100%;
     z-index: -9999;
 }
+
+
+
+

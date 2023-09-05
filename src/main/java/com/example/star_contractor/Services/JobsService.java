@@ -2,18 +2,17 @@ package com.example.star_contractor.Services;
 
 import com.example.star_contractor.DTOS.CreateJobDTO;
 import com.example.star_contractor.DTOS.JobDetailsDTO;
-import com.example.star_contractor.Models.Categories;
-import com.example.star_contractor.Models.Comment;
-import com.example.star_contractor.Models.Jobs;
-import com.example.star_contractor.Models.User;
+import com.example.star_contractor.Models.*;
 import com.example.star_contractor.Repostories.CategoriesRepository;
 import com.example.star_contractor.Repostories.JobRepository;
+import com.example.star_contractor.Repostories.JobResponseRepository;
 import com.example.star_contractor.Repostories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,17 +22,20 @@ public class JobsService {
     private final UserRepository userDao;
     private final JobRepository jobDao;
     private final CategoriesRepository catDao;
+    private final JobResponseRepository jobResDao;
 
     public JobsService(UserRepository userDao,
                        JobRepository jobDao,
                        CategoriesRepository catDao,
                        CommentService commentService,
-                       CategoryService categoryService) {
+                       CategoryService categoryService,
+                       JobResponseRepository jobResDao) {
         this.jobDao = jobDao;
         this.catDao = catDao;
         this.userDao = userDao;
         this.categoryService = categoryService;
         this.commentService = commentService;
+        this.jobResDao = jobResDao;
     }
 
     // Find all jobs
@@ -65,6 +67,10 @@ public class JobsService {
         jobDetails.setApplicantsList(applicantsList); // Set the Applicants list tied to the job
         jobDetails.setAcceptedList(acceptedList); // Set the Accepted/Hired list tied to the job
         jobDetails.setFirstFourApplicants(firstFourApplicants); // Set th List of only the first 4 applicants tied to the job
+
+        if(singleJob.getOutcome() != null) {
+            this.setJobOutcome(singleJob.getId());
+        }
 
         return jobDetails; // Return the entire DTO
     }
@@ -167,9 +173,10 @@ public class JobsService {
     }
 
     // Complete Job
-    public void completeJob(Jobs existingJob, Jobs completeJob) throws Exception {
+    public void completeJob(Jobs existingJob, Jobs completeJob, User user) throws Exception {
+        this.setJobResponse(existingJob.getId(),user, completeJob.getOutcome());
         existingJob.setJobStatus(completeJob.getJobStatus()); // Set the status
-        existingJob.setOutcome(completeJob.getOutcome()); // Set the outcome
+        this.setJobOutcome(existingJob.getId());
         jobDao.save(existingJob); // Save it to the DB
     }
 
@@ -239,5 +246,54 @@ public class JobsService {
 
         jobDao.save(currentJob);
     }
+
+    // Add jobResponse
+    public void setJobResponse(Integer jobId, User user, Boolean response) throws Exception {
+        Jobs job = jobDao.getJobById(jobId);
+
+        JobResponse jobResponse = new JobResponse();
+        jobResponse.setResponse(response);
+        jobResponse.setJob(job);
+        jobResponse.setUser(user);
+
+        jobResDao.save(jobResponse);
+    }
+
+    public void setJobOutcome(Integer jobId) throws Exception {
+        Jobs currentJob = jobDao.getJobById(jobId);
+        List<JobResponse> jobResponses = jobResDao.findAllByJobId(jobId);
+        List<JobResponse> trueResponses = new ArrayList<>();
+        List<JobResponse> falseResponses = new ArrayList<>();
+
+        for(JobResponse jobResponse: jobResponses) {
+            if(jobResponse.getResponse()) {
+                trueResponses.add(jobResponse);
+            } else {
+                falseResponses.add(jobResponse);
+            }
+        }
+
+        currentJob.setOutcome(trueResponses.size() > falseResponses.size());
+    }
+
+    // Get and set the outcome of the job
+//    public Boolean getAndSetJobOutcome(Integer jobId) throws Exception {
+//        Jobs currentJob = this.findJobById(jobId);
+//        List<JobResponse> jobResponses = jobResDao.findAllByJobId(jobId);
+//        List<JobResponse> trueResponses = new ArrayList<>();
+//        List<JobResponse> falseResponses = new ArrayList<>();
+//
+//        for(JobResponse jobResponse: jobResponses) {
+//            if(jobResponse.getResponse()) {
+//                trueResponses.add(jobResponse);
+//            } else {
+//                falseResponses.add(jobResponse);
+//            }
+//        }
+//
+//        currentJob.setOutcome(trueResponses.size() > falseResponses.size());
+//
+//        return currentJob.getOutcome();
+//    }
 }
 
